@@ -1,11 +1,3 @@
-// ----------------------------------------------------------------
-// From Game Programming in C++ by Sanjay Madhav
-// Copyright (C) 2017 Sanjay Madhav. All rights reserved.
-// 
-// Released under the BSD License
-// See LICENSE in root directory for full details.
-// ----------------------------------------------------------------
-
 #include "CSV.h"
 #include "Game.h"
 #include "Components/Drawing/DrawComponent.h"
@@ -16,6 +8,18 @@
 #include "Actors/Goomba.h"
 #include "Actors/Spawner.h"
 #include "Actors/Mario.h"
+
+// Includes de UI
+#include <algorithm>
+#include <vector>
+#include <fstream> // Para LoadLevel
+#include <sstream> // Para LoadLevel
+#include <cstring> // Para memset
+#include <stdexcept> // Para stoi
+#include "Renderer/Renderer.h" // Incluir Renderer
+#include "UI/Screens/UIScreen.h"
+#include "UI/Screens/MainMenu.h"
+
 
 Game::Game()
         :mWindow(nullptr)
@@ -48,48 +52,24 @@ bool Game::Initialize() {
         return false;
     }
 
+    // Inicializa SDL_ttf (Necessário para UI)
+    if (TTF_Init() != 0)
+    {
+        SDL_Log("Failed to initialize SDL_ttf");
+        return false;
+    }
+
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         SDL_Log("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
-    } else {
-        mBackgroundMusic = Mix_LoadMUS("../Assets/Sounds/Music.ogg");
-        if (mBackgroundMusic == nullptr) {
-            SDL_Log("Failed to load background music! SDL_mixer Error: %s", Mix_GetError());
-        } else {
-            if (Mix_PlayMusic(mBackgroundMusic, -1) == -1) {
-                SDL_Log("Failed to play background music! SDL_mixer Error: %s", Mix_GetError());
-            }
-        }
     }
+    // Não carregue a música aqui, deixe SetScene fazer isso
 
     mJumpSound = Mix_LoadWAV("../Assets/Sounds/Jump.wav");
-    if (mJumpSound == nullptr) {
-        SDL_Log("Failed to load jump sound effect! SDL_mixer Error: %s", Mix_GetError());
-    }
-
     mJumpSuperSound = Mix_LoadWAV("../Assets/Sounds/JumpSuper.wav");
-    if (mJumpSuperSound == nullptr) {
-        SDL_Log("Failed to load jump super sound effect! SDL_mixer Error: %s", Mix_GetError());
-    }
-
     mDeadSound = Mix_LoadWAV("../Assets/Sounds/Dead.wav");
-    if (mDeadSound == nullptr) {
-        SDL_Log("Failed to load dead sound effect! SDL_mixer Error: %s", Mix_GetError());
-    }
-
     mMushroomSound = Mix_LoadWAV("../Assets/Sounds/Mushroom.wav");
-    if (mMushroomSound == nullptr) {
-        SDL_Log("Failed to load mushroom sound effect! SDL_mixer Error: %s", Mix_GetError());
-    }
-
     mBumpSound = Mix_LoadWAV("../Assets/Sounds/Bump.wav");
-    if (mBumpSound == nullptr) {
-        SDL_Log("Failed to load bump sound effect! SDL_mixer Error: %s", Mix_GetError());
-    }
-
     mStageClearSound = Mix_LoadWAV("../Assets/Sounds/StageClear.wav");
-    if (mStageClearSound == nullptr) {
-        SDL_Log("Failed to load stage clear sound effect! SDL_mixer Error: %s", Mix_GetError());
-    }
 
     mWindow = SDL_CreateWindow("TP3: Super Mario Bros", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
     if (!mWindow) {
@@ -101,20 +81,67 @@ bool Game::Initialize() {
     mRenderer->Initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
     mBackgroundTexture = mRenderer->GetTexture("../Assets/Sprites/Background.png", true);
 
-    // Init all game actors
-    InitializeActors();
+    // Define a cena inicial como o Menu Principal
+    SetScene(GameScene::MainMenu);
 
     mTicksCount = SDL_GetTicks();
 
     return true;
 }
 
+void Game::UnloadScene()
+{
+    for(auto *actor : mActors) {
+        actor->SetState(ActorState::Destroy);
+    }
+    UpdateActors(0.0f);
+
+    for (auto ui : mUIStack) {
+        delete ui;
+    }
+    mUIStack.clear();
+
+    if (mLevelData) {
+        for (int i = 0; i < LEVEL_HEIGHT; ++i) {
+            delete[] mLevelData[i];
+        }
+        delete[] mLevelData;
+        mLevelData = nullptr;
+    }
+
+    if (mBackgroundMusic) {
+        Mix_HaltMusic();
+        Mix_FreeMusic(mBackgroundMusic);
+        mBackgroundMusic = nullptr;
+    }
+}
+
+void Game::SetScene(GameScene nextScene)
+{
+    UnloadScene();
+    switch (nextScene) {
+        case GameScene::MainMenu:
+            new MainMenu(this, "../Assets/Fonts/Arial.ttf");
+            break;
+
+        case GameScene::Level1:
+            mBackgroundMusic = Mix_LoadMUS("../Assets/Sounds/Music.ogg");
+            if (mBackgroundMusic) {
+                Mix_PlayMusic(mBackgroundMusic, -1);
+            }
+
+            InitializeActors();
+            break;
+    }
+}
+
+
 void Game::InitializeActors() {
     mLevelData = LoadLevel("../Assets/Levels/level1-1.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
 
     if(mLevelData == nullptr){
         SDL_Log("Falha ao carregar dados do nível.");
-        Quit(); 
+        Quit();
         return;
     }
 
@@ -124,31 +151,31 @@ void Game::InitializeActors() {
 int **Game::LoadLevel(const std::string& fileName, int width, int height) {
 
     int** levelData = new int*[height];
-    
+
     for(int i = 0; i < height; i++){
         levelData[i] = new int[width];
         memset(levelData[i], 0, width * sizeof(int));
     }
-    
-    ifstream file(fileName);
+
+    std::ifstream file(fileName);
     if(!file.is_open()){
         SDL_Log("Erro ao abrir arquivo do nível: %s", fileName.c_str());
         return nullptr;
     }
 
-    string line; int i = 0;
+    std::string line; int i = 0;
 
     while(i < height && getline(file, line)){
-        stringstream ss(line);
-        string cell;
+        std::stringstream ss(line);
+        std::string cell;
         int j = 0;
         while(j < width && getline(ss, cell, ',')){
             try {
                 levelData[i][j] = stoi(cell);
-            } catch (const invalid_argument& e){
+            } catch (const std::invalid_argument& e){
                 SDL_Log("Dado inválido na célula [%d][%d] em %s", i, j, fileName.c_str());
-                levelData[i][j] = 0; 
-            } 
+                levelData[i][j] = 0;
+            }
             j++;
         }
         i++;
@@ -170,7 +197,7 @@ void Game::BuildLevel(int** levelData, int width, int height) {
             Vector2 pos;
             pos.y = (i * TILE_SIZE) + (TILE_SIZE / 2.0f);
             pos.x = (j * TILE_SIZE) + (TILE_SIZE / 2.0f);
-            
+
             Block* block = nullptr;
             Spawner* spawner = nullptr;
 
@@ -184,26 +211,26 @@ void Game::BuildLevel(int** levelData, int width, int height) {
                     break;
                 case 2:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockC.png", EBlockType::Question);
-                    break;    
+                    break;
                 case 28:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockC.png", EBlockType::EspecialBrick);
                     break;
                 case 5:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockB.png", EBlockType::Brick);
                     break;
-                case 3: // Topo Esquerdo
+                case 3:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockF.png", EBlockType::Pipe);
                     break;
-                case 13: // Topo Direito
+                case 13:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockG.png", EBlockType::Pipe);
                     break;
-                case 10: // Baixo Esquerdo
+                case 10:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockH.png", EBlockType::Pipe);
                     break;
-                case 7: // Baixo Direito
+                case 7:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockI.png", EBlockType::Pipe);
                     break;
-                case 9: 
+                case 9:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockD.png", EBlockType::Ground);
                     break;
                 case 11:
@@ -222,7 +249,6 @@ void Game::RunLoop()
 {
     while (mIsRunning)
     {
-        // Calculate delta time in seconds
         float deltaTime = (SDL_GetTicks() - mTicksCount) / 1000.0f;
         if (deltaTime > 0.05f)
         {
@@ -235,7 +261,6 @@ void Game::RunLoop()
         UpdateGame(deltaTime);
         GenerateOutput();
 
-        // Sleep to maintain frame rate
         int sleepTime = (1000 / FPS) - (SDL_GetTicks() - mTicksCount);
         if (sleepTime > 0)
         {
@@ -254,14 +279,24 @@ void Game::ProcessInput()
             case SDL_QUIT:
                 Quit();
                 break;
+            case SDL_KEYDOWN:
+                if (!mUIStack.empty()) {
+                    mUIStack.back()->HandleKeyPress(event.key.keysym.sym);
+                }
+                break;
         }
     }
 
     const Uint8* state = SDL_GetKeyboardState(nullptr);
 
-    for (auto actor : mActors)
+    bool uiConsomeInput = !mUIStack.empty() && !mUIStack.back()->GetIsTransparent();
+
+    if (!uiConsomeInput)
     {
-        actor->ProcessInput(state);
+        for (auto actor : mActors)
+        {
+            actor->ProcessInput(state);
+        }
     }
 }
 
@@ -274,12 +309,26 @@ void Game::UpdateGame(float deltaTime) {
 
         return;
     }
-    
-    // Update all actors and pending actors
+
     UpdateActors(deltaTime);
 
-    // Update camera position
     UpdateCamera();
+
+    for (auto ui : mUIStack) {
+        if (ui->GetState() == UIScreen::UIState::Active) {
+            ui->Update(deltaTime);
+        }
+    }
+
+    auto iter = mUIStack.begin();
+    while (iter != mUIStack.end()) {
+        if ((*iter)->GetState() == UIScreen::UIState::Closing) {
+            delete *iter;
+            iter = mUIStack.erase(iter);
+        } else {
+            ++iter;
+        }
+    }
 }
 
 void Game::UpdateActors(float deltaTime)
@@ -319,10 +368,10 @@ void Game::UpdateCamera() {
     float targetX = mMario->GetPosition().x - (WINDOW_WIDTH/2.0f);
     float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - WINDOW_WIDTH;
 
-    float newX = max(mCameraPos.x, targetX);
+    float newX = std::max(mCameraPos.x, targetX);
 
-    newX = max(0.0f, newX);
-    newX = min(maxCameraX, newX);
+    newX = std::max(0.0f, newX);
+    newX = std::min(maxCameraX, newX);
 
     mCameraPos.x = newX;
     mCameraPos.y = 0.0f;
@@ -338,7 +387,6 @@ void Game::RemoveActor(Actor* actor)
     auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
     if (iter != mPendingActors.end())
     {
-        // Swap to end of vector and pop off (avoid erase copies)
         std::iter_swap(iter, mPendingActors.end() - 1);
         mPendingActors.pop_back();
     }
@@ -346,7 +394,6 @@ void Game::RemoveActor(Actor* actor)
     iter = std::find(mActors.begin(), mActors.end(), actor);
     if (iter != mActors.end())
     {
-        // Swap to end of vector and pop off (avoid erase copies)
         std::iter_swap(iter, mActors.end() - 1);
         mActors.pop_back();
     }
@@ -364,7 +411,10 @@ void Game::AddDrawable(class DrawComponent *drawable)
 void Game::RemoveDrawable(class DrawComponent *drawable)
 {
     auto iter = std::find(mDrawables.begin(), mDrawables.end(), drawable);
-    mDrawables.erase(iter);
+    if (iter != mDrawables.end())
+    {
+        mDrawables.erase(iter);
+    }
 }
 
 void Game::AddCollider(class AABBColliderComponent* collider)
@@ -375,12 +425,14 @@ void Game::AddCollider(class AABBColliderComponent* collider)
 void Game::RemoveCollider(AABBColliderComponent* collider)
 {
     auto iter = std::find(mColliders.begin(), mColliders.end(), collider);
-    mColliders.erase(iter);
+    if (iter != mColliders.end())
+    {
+        mColliders.erase(iter);
+    }
 }
 
 void Game::GenerateOutput()
 {
-    // Clear back buffer
     mRenderer->Clear();
 
     if(mBackgroundTexture){
@@ -397,13 +449,13 @@ void Game::GenerateOutput()
         Vector2 quadSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
         mRenderer->DrawTexture(
-            quadPos,          // Posição (centro da tela)
-            quadSize,         // Tamanho (tamanho da tela)
-            0.0f,             // Rotação
-            Vector3(1.0f, 1.0f, 1.0f), // Cor
+            quadPos,
+            quadSize,
+            0.0f,
+            Vector3(1.0f, 1.0f, 1.0f),
             mBackgroundTexture,
-            texRect,          // Nossas UVs calculadas
-            mCameraPos,       // A CÂMERA REAL (para a Posição)
+            texRect,
+            mCameraPos,
             false,
             1.0f
         );
@@ -415,7 +467,6 @@ void Game::GenerateOutput()
 
         if(mIsDebugging)
         {
-           // Call draw for actor components
               for (auto comp : drawable->GetOwner()->GetComponents())
               {
                 comp->DebugDraw(mRenderer);
@@ -423,17 +474,25 @@ void Game::GenerateOutput()
         }
     }
 
-    // Swap front buffer and back buffer
+    // Desenha a UI (que está no Renderer)
+    mRenderer->Draw();
+
     mRenderer->Present();
 }
 
 void Game::Shutdown()
 {
+    for (auto ui : mUIStack) {
+        delete ui;
+    }
+    mUIStack.clear();
+
+    UnloadScene();
+
     while (!mActors.empty()) {
         delete mActors.back();
     }
 
-    // Delete level data
     if (mLevelData) {
         for (int i = 0; i < LEVEL_HEIGHT; ++i) {
             delete[] mLevelData[i];
@@ -447,36 +506,12 @@ void Game::Shutdown()
         Mix_FreeMusic(mBackgroundMusic);
         mBackgroundMusic = nullptr;
     }
-
-    if (mJumpSound) {
-        Mix_FreeChunk(mJumpSound);
-        mJumpSound = nullptr;
-    }
-
-    if(mJumpSuperSound){
-        Mix_FreeChunk(mJumpSuperSound);
-        mJumpSuperSound = nullptr; 
-    }
-
-    if(mDeadSound){
-        Mix_FreeChunk(mDeadSound);
-        mDeadSound = nullptr;
-    }
-
-    if(mMushroomSound){
-        Mix_FreeChunk(mMushroomSound);
-        mMushroomSound = nullptr;
-    }
-
-    if(mBumpSound){
-        Mix_FreeChunk(mBumpSound);
-        mBumpSound = nullptr;
-    }
-
-    if(mStageClearSound){
-        Mix_FreeChunk(mStageClearSound);
-        mStageClearSound = nullptr;
-    }
+    if (mJumpSound) Mix_FreeChunk(mJumpSound);
+    if (mJumpSuperSound) Mix_FreeChunk(mJumpSuperSound);
+    if (mDeadSound) Mix_FreeChunk(mDeadSound);
+    if (mMushroomSound) Mix_FreeChunk(mMushroomSound);
+    if (mBumpSound) Mix_FreeChunk(mBumpSound);
+    if (mStageClearSound) Mix_FreeChunk(mStageClearSound);
 
     mRenderer->Shutdown();
     delete mRenderer;
@@ -484,6 +519,12 @@ void Game::Shutdown()
 
     SDL_DestroyWindow(mWindow);
     SDL_Quit();
+}
+
+// Adiciona a função PushUI que estava faltando
+void Game::PushUI(UIScreen* screen)
+{
+    mUIStack.emplace_back(screen);
 }
 
 int Game::PlaySound(Mix_Chunk* sound) {

@@ -15,6 +15,8 @@ public:
 	bool Load(const string& fileName, bool repeat = false);
 	void Unload();
 
+	bool CreateFromSurface(SDL_Surface* surface);
+
 	void SetActive(int index = 0) const;
 
     static GLenum SDLFormatToGL(SDL_PixelFormat* fmt);

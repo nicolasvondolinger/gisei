@@ -161,8 +161,9 @@ void Mario::Kill() {
         mRigidBodyComponent->SetEnabled(false);
         mColliderComponent->SetEnabled(false);
         Mix_HaltMusic(); 
-        mGame->mDeathSoundChannel = mGame->PlaySound(mGame->GetDeadSound());
-        mGame->mWaitingToQuit = true;
+        int channel = mGame->PlaySound(mGame->GetDeadSound());
+        mGame->SetDeathSoundChannel(channel);
+        mGame->SetWaitingToQuit(true);
     }
 }
 
@@ -225,7 +226,7 @@ void Mario::StageClear() {
 
     Mix_HaltMusic();
 
-    mGame->mStageClearSoundChannel = mGame->PlaySound(mGame->GetStageClearSound());
-
-    mGame->mWaitingToQuit = true;
+    int channel = mGame->PlaySound(mGame->GetStageClearSound());
+    mGame->SetStageClearSoundChannel(channel);
+    mGame->SetWaitingToQuit(true);
 }

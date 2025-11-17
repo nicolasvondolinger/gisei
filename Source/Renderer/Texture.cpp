@@ -65,6 +65,54 @@ bool Texture::Load(const string &filePath, bool repeat) {
     return true;
 }
 
+bool Texture::CreateFromSurface(SDL_Surface* surface)
+{
+    if (!surface) {
+        SDL_Log("A superfície (SDL_Surface) está nula em CreateFromSurface");
+        return false;
+    }
+
+    mWidth = surface->w;
+    mHeight = surface->h;
+
+    GLenum format;
+    if (surface->format->BytesPerPixel == 4){
+        format = GL_RGBA;
+    } else if (surface->format->BytesPerPixel == 3){
+        format = GL_RGB;
+    } else {
+        SDL_Log("Formato de pixel desconhecido (nem RGB nem RGBA) para a superfície da fonte.");
+        return false; // Não libere a superfície, o chamador (Font) fará isso
+    }
+
+    // Gera e binda a textura
+    glGenTextures(1, &mTextureID);
+    glBindTexture(GL_TEXTURE_2D, mTextureID);
+
+    // Envia os dados da superfície para a GPU
+    glTexImage2D(
+        GL_TEXTURE_2D,
+        0,
+        format,
+        mWidth,
+        mHeight,
+        0,
+        format,
+        GL_UNSIGNED_BYTE,
+        surface->pixels
+    );
+
+    // Para fontes, GL_NEAREST (sem blur) é geralmente melhor
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+    // Fontes geralmente não devem se repetir
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    return true;
+}
+
 void Texture::Unload() {
 	glDeleteTextures(1, &mTextureID);
 }

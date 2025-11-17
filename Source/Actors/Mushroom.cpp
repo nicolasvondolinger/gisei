@@ -5,7 +5,7 @@ Mushroom::Mushroom(Game* game, float forwardSpeed)
     mForwardSpeed(forwardSpeed)
 {
     mDrawComponent = new AnimatorComponent(
-        this, 
+        this,
         "../Assets/Sprites/Collectables/Mushroom.png",
         "",
         Game::TILE_SIZE,
@@ -54,13 +54,13 @@ void Mushroom::OnUpdate(float deltaTime){
 void Mushroom::OnHorizontalCollision(float minOverlap, AABBColliderComponent* other) {
     if (other->GetLayer() == ColliderLayer::Player){
         Mario* mario = static_cast<Mario*>(other->GetOwner());
-        mario->Grow(); 
+        mario->Grow();
         mState = ActorState::Destroy;
     } else mForwardSpeed *= -1.0f;
 }
 
 void Mushroom::OnVerticalCollision(float minOverlap, AABBColliderComponent* other) {
-    if (other->GetLayer() == ColliderLayer::Player) {        
+    if (other->GetLayer() == ColliderLayer::Player) {
         Mario* mario = static_cast<Mario*>(other->GetOwner());
         mario->Grow();
         mState = ActorState::Destroy;

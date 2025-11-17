@@ -1,102 +1,121 @@
-// ----------------------------------------------------------------
-// From Game Programming in C++ by Sanjay Madhav
-// Copyright (C) 2017 Sanjay Madhav. All rights reserved.
-// 
-// Released under the BSD License
-// See LICENSE in root directory for full details.
-// ----------------------------------------------------------------
-
 #pragma once
-#include <SDL.h>
-#include <SDL_mixer.h>
-#include <bits/stdc++.h>
-#include "Renderer/Renderer.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include "Math.h"
 
-using namespace std;
+// Declarações antecipadas (Forward declarations)
+class Actor;
+class Renderer;
+class Mario;
+class DrawComponent;
+class AABBColliderComponent;
+class UIScreen;
+class Texture;
+class Font;
+
+// Enum para as cenas do jogo
+enum class GameScene
+{
+    MainMenu,
+    Level1
+};
 
 class Game
 {
 public:
     Game();
-
     bool Initialize();
     void RunLoop();
     void Shutdown();
-    void Quit() { mIsRunning = false; }
 
-    // Actor functions
-    void InitializeActors();
-    void UpdateActors(float deltaTime);
-    void AddActor(class Actor* actor);
-    void RemoveActor(class Actor* actor);
+    // Funções de gerenciamento de atores
+    void AddActor(Actor* actor);
+    void RemoveActor(Actor* actor);
 
-    // Renderer
-    class Renderer* GetRenderer() { return mRenderer; }
-
-    static const int WINDOW_WIDTH   = 640;
-    static const int WINDOW_HEIGHT  = 448;
-    static const int LEVEL_WIDTH    = 215;
-    static const int LEVEL_HEIGHT   = 15;
-    static const int TILE_SIZE      = 32;
-    static const int SPAWN_DISTANCE = 700;
-    static const int FPS = 60;
-
-    // Draw functions
-    void AddDrawable(class DrawComponent* drawable);
-    void RemoveDrawable(class DrawComponent* drawable);
-    std::vector<class DrawComponent*>& GetDrawables() { return mDrawables; }
-
-    // Collider functions
+    // Funções de gerenciamento de componentes
+    void AddDrawable(class DrawComponent *drawable);
+    void RemoveDrawable(class DrawComponent *drawable);
     void AddCollider(class AABBColliderComponent* collider);
     void RemoveCollider(class AABBColliderComponent* collider);
-    std::vector<class AABBColliderComponent*>& GetColliders() { return mColliders; }
 
-    // Camera functions
-    Vector2& GetCameraPos() { return mCameraPos; };
-    void SetCameraPos(const Vector2& position) { mCameraPos = position; };
+    // Gerenciamento de Cenas e UI
+    void PushUI(UIScreen* screen);
+    void SetScene(GameScene nextScene);
+    void UnloadScene();
 
-    // Game specific
-    const class Mario* GetPlayer() { return mMario; }
+    // Getters
+    Renderer* GetRenderer() { return mRenderer; }
+    const std::vector<class AABBColliderComponent*>& GetColliders() const { return mColliders; }
+    Vector2 GetCameraPos() const { return mCameraPos; }
+    Mario* GetPlayer() const { return mMario; }
 
-    int mDeathSoundChannel = -1; 
-    int mStageClearSoundChannel = -1;
-    bool mWaitingToQuit = false;
-
+    // Funções de Som
+    int PlaySound(Mix_Chunk* sound);
     Mix_Chunk* GetJumpSound();
     Mix_Chunk* GetJumpSuperSound();
     Mix_Chunk* GetDeadSound();
     Mix_Chunk* GetMushroomSound();
     Mix_Chunk* GetBumpSound();
     Mix_Chunk* GetStageClearSound();
-    int PlaySound(Mix_Chunk* sound);
+
+    // Setters para estado do jogo
+    void SetWaitingToQuit(bool status) { mWaitingToQuit = status; }
+    void SetDeathSoundChannel(int channel) { mDeathSoundChannel = channel; }
+    void SetStageClearSoundChannel(int channel) { mStageClearSoundChannel = channel; }
+
+    // Outras funções
+    void Quit() { mIsRunning = false; }
+
+    // Constantes Estáticas do Jogo
+    static constexpr float WINDOW_WIDTH = 1024.0f;
+    static constexpr float WINDOW_HEIGHT = 768.0f;
+    static constexpr float LEVEL_WIDTH = 3400.0f;
+    static constexpr float LEVEL_HEIGHT = 768.0f;
+    static constexpr float TILE_SIZE = 32.0f;
+    static constexpr float SPAWN_DISTANCE = 500.0f;
+    static constexpr int FPS = 60;
 
 private:
     void ProcessInput();
     void UpdateGame(float deltaTime);
-    void UpdateCamera();
     void GenerateOutput();
+    void UpdateActors(float deltaTime);
+    void UpdateCamera();
 
-    // Level loading
+    // Funções de carregamento de nível
+    void InitializeActors();
     int **LoadLevel(const std::string& fileName, int width, int height);
     void BuildLevel(int** levelData, int width, int height);
 
-    // All the actors in the game
-    std::vector<class Actor*> mActors;
-    std::vector<class Actor*> mPendingActors;
-
-    // Camera
-    Vector2 mCameraPos;
-
-    // All the draw components
-    std::vector<class DrawComponent*> mDrawables;
-
-    // All the collision components
-    std::vector<class AABBColliderComponent*> mColliders;
-
-    // SDL stuff
+    // Variáveis de estado do jogo
     SDL_Window* mWindow;
-    class Renderer* mRenderer;
+    Renderer* mRenderer;
+    Uint32 mTicksCount;
+    bool mIsRunning;
+    bool mIsDebugging;
+    bool mUpdatingActors;
+    bool mWaitingToQuit = false;
 
+    // Listas de gerenciamento
+    std::vector<Actor*> mActors;
+    std::vector<Actor*> mPendingActors;
+    std::vector<DrawComponent*> mDrawables;
+    std::vector<AABBColliderComponent*> mColliders;
+    std::vector<UIScreen*> mUIStack;
+
+    // Variáveis específicas do jogo 2D (Mario)
+    Vector2 mCameraPos;
+    Mario* mMario;
+    int** mLevelData;
+
+    // Texturas
+    class Texture* mBackgroundTexture;
+    float mBackgroundScrollSpeed;
+
+    // Sons e Música
     Mix_Music* mBackgroundMusic;
     Mix_Chunk* mJumpSound;
     Mix_Chunk* mJumpSuperSound;
@@ -104,19 +123,7 @@ private:
     Mix_Chunk* mMushroomSound;
     Mix_Chunk* mBumpSound;
     Mix_Chunk* mStageClearSound;
-
-    // Track elapsed time since game start
-    Uint32 mTicksCount;
-
-    // Track if we're updating actors right now
-    bool mIsRunning;
-    bool mIsDebugging;
-    bool mUpdatingActors;
-
-    // Game-specific
-    class Mario *mMario;
-    int **mLevelData;
     
-    class Texture* mBackgroundTexture;
-    float mBackgroundScrollSpeed;
+    int mDeathSoundChannel = -1;
+    int mStageClearSoundChannel = -1;
 };
