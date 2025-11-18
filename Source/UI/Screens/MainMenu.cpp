@@ -1,41 +1,49 @@
-//
-// Created by Lucas N. Ferreira on 06/11/25.
-//
-
 #include "MainMenu.h"
-#include "../../Game.h"
+#include "../../Game.h"       // Caminho para o Game.h do Mario
 #include "../UIButton.h"
+#include "../../Renderer/Renderer.h" // Para as constantes de tela
+#include "../../Math.h"             // Necessário para Vector3/Vector4
 
 MainMenu::MainMenu(class Game* game, const std::string& fontName)
-        :UIScreen(game, fontName)
+    : UIScreen(game, fontName)
 {
-        Vector2 logoPos(0.0f, 150.0f);
-        Vector2 startButtonPos(0.0f, 0.0f);
-        Vector2 closeButtonPos(0.0f, -75.0f);
+    // Posições (usando as constantes estáticas do Game)
+    float centerX = Game::WINDOW_WIDTH / 2.0f;
+    float centerY = Game::WINDOW_HEIGHT / 2.0f;
 
-        Vector4 blue(0.0f, 0.0f, 1.0f, 1.0f);
-        const Vector3 white(1.0f, 1.0f, 1.0f);
+    Vector2 playButtonPos(centerX, centerY - 40.0f); // Posição do "Play"
+    Vector2 exitButtonPos(centerX, centerY + 40.0f); // Posição do "Exit"
 
-        AddImage("../Assets/Logo.png", logoPos, 0.75f);
 
-        UIButton* startButton = AddButton("Start Game", [this]() {
-            Close();
-            mGame->SetScene(GameScene::Level1);
-        }, startButtonPos);
+    // --- Criar Botão Play ---
+    UIButton* playButton = AddButton("Play", [this]() {
+        Close(); // Fecha o MainMenu
+        mGame->SetScene(GameScene::Level1); // Carrega a cena do Nível (Mario)
+    }, playButtonPos);
 
-        startButton->SetBackgroundColor(blue);
-        startButton->SetTextColor(white);
+    Vector4 blue(0.0f, 0.0f, 1.0f, 1.0f);
+    const Vector3 white(1.0f, 1.0f, 1.0f);
 
-        UIButton* closeButton = AddButton("Exit", [this]() {
-            mGame->Quit();
-        }, closeButtonPos);
+    // *** DEFINA AS CORES AQUI ***
+    playButton->SetTextColor(white);
+    playButton->SetBackgroundColor(blue);
 
-        closeButton->SetBackgroundColor(blue);
-        closeButton->SetTextColor(white);
+    // --- Criar Botão Exit ---
+    UIButton* exitButton = AddButton("Exit", [this]() {
+        mGame->Quit(); // Fecha o jogo
+    }, exitButtonPos);
+
+    // *** DEFINA AS CORES AQUI ***
+    exitButton->SetTextColor(white);
+    exitButton->SetBackgroundColor(blue);
+
+    // O primeiro botão (Play) será destacado automaticamente
+    // (Assumindo que sua classe base UIScreen cuida disso)
 }
 
 void MainMenu::HandleKeyPress(int key)
 {
+    // Assume que mButtons e mSelectedButtonIndex vêm da classe base UIScreen
     if (mButtons.empty())
     {
         return;
@@ -54,10 +62,12 @@ void MainMenu::HandleKeyPress(int key)
             mSelectedButtonIndex = (currentSelection - 1 + mButtons.size()) % mButtons.size();
             mButtons[mSelectedButtonIndex]->SetHighlighted(true);
             break;
-        case SDLK_RETURN:
-        case SDLK_KP_ENTER:
+
+        case SDLK_RETURN: // Tecla Enter
+        case SDLK_KP_ENTER: // Tecla Enter (teclado numérico)
             if (mSelectedButtonIndex >= 0 && mSelectedButtonIndex < mButtons.size())
             {
+                // Chama a função lambda associada ao botão
                 mButtons[mSelectedButtonIndex]->OnClick();
             }
             break;

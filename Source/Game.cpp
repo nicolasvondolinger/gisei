@@ -434,6 +434,8 @@ void Game::RemoveCollider(AABBColliderComponent* collider)
 void Game::GenerateOutput()
 {
     mRenderer->Clear();
+    mRenderer->GetBaseShader()->SetActive();
+    mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
 
     if(mBackgroundTexture){
         Vector2 parallaxCam = mCameraPos * mBackgroundScrollSpeed;
@@ -474,7 +476,6 @@ void Game::GenerateOutput()
         }
     }
 
-    // Desenha a UI (que está no Renderer)
     mRenderer->Draw();
 
     mRenderer->Present();

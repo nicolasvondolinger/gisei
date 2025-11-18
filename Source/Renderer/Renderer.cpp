@@ -134,24 +134,24 @@ void Renderer::Clear()
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-// Esta função agora desenha APENAS a UI
-// O mundo do jogo é desenhado pelo Game::GenerateOutput
 void Renderer::Draw()
 {
     glEnable(GL_BLEND);
     glDisable(GL_DEPTH_TEST);
 
-    // Ativa o shader e vértices
-    mBaseShader->SetActive(); // Corrigido
+    mBaseShader->SetActive();
     mSpriteVerts->SetActive();
+
+    // *** ADICIONE ISTO: ***
+    // Diz ao shader para IGNORAR a câmera (1 = true)
+    mBaseShader->SetIntegerUniform("uIsUI", 1);
 
     // Desenha Elementos de UI
     for (auto ui : mUIElements)
     {
-        ui->Draw(mBaseShader); // Corrigido
+        ui->Draw(mBaseShader);
     }
 }
-
 void Renderer::Present()
 {
     // Troca os buffers
@@ -164,8 +164,9 @@ void Renderer::Present()
 void Renderer::Draw(RendererMode mode, const Matrix4 &modelMatrix, const Vector2 &cameraPos, VertexArray *vertices,
                     const Vector3 &color, Texture *texture, const Vector4 &textureRect, float textureFactor)
 {
-    mBaseShader->SetMatrixUniform("uWorldTransform", modelMatrix); // Corrigido
-    mBaseShader->SetVectorUniform("uColor", color);                // Corrigido
+    mBaseShader->SetMatrixUniform("uWorldTransform", modelMatrix);
+    // *** CORREÇÃO: Envia um vec4 para o uBaseColor ***
+    mBaseShader->SetVectorUniform("uBaseColor", Vector4(color, 1.0f));
     mBaseShader->SetVectorUniform("uTexRect", textureRect);        // Corrigido
     mBaseShader->SetVectorUniform("uCameraPos", cameraPos);        // Corrigido
 

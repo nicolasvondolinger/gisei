@@ -56,27 +56,42 @@ void UIText::SetTextColor(const Vector3 &color)
 
 void UIText::Draw(class Shader* shader)
 {
-    if(!mTexture || !mIsVisible)
+    if (!mTexture || !mIsVisible)
         return;
 
-    // Draw Text Background
-    Matrix4 scaleMat = Matrix4::CreateScale((static_cast<float>(mTexture->GetWidth()) + mMargin.x) * mScale,
-                                            (static_cast<float>(mTexture->GetHeight()) + mMargin.y) * mScale, 1.0f);
-
-    // Translate to position on screen
+    // --- 1. Desenhar o Fundo ---
+    Matrix4 scaleMat = Matrix4::CreateScale(
+        (static_cast<float>(mTexture->GetWidth()) + mMargin.x) * mScale,
+        (static_cast<float>(mTexture->GetHeight()) + mMargin.y) * mScale,
+        1.0f
+    );
     Matrix4 transMat = Matrix4::CreateTranslation(Vector3(mOffset.x, mOffset.y, 0.0f));
-
-    // Set world transform
     Matrix4 world = scaleMat * transMat;
-    shader->SetMatrixUniform("uWorldTransform", world);
 
-    // Set uTextureFactor and color
+    shader->SetMatrixUniform("uWorldTransform", world);
     shader->SetFloatUniform("uTextureFactor", 0.0f);
     shader->SetVectorUniform("uBaseColor", mBackgroundColor);
 
-    // Draw quad
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-    // Draw text
-    UIImage::Draw(shader);
+
+    // --- 2. Desenhar o Texto ---
+    scaleMat = Matrix4::CreateScale(
+        static_cast<float>(mTexture->GetWidth()) * mScale,
+        static_cast<float>(mTexture->GetHeight()) * mScale,
+        1.0f
+    );
+    world = scaleMat * transMat;
+
+    shader->SetMatrixUniform("uWorldTransform", world);
+    shader->SetFloatUniform("uTextureFactor", 1.0f);
+    shader->SetVectorUniform("uBaseColor", Vector4(mTextColor, 1.0f));
+
+    // *** CORREÇÃO IMPORTANTE AQUI ***
+    // Dizemos ao shader para usar a textura inteira (0,0 até 1,1)
+    // Sem isso, o cálculo de coordenada de textura falha.
+    shader->SetVectorUniform("uTexRect", Vector4(0.0f, 0.0f, 1.0f, 1.0f));
+
+    mTexture->SetActive();
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
