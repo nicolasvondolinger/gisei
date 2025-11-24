@@ -5,19 +5,15 @@
 #pragma once
 
 #include "Actor.h"
-#include "../Game.h"
-#include "../Components/Drawing/AnimatorComponent.h"
-#include "../Components/Physics/RigidBodyComponent.h"
-#include "../Components/Physics/AABBColliderComponent.h"
 
 class Goomba : public Actor
 {
 public:
-    explicit Goomba(Game* game, float forwardSpeed = 100.0f, float deathTime = 0.5f);
+    explicit Goomba(class Game* game, float forwardSpeed = 100.0f, float deathTime = 0.5f);
 
     void OnUpdate(float deltaTime) override;
-    void OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) override;
-    void OnVerticalCollision(const float minOverlap, AABBColliderComponent* other) override;
+    void OnHorizontalCollision(const float minOverlap, class AABBColliderComponent* other) override;
+    void OnVerticalCollision(const float minOverlap, class AABBColliderComponent* other) override;
 
     void Kill() override;
 

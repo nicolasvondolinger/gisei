@@ -6,7 +6,7 @@
 #include "../../Game.h"
 #include <string>
 
-#include "../../Actors/Mario.h"
+#include "../../Actors/Samurai.h"
 
 HUD::HUD(class Game* game, const std::string& fontName)
     :UIScreen(game, fontName)

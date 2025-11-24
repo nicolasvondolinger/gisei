@@ -5,58 +5,59 @@
 #pragma once
 
 #include "DrawComponent.h"
+#include <string>
+#include <vector>
+#include <unordered_map>
+
+// Estrutura para guardar dados de uma animação específica
+struct AnimationData {
+    class Texture* texture; // A imagem desta animação
+    int numFrames;          // Quantos quadros ela tem
+    float frameDuration;    // Duração de cada quadro (1/FPS)
+    bool loop;              // Se deve repetir
+};
 
 class AnimatorComponent : public DrawComponent {
 public:
-    // (Lower draw order corresponds with further back)
-    AnimatorComponent(class Actor* owner, const std::string &texturePath, const std::string &dataPath,
-            int width, int height, int drawOrder = 100);
+    // Construtor simplificado (não pede mais dataPath)
+    AnimatorComponent(class Actor* owner, int width, int height, int drawOrder = 100);
     ~AnimatorComponent() override;
 
     void Draw(Renderer* renderer) override;
     void Update(float deltaTime) override;
 
-    // Use to change the FPS of the animation
-    void SetAnimFPS(float fps) { mAnimFPS = fps; }
-    
-    // Set the current active animation
+    // Define a animação atual pelo nome
     void SetAnimation(const std::string& name);
 
-    // Use to pause/unpause the animation
+    // Adiciona uma animação carregando o arquivo de imagem
+    // ex: AddAnimation("run", "../Assets/Sprites/Samurai/Run.png", 8);
+    void AddAnimation(const std::string& name, const std::string& texturePath, int numFrames, float fps = 10.0f, bool loop = true);
+
+    // Pausar/Despausar
     void SetIsPaused(bool pause) { mIsPaused = pause; }
 
-    // Add an animation of the corresponding name to the animation map
-    void AddAnimation(const std::string& name, const std::vector<int>& images);
-
+    // Tamanho do desenho na tela
     void SetSize(int w, int h);
+
+    // Define FPS da animação ATUAL
+    void SetAnimFPS(float fps);
+
 private:
-    bool LoadSpriteSheetData(const std::string& dataPath);
+    // Mapa de animações: Nome -> Dados
+    std::unordered_map<std::string, AnimationData> mAnimations;
 
-    // Sprite sheet texture
-    class Texture* mSpriteTexture;
+    // Nome da animação atual
+    std::string mCurrentAnimName;
 
-    // Vector of sprites
-    std::vector<Vector4> mSpriteSheetData;
+    // Tempo decorrido na animação atual
+    float mAnimTimer;
 
-    // Map of animation name to vector of textures corresponding to the animation
-    std::unordered_map<std::string, std::vector<int>> mAnimations;
+    // Se está pausado
+    bool mIsPaused;
 
-    // Name of current animation
-    std::string mAnimName;
-
-    // Tracks current elapsed time in animation
-    float mAnimTimer = 0.0f;
-
-    // The frames per second the animation should run at
-    float mAnimFPS = 10.0f;
-
-    // Whether or not the animation is paused (defaults to false)
-    bool mIsPaused = false;
-
-    // Size
+    // Tamanho na tela (destino)
     int mWidth;
     int mHeight;
 
     float mTextureFactor;
 };
-

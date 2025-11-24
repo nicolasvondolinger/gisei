@@ -7,7 +7,7 @@
 #include "Actors/Block.h"
 #include "Actors/Goomba.h"
 #include "Actors/Spawner.h"
-#include "Actors/Mario.h"
+#include "Actors/Samurai.h"
 
 // Includes de UI
 #include <algorithm>
@@ -20,6 +20,15 @@
 #include "UI/Screens/UIScreen.h"
 #include "UI/Screens/MainMenu.h"
 
+#include <algorithm>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include <cstring>
+#include <stdexcept>
+#include "Renderer/Renderer.h"
+#include "UI/Screens/UIScreen.h"
+#include "UI/Screens/MainMenu.h"
 
 Game::Game()
         :mWindow(nullptr)
@@ -29,7 +38,7 @@ Game::Game()
         ,mIsDebugging(false)
         ,mUpdatingActors(false)
         ,mCameraPos(Vector2::Zero)
-        ,mMario(nullptr)
+        ,mSamurai(nullptr) // ALTERADO: Inicialização
         ,mLevelData(nullptr)
         ,mBackgroundTexture(nullptr)
         ,mBackgroundScrollSpeed(0.25f)
@@ -41,7 +50,6 @@ Game::Game()
         ,mBumpSound(nullptr)
         ,mStageClearSound(nullptr)
 {
-
 }
 
 bool Game::Initialize() {
@@ -71,7 +79,7 @@ bool Game::Initialize() {
     mBumpSound = Mix_LoadWAV("../Assets/Sounds/Bump.wav");
     mStageClearSound = Mix_LoadWAV("../Assets/Sounds/StageClear.wav");
 
-    mWindow = SDL_CreateWindow("TP3: Super Mario Bros", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
+    mWindow = SDL_CreateWindow("TP3: Super Samurai Bros", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
     if (!mWindow) {
         SDL_Log("Failed to create window: %s", SDL_GetError());
         return false;
@@ -123,13 +131,11 @@ void Game::SetScene(GameScene nextScene)
             mBackgroundTexture = nullptr;
             new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
-
         case GameScene::Level1:
             mBackgroundMusic = Mix_LoadMUS("../Assets/Sounds/Music.ogg");
             if (mBackgroundMusic) {
                 Mix_PlayMusic(mBackgroundMusic, -1);
             }
-
             InitializeActors();
             break;
     }
@@ -138,13 +144,11 @@ void Game::SetScene(GameScene nextScene)
 
 void Game::InitializeActors() {
     mLevelData = LoadLevel("../Assets/Levels/level1-1.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
-
     if(mLevelData == nullptr){
         SDL_Log("Falha ao carregar dados do nível.");
         Quit();
         return;
     }
-
     BuildLevel(mLevelData, LEVEL_WIDTH, LEVEL_HEIGHT);
 }
 
@@ -187,28 +191,25 @@ int **Game::LoadLevel(const std::string& fileName, int width, int height) {
 }
 
 void Game::BuildLevel(int** levelData, int width, int height) {
-
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
             int id = levelData[i][j];
-
             if(id == 0) continue;
-
             Vector2 pos;
             pos.y = (i * TILE_SIZE) + (TILE_SIZE / 2.0f);
             pos.x = (j * TILE_SIZE) + (TILE_SIZE / 2.0f);
-
             Block* block = nullptr;
             Spawner* spawner = nullptr;
-
             switch (id) {
                 case 17:
-                    mMario = new Mario(this);
-                    mMario->SetPosition(pos);
+                    // ALTERADO: Instancia Samurai em vez de Samurai
+                    mSamurai = new Samurai(this);
+                    mSamurai->SetPosition(pos);
                     break;
                 case 1:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockA.png", EBlockType::Ground);
                     break;
+                // ... (Demais cases permanecem iguais) ...
                 case 2:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockC.png", EBlockType::Question);
                     break;
@@ -362,17 +363,14 @@ void Game::UpdateActors(float deltaTime)
 }
 
 void Game::UpdateCamera() {
+    if(mSamurai == nullptr) return; // ALTERADO: Verifica Samurai
 
-    if(mMario == nullptr) return;
-
-    float targetX = mMario->GetPosition().x - (WINDOW_WIDTH/2.0f);
+    // ALTERADO: Usa posição do Samurai
+    float targetX = mSamurai->GetPosition().x - (WINDOW_WIDTH/2.0f);
     float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - WINDOW_WIDTH;
-
     float newX = std::max(mCameraPos.x, targetX);
-
     newX = std::max(0.0f, newX);
     newX = std::min(maxCameraX, newX);
-
     mCameraPos.x = newX;
     mCameraPos.y = 0.0f;
 }

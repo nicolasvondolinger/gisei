@@ -48,10 +48,8 @@ add_executable(${PROJECT_NAME}
         Source/Actors/Goomba.h
         Source/Actors/Spawner.cpp
         Source/Actors/Spawner.h
-        Source/Actors/Mario.cpp
-        Source/Actors/Mario.h
-        Source/Actors/Mushroom.cpp
-        Source/Actors/Mushroom.h
+        Source/Actors/Samurai.cpp
+        Source/Actors/Samurai.h
         Source/Components/Drawing/AnimatorComponent.cpp
         Source/Components/Drawing/AnimatorComponent.h
         Source/Components/Drawing/RectComponent.cpp

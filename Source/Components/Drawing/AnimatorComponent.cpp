@@ -5,138 +5,140 @@
 #include "AnimatorComponent.h"
 #include "../../Actors/Actor.h"
 #include "../../Game.h"
-#include "../../Json.h"
-#include "../../Renderer/Texture.h"
+#include "../../Renderer/Renderer.h"
+#include "../../Renderer/Texture.h" // Necessário para pegar Width/Height da textura
 
-
-AnimatorComponent::AnimatorComponent(class Actor* owner, const std::string &texPath, const std::string &dataPath,
-                                     int width, int height, int drawOrder)
-        :DrawComponent(owner,  drawOrder)
+AnimatorComponent::AnimatorComponent(class Actor* owner, int width, int height, int drawOrder)
+        :DrawComponent(owner, drawOrder)
         ,mAnimTimer(0.0f)
         ,mIsPaused(false)
         ,mWidth(width)
         ,mHeight(height)
         ,mTextureFactor(1.0f)
 {
-    mSpriteTexture = mOwner->GetGame()->GetRenderer()->GetTexture(texPath);
-    
-    if (!dataPath.empty())  {
-        if (!LoadSpriteSheetData(dataPath)) {
-            SDL_Log("Falha ao carregar dados da sprite sheet: %s", dataPath.c_str());
-        }
-    }
 }
 
 AnimatorComponent::~AnimatorComponent()
 {
+    // As texturas são gerenciadas pelo Renderer (Cache), então não deletamos elas aqui
     mAnimations.clear();
-    mSpriteSheetData.clear();
 }
 
-bool AnimatorComponent::LoadSpriteSheetData(const std::string& dataPath)
+void AnimatorComponent::AddAnimation(const std::string& name, const std::string& texturePath, int numFrames, float fps, bool loop)
 {
-    // Load sprite sheet data and return false if it fails
-    std::ifstream spriteSheetFile(dataPath);
+    AnimationData data;
+    data.numFrames = numFrames;
+    data.frameDuration = 1.0f / fps;
+    data.loop = loop;
 
-    if (!spriteSheetFile.is_open()) {
-        SDL_Log("Failed to open sprite sheet data file: %s", dataPath.c_str());
-        return false;
+    // Carrega a textura através do Renderer do jogo
+    data.texture = mOwner->GetGame()->GetRenderer()->GetTexture(texturePath);
+
+    if (!data.texture) {
+        SDL_Log("Erro: Nao foi possivel carregar a textura %s para a animacao %s", texturePath.c_str(), name.c_str());
+        return;
     }
 
-    nlohmann::json spriteSheetData = nlohmann::json::parse(spriteSheetFile);
+    mAnimations[name] = data;
 
-    if (spriteSheetData.is_null()) {
-        SDL_Log("Failed to parse sprite sheet data file: %s", dataPath.c_str());
-        return false;
+    // Se for a primeira animação adicionada, define como a padrão
+    if (mCurrentAnimName.empty()) {
+        SetAnimation(name);
     }
+}
 
-    auto textureWidth = static_cast<float>(spriteSheetData["meta"]["size"]["w"].get<int>());
-    auto textureHeight = static_cast<float>(spriteSheetData["meta"]["size"]["h"].get<int>());
+void AnimatorComponent::SetAnimation(const std::string& name) {
+    if (mCurrentAnimName == name) return;
 
-    for(const auto& frame : spriteSheetData["frames"]) {
-
-        int x = frame["frame"]["x"].get<int>();
-        int y = frame["frame"]["y"].get<int>();
-        int w = frame["frame"]["w"].get<int>();
-        int h = frame["frame"]["h"].get<int>();
-
-        mSpriteSheetData.emplace_back(static_cast<float>(x)/textureWidth, static_cast<float>(y)/textureHeight,
-                                      static_cast<float>(w)/textureWidth, static_cast<float>(h)/textureHeight);
+    if (mAnimations.find(name) != mAnimations.end()) {
+        mCurrentAnimName = name;
+        mAnimTimer = 0.0f; // Reseta o timer ao trocar de animação
+    } else {
+        SDL_Log("Aviso: Tentou setar animacao inexistente %s", name.c_str());
     }
+}
 
-    return true;
+void AnimatorComponent::SetAnimFPS(float fps) {
+    if (!mCurrentAnimName.empty()) {
+        mAnimations[mCurrentAnimName].frameDuration = 1.0f / fps;
+    }
+}
+
+void AnimatorComponent::Update(float deltaTime) {
+    if (mIsPaused || mCurrentAnimName.empty()) return;
+
+    AnimationData& anim = mAnimations[mCurrentAnimName];
+
+    // Incrementa o tempo
+    mAnimTimer += deltaTime;
+
+    // Verifica loop ou fim da animação
+    float totalDuration = anim.frameDuration * anim.numFrames;
+
+    if (anim.loop) {
+        while (mAnimTimer >= totalDuration) {
+            mAnimTimer -= totalDuration;
+        }
+    } else {
+        if (mAnimTimer >= totalDuration) {
+            mAnimTimer = totalDuration - 0.001f; // Trava no último frame
+        }
+    }
 }
 
 void AnimatorComponent::Draw(Renderer* renderer) {
+    if (!mIsVisible || mCurrentAnimName.empty()) return;
 
-    if(!mIsVisible || !mSpriteTexture) return;
+    // Pega os dados da animação atual
+    const AnimationData& anim = mAnimations[mCurrentAnimName];
 
+    if (!anim.texture) return;
+
+    // Cálculos para desenhar
     Vector2 pos = mOwner->GetPosition();
     float rot = mOwner->GetRotation();
     Vector2 size(static_cast<float>(mWidth), static_cast<float>(mHeight));
     Vector3 color(1.0f, 1.0f, 1.0f);
-
     Vector2 cameraPos = mOwner->GetGame()->GetCameraPos();
-
     bool flip = (mOwner->GetScale().x < 0.0f);
 
-    Vector4 texRect;
+    // --- CÁLCULO DO FRAME (UV) ---
 
-    auto animIter = mAnimations.find(mAnimName);
+    // Descobre qual índice do frame estamos baseados no tempo
+    int currentFrameIndex = static_cast<int>(mAnimTimer / anim.frameDuration);
 
-    if(animIter != mAnimations.end() && !mSpriteSheetData.empty()){
+    // Proteção de índice
+    if(currentFrameIndex >= anim.numFrames) currentFrameIndex = anim.numFrames - 1;
 
-        const vector<int> & frames = animIter->second;
+    // Dimensões da textura total
+    float texW = static_cast<float>(anim.texture->GetWidth());
+    float texH = static_cast<float>(anim.texture->GetHeight());
 
-        int currentFrameIndex = static_cast<int>(mAnimTimer);
+    // Assumindo que a sprite sheet é uma linha horizontal (strip)
+    // Largura de 1 frame = LarguraTotal / NumeroDeFrames
+    float frameW = texW / static_cast<float>(anim.numFrames);
+    float frameH = texH;
 
-        int spriteNum = frames[currentFrameIndex];
+    // Calcula coordenadas UV (0.0 a 1.0)
+    // u = x / width, v = y / height
+    float u = (currentFrameIndex * frameW) / texW;
+    float v = 0.0f; // Sempre 0 se for uma única linha
+    float uw = frameW / texW; // Largura proporcional de um frame (ex: 1/8)
+    float vh = 1.0f;          // Altura total
 
-        texRect = mSpriteSheetData[spriteNum];
-    } else if(!mSpriteSheetData.empty()){
-        texRect = mSpriteSheetData[0];
-    } else texRect = Vector4::UnitRect;
-    
+    Vector4 texRect(u, v, uw, vh);
+
     renderer->DrawTexture(
-        pos,          // Posição
-        size,         // Tamanho
-        rot,          // Rotação
-        color,        // Cor (tint)
-        mSpriteTexture, // Textura
-        texRect,      // Retângulo UV (calculado acima)
-        cameraPos,    // Posição da Câmera
-        flip,         // Espelhamento (calculado acima)
-        mTextureFactor 
+        pos,
+        size,
+        rot,
+        color,
+        anim.texture, // Usa a textura específica da animação atual
+        texRect,
+        cameraPos,
+        flip,
+        mTextureFactor
     );
-
-}
-
-void AnimatorComponent::Update(float deltaTime) {
-
-    if(mIsPaused || mAnimations.empty()) return;
-
-    auto animIter = mAnimations.find(mAnimName);
-    if(animIter == mAnimations.end()) return;
-
-    const vector<int> & frames = animIter->second;
-
-    if(frames.empty()) return;
-
-    mAnimTimer += mAnimFPS * deltaTime;
-
-    float numFrames = static_cast<float>(frames.size());
-
-    while(mAnimTimer >= numFrames) mAnimTimer -= numFrames;
-}
-
-void AnimatorComponent::SetAnimation(const string& name) {
-    if(mAnimName == name) return;
-    mAnimName = name;
-    Update(0.0f);
-}
-
-void AnimatorComponent::AddAnimation(const string& name, const vector<int>& spriteNums) {
-    mAnimations.emplace(name, spriteNums);
 }
 
 void AnimatorComponent::SetSize(int w, int h){
