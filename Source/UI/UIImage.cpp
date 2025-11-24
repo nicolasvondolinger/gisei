@@ -18,7 +18,7 @@ UIImage::UIImage(class Game* game, const Vector2 &offset, const float scale, con
 }
 
 UIImage::UIImage(class Game* game, const std::string &imagePath, const Vector2 &offset, const float scale, const float angle, int drawOrder)
-        :UIElement(game, offset, scale, angle)
+        :UIElement(game, offset, scale, angle, drawOrder) // <--- O ERRO ERA AQUI! Faltava passar 'drawOrder'
 {
     mTexture = GetGame()->GetRenderer()->GetTexture(imagePath);
 }
@@ -47,11 +47,12 @@ void UIImage::Draw(class Shader* shader)
     shader->SetMatrixUniform("uWorldTransform", world);
 
     // Set uTextureFactor
-    shader->SetFloatUniform("uTextureFactor", 1.0f);
+    shader->SetVectorUniform("uBaseColor", Vector4(1.0f, 1.0f, 1.0f, 1.0f));
 
     // Set current texture
+    shader->SetFloatUniform("uTextureFactor", 1.0f);
+
     mTexture->SetActive();
 
-    // Draw quad
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

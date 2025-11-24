@@ -19,7 +19,7 @@ public:
     void Draw(class Shader* shader) override;
 
     void SetText(const std::string& name);
-    void SetTextColor(const Vector3 &color);
+    virtual void SetTextColor(const Vector3& color);
     void SetBackgroundColor(const Vector4 &color) { mBackgroundColor = color; }
 
 protected:

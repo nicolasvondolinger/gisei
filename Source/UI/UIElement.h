@@ -28,6 +28,9 @@ public:
     bool IsVisible(const bool isVisible) const { return mIsVisible; }
     void SetIsVisible(const bool isVisible) { mIsVisible = isVisible; }
 
+    const Vector2& GetPosition() const { return mOffset; }
+    void SetPosition(const Vector2& pos) { mOffset = pos; }
+
     int GetDrawOrder() const { return mDrawOrder; }
 
     virtual void Draw(class Shader* shader) {};

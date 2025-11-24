@@ -27,31 +27,21 @@ UIText::~UIText()
 
 void UIText::SetText(const std::string &text)
 {
-    // Clear out previous title texture if it exists
-    if (mTexture)
-    {
+    if (mTexture) {
         mTexture->Unload();
         delete mTexture;
         mTexture = nullptr;
     }
 
-    // Create texture for title
     mText = text;
-    mTexture = mFont->RenderText(mText, mTextColor, mPointSize, mWrapLength);
+    // MUDANÇA 1: Renderizamos a textura sempre BRANCA Pura (1,1,1)
+    // Isso permite que o Shader tinja ela de qualquer cor depois.
+    mTexture = mFont->RenderText(mText, Vector3(1.0f, 1.0f, 1.0f), mPointSize, mWrapLength);
 }
 
 void UIText::SetTextColor(const Vector3 &color)
 {
-    // Clear out previous title texture if it exists
-    if (mTexture)
-    {
-        mTexture->Unload();
-        delete mTexture;
-        mTexture = nullptr;
-    }
-
     mTextColor = color;
-    mTexture = mFont->RenderText(mText, mTextColor, mPointSize, mWrapLength);
 }
 
 void UIText::Draw(class Shader* shader)

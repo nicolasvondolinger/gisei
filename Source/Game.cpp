@@ -79,7 +79,6 @@ bool Game::Initialize() {
 
     mRenderer = new Renderer(mWindow);
     mRenderer->Initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
-    mBackgroundTexture = mRenderer->GetTexture("../Assets/Sprites/Background.png", true);
 
     // Define a cena inicial como o Menu Principal
     SetScene(GameScene::MainMenu);
@@ -121,7 +120,8 @@ void Game::SetScene(GameScene nextScene)
     UnloadScene();
     switch (nextScene) {
         case GameScene::MainMenu:
-            new MainMenu(this, "../Assets/Fonts/Arial.ttf");
+            mBackgroundTexture = nullptr;
+            new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
 
         case GameScene::Level1:

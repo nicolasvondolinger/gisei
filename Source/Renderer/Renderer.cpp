@@ -60,8 +60,7 @@ bool Renderer::Initialize(float width, float height)
     CreateSpriteVerts();
 
     // Define a cor de limpeza
-    glClearColor(0.419f, 0.549f, 1.0f, 1.0f); // Azul claro
-
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     // Habilita alpha blending (Essencial para 2D)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

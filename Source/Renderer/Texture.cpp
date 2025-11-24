@@ -70,6 +70,7 @@ bool Texture::CreateFromSurface(SDL_Surface* surface)
     mWidth = surface->w;
     mHeight = surface->h;
 
+    // Converte para formato amigável ao OpenGL
     SDL_Surface* formattedSurface = SDL_ConvertSurfaceFormat(surface, SDL_PIXELFORMAT_RGBA32, 0);
     if (!formattedSurface) {
         SDL_Log("Falha ao converter surface: %s", SDL_GetError());
@@ -86,11 +87,13 @@ bool Texture::CreateFromSurface(SDL_Surface* surface)
 
     SDL_FreeSurface(formattedSurface);
 
-    // Filtros
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    // --- AQUI ESTÁ A MUDANÇA ---
+    // Para texto gerado via SDL_ttf, GL_LINEAR fica muito mais suave e bonito (High Res).
+    // Se fosse GL_NEAREST, o texto ficaria serrilhado/pixelado.
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // ---------------------------
 
-    // Fontes não repetem
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
