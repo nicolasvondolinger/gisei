@@ -63,12 +63,12 @@ bool Game::Initialize() {
     }
 
 
-    mJumpSound = Mix_LoadWAV("../Assets/Sounds/Jump.wav");
-    mJumpSuperSound = Mix_LoadWAV("../Assets/Sounds/JumpSuper.wav");
-    mDeadSound = Mix_LoadWAV("../Assets/Sounds/Dead.wav");
-    mSpiritOrbSound = Mix_LoadWAV("../Assets/Sounds/SpiritOrb.wav");
-    mBumpSound = Mix_LoadWAV("../Assets/Sounds/Bump.wav");
-    mStageClearSound = Mix_LoadWAV("../Assets/Sounds/StageClear.wav");
+    mJumpSound = Mix_LoadWAV("../Assets/Sounds/12_Player_Movement_SFX/30_Jump_03.wav");
+    mJumpSuperSound = Mix_LoadWAV("../Assets/Sounds/12_Player_Movement_SFX/52_Dive_02.wav");
+    mDeadSound = Mix_LoadWAV("../Assets/Sounds/10_Battle_SFX/69_Enemy_death_01.wav");
+    mSpiritOrbSound = Mix_LoadWAV("../Assets/Sounds/8_Buffs_Heals_SFX/02_Heal_02.wav");
+    mBumpSound = Mix_LoadWAV("../Assets/Sounds/10_Battle_SFX/15_Impact_flesh_02.wav");
+    mStageClearSound = Mix_LoadWAV("../Assets/Sounds/10_UI_Menu_SFX/013_Confirm_03.wav");
 
     mWindow = SDL_CreateWindow("Gisei: The Path of the Shattered Blade", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
     if (!mWindow) {
@@ -125,7 +125,7 @@ void Game::SetScene(GameScene nextScene)
             new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
         case GameScene::Level1:
-            mBackgroundMusic = Mix_LoadMUS("../Assets/Sounds/Music.ogg");
+            mBackgroundMusic = Mix_LoadMUS("../Assets/Sounds/Troubadeck 20 Long Lonely Road.ogg");
             if (mBackgroundMusic) {
                 Mix_PlayMusic(mBackgroundMusic, -1);
             }
