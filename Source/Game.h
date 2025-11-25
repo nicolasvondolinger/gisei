@@ -39,6 +39,7 @@ public:
     void RemoveCollider(class AABBColliderComponent* collider);
 
     void PushUI(UIScreen* screen);
+    std::vector<UIScreen*>& GetUIStack() { return mUIStack; }
     void SetScene(GameScene nextScene);
     void UnloadScene();
 
@@ -53,7 +54,7 @@ public:
     Mix_Chunk* GetJumpSound();
     Mix_Chunk* GetJumpSuperSound();
     Mix_Chunk* GetDeadSound();
-    Mix_Chunk* GetMushroomSound();
+    Mix_Chunk* GetSpiritOrbSound();
     Mix_Chunk* GetBumpSound();
     Mix_Chunk* GetStageClearSound();
 
@@ -63,8 +64,8 @@ public:
 
     void Quit() { mIsRunning = false; }
 
-    static constexpr float WINDOW_WIDTH = 1024.0f;
-    static constexpr float WINDOW_HEIGHT = 768.0f;
+    static constexpr float WINDOW_WIDTH = 1920.0f;
+    static constexpr float WINDOW_HEIGHT = 1080.0f;
     static constexpr float LEVEL_WIDTH = 3400.0f;
     static constexpr float LEVEL_HEIGHT = 768.0f;
     static constexpr float TILE_SIZE = 32.0f;
@@ -109,7 +110,7 @@ private:
     Mix_Chunk* mJumpSound;
     Mix_Chunk* mJumpSuperSound;
     Mix_Chunk* mDeadSound;
-    Mix_Chunk* mMushroomSound;
+    Mix_Chunk* mSpiritOrbSound;
     Mix_Chunk* mBumpSound;
     Mix_Chunk* mStageClearSound;
     

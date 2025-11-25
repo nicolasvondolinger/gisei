@@ -62,6 +62,7 @@ public:
     class Font *GetFont(const std::string &fileName);
 
     class Shader *GetBaseShader() const { return mBaseShader; }
+    SDL_Window* GetWindow() const { return mWindow; }
 
 private:
     void Draw(RendererMode mode, const Matrix4 &modelMatrix, const Vector2 &cameraPos, VertexArray *vertices,

@@ -15,6 +15,7 @@ class UIScreen {
 public:
     enum class UIState {
         Active,
+        Paused,
         Closing
     };
 
@@ -32,6 +33,7 @@ public:
 
 
     UIState GetState() const { return mState; }
+    void SetState(UIState state) { mState = state; }
 
 
     class Game *GetGame() { return mGame; }

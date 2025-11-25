@@ -44,8 +44,6 @@ add_executable(${PROJECT_NAME}
         Source/Renderer/Texture.h
         Source/Actors/Block.cpp
         Source/Actors/Block.h
-        Source/Actors/Goomba.cpp
-        Source/Actors/Goomba.h
         Source/Actors/Spawner.cpp
         Source/Actors/Spawner.h
         Source/Actors/Samurai.cpp
@@ -73,6 +71,10 @@ add_executable(${PROJECT_NAME}
         Source/UI/Screens/GameOver.h
         Source/Renderer/Font.h
         Source/Renderer/Font.cpp
+        Source/Actors/Yokai.cpp
+        Source/UI/Screens/SettingsMenu.cpp
+        Source/Actors/ParallaxBackground.cpp
+        Source/Components/Drawing/ParallaxComponent.cpp
 )
 
 

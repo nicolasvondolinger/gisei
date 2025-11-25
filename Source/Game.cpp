@@ -1,12 +1,14 @@
 #include "CSV.h"
 #include "Game.h"
 #include "Components/Drawing/DrawComponent.h"
+#include "Components/Drawing/ParallaxComponent.h"
 #include "Components/Physics/RigidBodyComponent.h"
 #include "Random.h"
 #include "Actors/Actor.h"
 #include "Actors/Block.h"
 #include "Actors/Spawner.h"
 #include "Actors/Samurai.h"
+#include "Actors/ParallaxBackground.h"
 #include <algorithm>
 #include <vector>
 #include <fstream>
@@ -32,7 +34,7 @@ Game::Game()
         ,mJumpSound(nullptr)
         ,mJumpSuperSound(nullptr)
         ,mDeadSound(nullptr)
-        ,mMushroomSound(nullptr)
+        ,mSpiritOrbSound(nullptr)
         ,mBumpSound(nullptr)
         ,mStageClearSound(nullptr)
 {
@@ -61,11 +63,11 @@ bool Game::Initialize() {
     mJumpSound = Mix_LoadWAV("../Assets/Sounds/Jump.wav");
     mJumpSuperSound = Mix_LoadWAV("../Assets/Sounds/JumpSuper.wav");
     mDeadSound = Mix_LoadWAV("../Assets/Sounds/Dead.wav");
-    mMushroomSound = Mix_LoadWAV("../Assets/Sounds/Mushroom.wav");
+    mSpiritOrbSound = Mix_LoadWAV("../Assets/Sounds/SpiritOrb.wav");
     mBumpSound = Mix_LoadWAV("../Assets/Sounds/Bump.wav");
     mStageClearSound = Mix_LoadWAV("../Assets/Sounds/StageClear.wav");
 
-    mWindow = SDL_CreateWindow("TP3: Super Samurai Bros", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL);
+    mWindow = SDL_CreateWindow("Gisei: The Path of the Shattered Blade", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
     if (!mWindow) {
         SDL_Log("Failed to create window: %s", SDL_GetError());
         return false;
@@ -129,6 +131,8 @@ void Game::SetScene(GameScene nextScene)
 
 
 void Game::InitializeActors() {
+    new ParallaxBackground(this);
+    
     mLevelData = LoadLevel("../Assets/Levels/level1-1.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
     if(mLevelData == nullptr){
         SDL_Log("Falha ao carregar dados do nível.");
@@ -267,7 +271,7 @@ void Game::ProcessInput()
                 Quit();
                 break;
             case SDL_KEYDOWN:
-                if (!mUIStack.empty()) {
+                if (!mUIStack.empty() && mUIStack.back()->GetState() == UIScreen::UIState::Active) {
                     mUIStack.back()->HandleKeyPress(event.key.keysym.sym);
                 }
                 break;
@@ -447,6 +451,14 @@ void Game::GenerateOutput()
         );
     }
 
+    for (auto actor : mActors)
+    {
+        auto parallax = actor->GetComponent<ParallaxComponent>();
+        if (parallax && parallax->IsEnabled()) {
+            parallax->Draw(mRenderer);
+        }
+    }
+
     for (auto drawable : mDrawables)
     {
         drawable->Draw(mRenderer);
@@ -494,7 +506,7 @@ void Game::Shutdown()
     if (mJumpSound) Mix_FreeChunk(mJumpSound);
     if (mJumpSuperSound) Mix_FreeChunk(mJumpSuperSound);
     if (mDeadSound) Mix_FreeChunk(mDeadSound);
-    if (mMushroomSound) Mix_FreeChunk(mMushroomSound);
+    if (mSpiritOrbSound) Mix_FreeChunk(mSpiritOrbSound);
     if (mBumpSound) Mix_FreeChunk(mBumpSound);
     if (mStageClearSound) Mix_FreeChunk(mStageClearSound);
 
@@ -533,8 +545,8 @@ Mix_Chunk* Game::GetDeadSound(){
     return mDeadSound;
 }
 
-Mix_Chunk* Game::GetMushroomSound(){
-    return mMushroomSound;
+Mix_Chunk* Game::GetSpiritOrbSound(){
+    return mSpiritOrbSound;
 }
 
 Mix_Chunk* Game::GetBumpSound(){

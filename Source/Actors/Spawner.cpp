@@ -1,7 +1,7 @@
 #include "Spawner.h"
 #include "../Game.h"
 #include "Samurai.h"
-#include "Goomba.h"
+#include "Yokai.h"
 
 Spawner::Spawner(Game* game, float spawnDistance)
         :Actor(game)
@@ -19,8 +19,8 @@ void Spawner::OnUpdate(float deltaTime) {
         float dist = abs(spawnPos.x - playerPos.x);
 
         if(dist <= mSpawnDistance){
-                Goomba* goomba = new Goomba(mGame, -100.0f);
-                goomba->SetPosition(spawnPos);
+                Yokai* yokai = new Yokai(mGame, -100.0f);
+                yokai->SetPosition(spawnPos);
                 mState = ActorState::Destroy;
         }
 }

@@ -2,10 +2,10 @@
 
 #include "Actor.h"
 
-class Goomba : public Actor
+class Yokai : public Actor
 {
 public:
-    explicit Goomba(class Game* game, float forwardSpeed = 100.0f, float deathTime = 0.5f);
+    explicit Yokai(class Game* game, float forwardSpeed = 100.0f, float deathTime = 0.5f);
 
     void OnUpdate(float deltaTime) override;
     void OnHorizontalCollision(const float minOverlap, class AABBColliderComponent* other) override;

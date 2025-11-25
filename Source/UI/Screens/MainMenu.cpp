@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "SettingsMenu.h"
 #include "../../Game.h"
 #include "../UIButton.h"
 #include "../../Renderer/Renderer.h"
@@ -9,40 +10,46 @@ MainMenu::MainMenu(class Game *game, const std::string &fontName)
     float centerX = Game::WINDOW_WIDTH / 2.0f;
     float centerY = Game::WINDOW_HEIGHT / 2.0f;
 
+    const Vector3 white(1.0f, 1.0f, 1.0f);
+    const Vector3 crimson(0.8f, 0.1f, 0.1f);
+    const Vector3 gold(1.0f, 0.84f, 0.0f);
+    const Vector4 darkOverlay(0.0f, 0.0f, 0.0f, 0.7f);
+    const Vector4 transparent(0.0f, 0.0f, 0.0f, 0.0f);
 
-    const Vector4 corPreto(0.0f, 0.0f, 0.0f, 1.0f);
-    const Vector3 corBranco(1.0f, 1.0f, 1.0f);
-    const Vector3 corVermelhoSangue(0.9f, 0.0f, 0.0f);
-    const Vector4 corFundoInvisivel(0.0f, 0.0f, 0.0f, 0.0f);
+    AddRect(Vector2(centerX, centerY), Vector2(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), 1.0f, 0.0f, 0);
+    mRects[0]->SetColor(darkOverlay);
 
+    AddImage("../Assets/UI/Logo.png", Vector2(centerX, 250.0f), 0.25f, 0.0f, 10);
 
-    Vector2 logoPos(centerX, 200.0f);
-    AddImage("../Assets/UI/Logo.png", logoPos, 0.3f, 0.0f, 100);
+    Vector2 playButtonPos(centerX, centerY + 100.0f);
+    Vector2 settingsButtonPos(centerX, centerY + 180.0f);
+    Vector2 exitButtonPos(centerX, centerY + 260.0f);
 
-
-    Vector2 playButtonPos(centerX, centerY + 50.0f);
-    Vector2 exitButtonPos(centerX, centerY + 120.0f);
-    const int FONT_SIZE_HD = 48;
-
-
-    UIButton *playButton = AddButton("Start Game", [this]() {
+    UIButton *playButton = AddButton("[ Begin Journey ]", [this]() {
         Close();
         mGame->SetScene(GameScene::Level1);
-    }, playButtonPos, 1.0f, 0.0f, FONT_SIZE_HD, 900, 200);
+    }, playButtonPos, 1.0f, 0.0f, 42, 900, 200);
 
+    playButton->SetTextColor(white);
+    playButton->SetHoverColor(crimson);
+    playButton->SetBackgroundColor(transparent);
 
-    playButton->SetTextColor(corBranco);
-    playButton->SetHoverColor(corVermelhoSangue);
-    playButton->SetBackgroundColor(corFundoInvisivel);
+    UIButton *settingsButton = AddButton("[ Settings ]", [this]() {
+        SetState(UIState::Paused);
+        new SettingsMenu(mGame, "../Assets/Fonts/Alkhemikal.ttf");
+    }, settingsButtonPos, 1.0f, 0.0f, 42, 900, 200);
 
+    settingsButton->SetTextColor(white);
+    settingsButton->SetHoverColor(crimson);
+    settingsButton->SetBackgroundColor(transparent);
 
-    UIButton *exitButton = AddButton("Quit", [this]() {
+    UIButton *exitButton = AddButton("[ Leave ]", [this]() {
         mGame->Quit();
-    }, exitButtonPos, 1.0f, 0.0f, FONT_SIZE_HD, 900, 200);
+    }, exitButtonPos, 1.0f, 0.0f, 42, 900, 200);
 
-    exitButton->SetTextColor(corBranco);
-    exitButton->SetHoverColor(corVermelhoSangue);
-    exitButton->SetBackgroundColor(corFundoInvisivel);
+    exitButton->SetTextColor(white);
+    exitButton->SetHoverColor(crimson);
+    exitButton->SetBackgroundColor(transparent);
 }
 
 void MainMenu::HandleKeyPress(int key) {

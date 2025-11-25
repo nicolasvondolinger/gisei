@@ -1,10 +1,10 @@
-#include "Goomba.h"
+#include "Yokai.h"
 #include "../Game.h"
 #include "../Components/Drawing/AnimatorComponent.h"
 #include "../Components/Physics/RigidBodyComponent.h"
 #include "../Components/Physics/AABBColliderComponent.h"
 
-Goomba::Goomba(Game *game, float forwardSpeed, float deathTime)
+Yokai::Yokai(Game *game, float forwardSpeed, float deathTime)
     : Actor(game)
       , mDyingTimer(deathTime)
       , mIsDying(false)
@@ -16,10 +16,10 @@ Goomba::Goomba(Game *game, float forwardSpeed, float deathTime)
     );
 
 
-    mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Goomba/Walk.png", 2);
+    mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Yokai/Walk.png", 2);
 
 
-    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Goomba/Dead.png", 1);
+    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Yokai/Dead.png", 1);
 
     mDrawComponent->SetAnimation("walk");
     mDrawComponent->SetAnimFPS(4.0f);
@@ -43,7 +43,7 @@ Goomba::Goomba(Game *game, float forwardSpeed, float deathTime)
     );
 }
 
-void Goomba::Kill() {
+void Yokai::Kill() {
     if (mIsDying) return;
 
     mIsDying = true;
@@ -54,7 +54,7 @@ void Goomba::Kill() {
     mColliderComponent->SetEnabled(false);
 }
 
-void Goomba::OnUpdate(float deltaTime) {
+void Yokai::OnUpdate(float deltaTime) {
     if (mIsDying) {
         mDyingTimer -= deltaTime;
         if (mDyingTimer <= 0.0f) {
@@ -76,7 +76,7 @@ void Goomba::OnUpdate(float deltaTime) {
     }
 }
 
-void Goomba::OnHorizontalCollision(const float minOverlap, AABBColliderComponent *other) {
+void Yokai::OnHorizontalCollision(const float minOverlap, AABBColliderComponent *other) {
     if (mIsDying) return;
 
     ColliderLayer otherLayer = other->GetLayer();
@@ -88,5 +88,5 @@ void Goomba::OnHorizontalCollision(const float minOverlap, AABBColliderComponent
     }
 }
 
-void Goomba::OnVerticalCollision(const float minOverlap, AABBColliderComponent *other) {
+void Yokai::OnVerticalCollision(const float minOverlap, AABBColliderComponent *other) {
 }
