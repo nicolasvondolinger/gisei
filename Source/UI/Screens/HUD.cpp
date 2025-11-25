@@ -2,7 +2,7 @@
 #include "../../Game.h"
 #include <string>
 
-#include "../../Actors/Samurai.h"
+#include "../../Actors/Ninja.h"
 
 HUD::HUD(class Game* game, const std::string& fontName)
     :UIScreen(game, fontName)

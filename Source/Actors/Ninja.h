@@ -10,10 +10,10 @@ struct DashParticle {
     float size;
 };
 
-class Samurai : public Actor
+class Ninja : public Actor
 {
 public:
-    explicit Samurai(class Game *game, float accelerationForce = 2500.0f, float jumpSpeed = -650.0f);
+    explicit Ninja(class Game *game, float accelerationForce = 2500.0f, float jumpSpeed = -750.0f);
 
     void OnProcessInput(const Uint8* keyState) override;
     void OnUpdate(float deltaTime) override;
@@ -25,7 +25,8 @@ public:
     void Kill() override;
     void StageClear();
     
-    const std::vector<DashParticle>& GetDashParticles() const;
+    bool IsDashing() const { return mIsDashing; }
+    const std::vector<DashParticle>& GetDashParticles() const { return mDashParticles; }
 
 private:
     void ManageAnimations();
@@ -41,16 +42,27 @@ private:
     bool mIsAttacking;
     bool mIsDashing;
     bool mIsDefending;
+    bool mIsShooting;
     
     float mAttackTimer;
     float mDashTimer;
+    float mShootTimer;
+    bool mDartSpawned;
     float mDashSpeed;
     Vector2 mDashDirection;
+    Vector2 mDashStartPos;
+    Vector2 mDashEndPos;
 
     
     bool mIsInvincible;
     float mInvincibleTimer;
     const float mInvincibleDuration = 1.5f;
+    
+    float mDashCooldown;
+    float mShootCooldown;
+    const float mDashCooldownTime = 1.0f;
+    const float mShootCooldownTime = 0.5f;
+    const float mDashDuration = 0.3f;
     
     std::vector<DashParticle> mDashParticles;
 
@@ -58,4 +70,5 @@ private:
     class RigidBodyComponent* mRigidBodyComponent;
     class AnimatorComponent* mDrawComponent;
     class AABBColliderComponent* mColliderComponent;
+
 };

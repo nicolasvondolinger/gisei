@@ -9,7 +9,7 @@
 
 class Actor;
 class Renderer;
-class Samurai;
+class Ninja;
 class DrawComponent;
 class AABBColliderComponent;
 class UIScreen;
@@ -48,7 +48,7 @@ public:
     Vector2 GetCameraPos() const { return mCameraPos; }
 
 
-    Samurai* GetPlayer() const { return mSamurai; }
+    Ninja* GetPlayer() const { return mNinja; }
 
     int PlaySound(Mix_Chunk* sound);
     Mix_Chunk* GetJumpSound();
@@ -66,8 +66,8 @@ public:
 
     static constexpr float WINDOW_WIDTH = 1920.0f;
     static constexpr float WINDOW_HEIGHT = 1080.0f;
-    static constexpr float LEVEL_WIDTH = 3400.0f;
-    static constexpr float LEVEL_HEIGHT = 768.0f;
+    static constexpr float LEVEL_WIDTH = 1920.0f;
+    static constexpr float LEVEL_HEIGHT = 1056.0f;
     static constexpr float TILE_SIZE = 32.0f;
     static constexpr float SPAWN_DISTANCE = 500.0f;
     static constexpr int FPS = 60;
@@ -100,9 +100,11 @@ private:
     Vector2 mCameraPos;
 
 
-    Samurai* mSamurai;
+    Ninja* mNinja;
 
     int** mLevelData;
+    int mLevelDataWidth;
+    int mLevelDataHeight;
     class Texture* mBackgroundTexture;
     float mBackgroundScrollSpeed;
 

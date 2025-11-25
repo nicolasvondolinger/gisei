@@ -1,54 +1,66 @@
-#include "Samurai.h"
+#include "Ninja.h"
+#include "Dart.h"
 #include "../Game.h"
 #include "../Components/Drawing/AnimatorComponent.h"
 #include "../Components/Drawing/DashAfterimageComponent.h"
 #include "../Components/Physics/RigidBodyComponent.h"
 #include "../Components/Physics/AABBColliderComponent.h"
 
-Samurai::Samurai(Game *game, const float accelerationForce, const float jumpSpeed)
+Ninja::Ninja(Game *game, const float accelerationForce, const float jumpSpeed)
     : Actor(game)
       , mIsRunning(false)
       , mIsDead(false)
       , mIsAttacking(false)
       , mIsDashing(false)
       , mIsDefending(false)
+      , mIsShooting(false)
       , mAttackTimer(0.0f)
       , mDashTimer(0.0f)
+      , mShootTimer(0.0f)
+      , mDartSpawned(false)
       , mDashSpeed(1200.0f)
       , mDashDirection(Vector2::Zero)
       , mIsInvincible(false)
       , mInvincibleTimer(0.0f)
+      , mDashCooldown(0.0f)
+      , mShootCooldown(0.0f)
       , mAccelerationForce(accelerationForce)
       , mMaxSpeed(400.0f)
       , mJumpSpeed(jumpSpeed)
 {
     mDrawComponent = new AnimatorComponent(this, 128, 128);
 
-    mDrawComponent->AddAnimation("idle", "../Assets/Sprites/Samurai/Idle.png", 6, 10.0f, true);
-    mDrawComponent->AddAnimation("run", "../Assets/Sprites/Samurai/Run.png", 8, 10.0f, true);
-    mDrawComponent->AddAnimation("jump", "../Assets/Sprites/Samurai/Jump.png", 9, 10.0f, false);
-    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Samurai/Dead.png", 6, 10.0f, false);
-    mDrawComponent->AddAnimation("attack", "../Assets/Sprites/Samurai/Attack_2.png", 5, 12.0f, false);
-    mDrawComponent->AddAnimation("defend", "../Assets/Sprites/Samurai/Protection.png", 3, 8.0f, true);
+    mDrawComponent->AddAnimation("idle", "../Assets/Sprites/Ninja/Idle.png", 6, 10.0f, true);
+    mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Ninja/Walk.png", 8, 10.0f, true);
+    mDrawComponent->AddAnimation("run", "../Assets/Sprites/Ninja/Run.png", 6, 10.0f, true);
+    mDrawComponent->AddAnimation("jump", "../Assets/Sprites/Ninja/Jump.png", 8, 10.0f, false);
+    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Ninja/Dead.png", 4, 10.0f, false);
+    mDrawComponent->AddAnimation("attack1", "../Assets/Sprites/Ninja/Attack_1.png", 6, 12.0f, false);
+    mDrawComponent->AddAnimation("attack2", "../Assets/Sprites/Ninja/Attack_2.png", 4, 12.0f, false);
+    mDrawComponent->AddAnimation("hurt", "../Assets/Sprites/Ninja/Hurt.png", 2, 10.0f, false);
+    mDrawComponent->AddAnimation("shot", "../Assets/Sprites/Ninja/Shot.png", 6, 12.0f, false);
+    mDrawComponent->AddAnimation("disguise", "../Assets/Sprites/Ninja/Disguise.png", 9, 10.0f, false);
 
     mDrawComponent->SetAnimation("idle");
 
     mRigidBodyComponent = new RigidBodyComponent(this, 1.0f, 6.0f, true);
+    
+
 
     mColliderComponent = new AABBColliderComponent (
         this,
         0,
-        0,
-        128.0f,
-        128.0f,
+        10,
+        40.0f,
+        70.0f,
         ColliderLayer::Player
     );
     
     new DashAfterimageComponent(this, 95);
 }
 
-void Samurai::OnProcessInput(const uint8_t* state) {
-    if (mIsDead || mIsAttacking || mIsDashing) return;
+void Ninja::OnProcessInput(const uint8_t* state) {
+    if (mIsDead || mIsAttacking || mIsDashing || mIsShooting) return;
 
     mIsDefending = state[SDL_SCANCODE_S] && mIsOnGround;
     if (mIsDefending) {
@@ -78,24 +90,33 @@ void Samurai::OnProcessInput(const uint8_t* state) {
 
     if(state[SDL_SCANCODE_J] && mIsOnGround && !mIsAttacking) {
         mIsAttacking = true;
-        mAttackTimer = 0.42f;
+        mAttackTimer = 0.33f;
         mRigidBodyComponent->SetVelocity(Vector2::Zero);
     }
 
-    if(state[SDL_SCANCODE_K] && mIsOnGround && !mIsDashing) {
+    if(state[SDL_SCANCODE_K] && !mIsDashing && mDashCooldown <= 0.0f) {
         mIsDashing = true;
-        mDashTimer = 0.15f;
+        mDashTimer = 0.3f;
+        mDashCooldown = mDashCooldownTime;
         
         float dashDistance = 200.0f;
         Vector2 startPos = mPosition;
-        Vector2 newPos = mPosition + Vector2(mScale.x * dashDistance, 0.0f);
+        Vector2 endPos = mPosition + Vector2(mScale.x * dashDistance, 0.0f);
         
-        CreateDashParticles(startPos, newPos);
+        CreateDashParticles(startPos, endPos);
         
-        mPosition = newPos;
+        mPosition = endPos;
         mRigidBodyComponent->SetVelocity(Vector2::Zero);
         mIsInvincible = true;
         mInvincibleTimer = 0.3f;
+    }
+
+    if(state[SDL_SCANCODE_L] && !mIsShooting && mShootCooldown <= 0.0f) {
+        mIsShooting = true;
+        mShootTimer = 0.5f;
+        mShootCooldown = mShootCooldownTime;
+        mDartSpawned = false;
+        mRigidBodyComponent->SetVelocity(Vector2::Zero);
     }
 
     if (!mIsDashing) {
@@ -103,7 +124,7 @@ void Samurai::OnProcessInput(const uint8_t* state) {
     }
 }
 
-void Samurai::OnUpdate(float deltaTime) {
+void Ninja::OnUpdate(float deltaTime) {
     if(mIsDead) return;
 
     if (mIsAttacking) {
@@ -114,11 +135,31 @@ void Samurai::OnUpdate(float deltaTime) {
         mRigidBodyComponent->SetVelocity(Vector2::Zero);
     }
 
+
+
     if (mIsDashing) {
         mDashTimer -= deltaTime;
         if (mDashTimer <= 0.0f) {
             mIsDashing = false;
         }
+    }
+
+    if (mIsShooting) {
+        mShootTimer -= deltaTime;
+        
+        int currentFrame = mDrawComponent->GetCurrentFrame();
+        if (!mDartSpawned && currentFrame == 3) {
+            mDartSpawned = true;
+            Vector2 direction(mScale.x, 0.0f);
+            Vector2 spawnOffset(mScale.x * 40.0f, 30.0f);
+            Dart* dart = new Dart(mGame, direction);
+            dart->SetPosition(mPosition + spawnOffset);
+        }
+        
+        if (mShootTimer <= 0.0f) {
+            mIsShooting = false;
+        }
+        mRigidBodyComponent->SetVelocity(Vector2::Zero);
     }
     
     for(auto it = mDashParticles.begin(); it != mDashParticles.end();) {
@@ -130,6 +171,16 @@ void Samurai::OnUpdate(float deltaTime) {
             ++it;
         }
     }
+    
+    if (mDashCooldown > 0.0f) {
+        mDashCooldown -= deltaTime;
+    }
+    
+    if (mShootCooldown > 0.0f) {
+        mShootCooldown -= deltaTime;
+    }
+    
+
 
     float levelEndX = (Game::LEVEL_WIDTH * Game::TILE_SIZE) - (Game::TILE_SIZE / 2.0f);
     if (mPosition.x >= levelEndX + Game::TILE_SIZE) {
@@ -159,7 +210,7 @@ void Samurai::OnUpdate(float deltaTime) {
 
     if (mIsInvincible && !mIsDashing) {
         mInvincibleTimer -= deltaTime;
-        bool flicker = fmodf(mInvincibleTimer * 10.0f, 1.0f) < 0.5f;
+        bool flicker = fmodf(mInvincibleTimer * 4.0f, 1.0f) < 0.5f;
         mDrawComponent->SetVisible(flicker);
 
         if (mInvincibleTimer <= 0.0f) {
@@ -180,14 +231,21 @@ void Samurai::OnUpdate(float deltaTime) {
     ManageAnimations();
 }
 
-void Samurai::ManageAnimations() {
+void Ninja::ManageAnimations() {
     if(mIsDead) return;
 
-    if(mIsAttacking) {
-        mDrawComponent->SetAnimation("attack");
+    if(mIsShooting) {
+        mDrawComponent->SetAnimation("shot");
+    }
+
+    else if(mIsDashing) {
+        mDrawComponent->SetAnimation("run");
+    }
+    else if(mIsAttacking) {
+        mDrawComponent->SetAnimation("attack2");
     }
     else if(mIsDefending) {
-        mDrawComponent->SetAnimation("defend");
+        mDrawComponent->SetAnimation("disguise");
     }
     else if(!mIsOnGround) {
         mDrawComponent->SetAnimation("jump");
@@ -200,30 +258,9 @@ void Samurai::ManageAnimations() {
     }
 }
 
-void Samurai::CreateDashParticles(const Vector2& startPos, const Vector2& endPos) {
-    int numParticles = 20;
-    for(int i = 0; i < numParticles; i++) {
-        DashParticle particle;
-        float t = static_cast<float>(i) / numParticles;
-        particle.position = startPos + (endPos - startPos) * t;
-        
-        float angle = (rand() % 360) * Math::Pi / 180.0f;
-        float speed = 50.0f + (rand() % 100);
-        particle.velocity = Vector2(Math::Cos(angle) * speed, Math::Sin(angle) * speed);
-        
-        particle.maxLifetime = 0.3f + (rand() % 100) / 500.0f;
-        particle.lifetime = particle.maxLifetime;
-        particle.size = 3.0f + (rand() % 5);
-        
-        mDashParticles.push_back(particle);
-    }
-}
 
-const std::vector<DashParticle>& Samurai::GetDashParticles() const {
-    return mDashParticles;
-}
 
-void Samurai::Kill() {
+void Ninja::Kill() {
     if(mIsDead) return;
 
     if(!mIsInvincible){
@@ -240,7 +277,7 @@ void Samurai::Kill() {
     }
 }
 
-void Samurai::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) {
+void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
 
     if(other->GetLayer() == ColliderLayer::Enemy) {
@@ -252,7 +289,7 @@ void Samurai::OnHorizontalCollision(const float minOverlap, AABBColliderComponen
     }
 }
 
-void Samurai::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other) {
+void Ninja::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
 
     if(other->GetLayer() == ColliderLayer::Enemy){
@@ -277,7 +314,26 @@ void Samurai::OnVerticalCollision(const float minOverlap, AABBColliderComponent*
     }
 }
 
-void Samurai::StageClear() {
+void Ninja::CreateDashParticles(const Vector2& startPos, const Vector2& endPos) {
+    int numParticles = 20;
+    for(int i = 0; i < numParticles; i++) {
+        DashParticle particle;
+        float t = static_cast<float>(i) / numParticles;
+        particle.position = startPos + (endPos - startPos) * t;
+        
+        float angle = (rand() % 360) * Math::Pi / 180.0f;
+        float speed = 50.0f + (rand() % 100);
+        particle.velocity = Vector2(Math::Cos(angle) * speed, Math::Sin(angle) * speed);
+        
+        particle.maxLifetime = 0.3f + (rand() % 100) / 500.0f;
+        particle.lifetime = particle.maxLifetime;
+        particle.size = 3.0f + (rand() % 5);
+        
+        mDashParticles.push_back(particle);
+    }
+}
+
+void Ninja::StageClear() {
     mIsDead = true;
     mRigidBodyComponent->SetEnabled(false);
     mColliderComponent->SetEnabled(false);

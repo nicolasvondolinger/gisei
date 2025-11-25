@@ -1,28 +1,27 @@
 #pragma once
-
 #include "Actor.h"
+#include <SDL.h> // Necessário para SDL_Rect
 
 enum class EBlockType
 {
-    Ground,
-    Brick,
-    EspecialBrick,
-    Question,
-    Pipe
+    Normal, // Chão solido comum
+    Hazard  // Espinhos, lava, etc (Dá dano)
 };
 
 class Block : public Actor
 {
 public:
-    explicit Block(Game* game, const std::string &texturePath, EBlockType type);
+    // Agora aceita Texture* direto e o recorte (srcRect)
+    Block(class Game* game, class Texture* texture, SDL_Rect srcRect, EBlockType type);
 
     void OnUpdate(float deltaTime) override;
-    void OnVerticalCollision(float minOverlap, class AABBColliderComponent* other) override;
+
+    // Tratamento de colisão simplificado
+    void OnCollision(class Actor* other);
+
+    EBlockType GetType() const { return mType; }
+
 private:
-    EBlockType mBlockType;
-    bool mIsBumping;
-    float mBumpOffset;
-    float mBumpSpeed;
-    Vector2 mOriginalPosition;
-    bool mHasSpawnedItem;
+    EBlockType mType;
+    class AnimatorComponent* mAnimator;
 };

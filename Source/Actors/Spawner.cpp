@@ -1,6 +1,6 @@
 #include "Spawner.h"
 #include "../Game.h"
-#include "Samurai.h"
+#include "Ninja.h"
 #include "Yokai.h"
 
 Spawner::Spawner(Game* game, float spawnDistance)

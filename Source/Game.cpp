@@ -2,12 +2,13 @@
 #include "Game.h"
 #include "Components/Drawing/DrawComponent.h"
 #include "Components/Drawing/ParallaxComponent.h"
+#include "Components/Drawing/DashSmokeComponent.h"
 #include "Components/Physics/RigidBodyComponent.h"
 #include "Random.h"
 #include "Actors/Actor.h"
 #include "Actors/Block.h"
 #include "Actors/Spawner.h"
-#include "Actors/Samurai.h"
+#include "Actors/Ninja.h"
 #include "Actors/ParallaxBackground.h"
 #include <algorithm>
 #include <vector>
@@ -26,8 +27,10 @@ Game::Game()
         ,mIsDebugging(false)
         ,mUpdatingActors(false)
         ,mCameraPos(Vector2::Zero)
-        , mSamurai(nullptr)
+        , mNinja(nullptr)
         , mLevelData(nullptr)
+        , mLevelDataWidth(0)
+        , mLevelDataHeight(0)
         ,mBackgroundTexture(nullptr)
         ,mBackgroundScrollSpeed(0.25f)
         ,mBackgroundMusic(nullptr)
@@ -97,11 +100,13 @@ void Game::UnloadScene()
     mUIStack.clear();
 
     if (mLevelData) {
-        for (int i = 0; i < LEVEL_HEIGHT; ++i) {
+        for (int i = 0; i < mLevelDataHeight; ++i) {
             delete[] mLevelData[i];
         }
         delete[] mLevelData;
         mLevelData = nullptr;
+        mLevelDataWidth = 0;
+        mLevelDataHeight = 0;
     }
 
     if (mBackgroundMusic) {
@@ -133,13 +138,21 @@ void Game::SetScene(GameScene nextScene)
 void Game::InitializeActors() {
     new ParallaxBackground(this);
     
-    mLevelData = LoadLevel("../Assets/Levels/level1-1.csv", LEVEL_WIDTH, LEVEL_HEIGHT);
+    const int LEVEL_TILES_WIDTH = 60;
+    const int LEVEL_TILES_HEIGHT = 34;
+    
+    mLevelData = LoadLevel("../Assets/Levels/level1.csv", LEVEL_TILES_WIDTH, LEVEL_TILES_HEIGHT);
     if(mLevelData == nullptr){
         SDL_Log("Falha ao carregar dados do nível.");
         Quit();
         return;
     }
-    BuildLevel(mLevelData, LEVEL_WIDTH, LEVEL_HEIGHT);
+    mLevelDataWidth = LEVEL_TILES_WIDTH;
+    mLevelDataHeight = LEVEL_TILES_HEIGHT;
+    BuildLevel(mLevelData, LEVEL_TILES_WIDTH, LEVEL_TILES_HEIGHT);
+    
+    mNinja = new Ninja(this);
+    mNinja->SetPosition(Vector2(100.0f, 500.0f));
 }
 
 int **Game::LoadLevel(const std::string& fileName, int width, int height) {
@@ -181,57 +194,50 @@ int **Game::LoadLevel(const std::string& fileName, int width, int height) {
 }
 
 void Game::BuildLevel(int** levelData, int width, int height) {
+
+    // 1. Defina os IDs que dão dano (Espinhos)
+    std::set<int> hazardIds = { 182, 183, 184, 185, 199, 200, 201, 202 };
+
+    // 2. Carregue o Tileset Completo (Atlas)
+    // Certifique-se que o caminho está correto
+    Texture* tilesetTexture = mRenderer->GetTexture("../Assets/Levels/Tileset.png");
+
+    // 3. Configurações da Imagem do Tileset
+    const int TILESET_COLUMNS = 17; // <--- MUDE ISSO para o numero real de colunas da sua imagem png
+    const int TILE_SIZE_PX = 32;    // Tamanho do tile na imagem
+
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
             int id = levelData[i][j];
-            if(id == 0) continue;
+
+            if(id == -1) continue; // Empty space
+
+            // Calcula a posição no mundo
             Vector2 pos;
             pos.y = (i * TILE_SIZE) + (TILE_SIZE / 2.0f);
             pos.x = (j * TILE_SIZE) + (TILE_SIZE / 2.0f);
-            Block* block = nullptr;
-            Spawner* spawner = nullptr;
-            switch (id) {
-                case 17:
 
-                    mSamurai = new Samurai(this);
-                    mSamurai->SetPosition(pos);
-                    break;
-                case 1:
-                    block = new Block(this, "../Assets/Sprites/Blocks/BlockA.png", EBlockType::Ground);
-                    break;
-                
-                case 2:
-                    block = new Block(this, "../Assets/Sprites/Blocks/BlockC.png", EBlockType::Question);
-                    break;
-                case 28:
-                    block = new Block(this, "../Assets/Sprites/Blocks/BlockC.png", EBlockType::EspecialBrick);
-                    break;
-                case 5:
-                    block = new Block(this, "../Assets/Sprites/Blocks/BlockB.png", EBlockType::Brick);
-                    break;
-                case 3:
-                    block = new Block(this, "../Assets/Sprites/Blocks/BlockF.png", EBlockType::Pipe);
-                    break;
-                case 13:
-                    block = new Block(this, "../Assets/Sprites/Blocks/BlockG.png", EBlockType::Pipe);
-                    break;
-                case 10:
-                    block = new Block(this, "../Assets/Sprites/Blocks/BlockH.png", EBlockType::Pipe);
-                    break;
-                case 7:
-                    block = new Block(this, "../Assets/Sprites/Blocks/BlockI.png", EBlockType::Pipe);
-                    break;
-                case 9:
-                    block = new Block(this, "../Assets/Sprites/Blocks/BlockD.png", EBlockType::Ground);
-                    break;
-                case 11:
-                    spawner = new Spawner(this, SPAWN_DISTANCE);
-                    break;
-                default:
-                    break;
+            // --- Lógica do Bloco com Atlas ---
+
+            // Use ID directly as index
+            int index = id;
+
+            // Calcula o recorte (srcRect)
+            SDL_Rect srcRect;
+            srcRect.w = TILE_SIZE_PX;
+            srcRect.h = TILE_SIZE_PX;
+            srcRect.x = (index % TILESET_COLUMNS) * TILE_SIZE_PX;
+            srcRect.y = (index / TILESET_COLUMNS) * TILE_SIZE_PX;
+
+            // Define o tipo baseado na lista de perigos
+            EBlockType type = EBlockType::Normal;
+            if (hazardIds.count(id)) {
+                type = EBlockType::Hazard;
             }
-            if(block != nullptr) block->SetPosition(pos);
-            if(spawner != nullptr) spawner->SetPosition(pos);
+
+            // Cria o bloco
+            Block* block = new Block(this, tilesetTexture, srcRect, type);
+            block->SetPosition(pos);
         }
     }
 }
@@ -353,10 +359,10 @@ void Game::UpdateActors(float deltaTime)
 }
 
 void Game::UpdateCamera() {
-    if(mSamurai == nullptr) return;
+    if(mNinja == nullptr) return;
 
 
-    float targetX = mSamurai->GetPosition().x - (WINDOW_WIDTH/2.0f);
+    float targetX = mNinja->GetPosition().x - (WINDOW_WIDTH/2.0f);
     float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - WINDOW_WIDTH;
     float newX = std::max(mCameraPos.x, targetX);
     newX = std::max(0.0f, newX);
@@ -471,6 +477,16 @@ void Game::GenerateOutput()
               }
         }
     }
+    
+    for (auto actor : mActors)
+    {
+        auto smoke = actor->GetComponent<DashSmokeComponent>();
+        if (smoke && smoke->IsEnabled()) {
+            smoke->Draw(mRenderer);
+        }
+    }
+    
+
 
     mRenderer->Draw();
 
@@ -490,8 +506,8 @@ void Game::Shutdown()
         delete mActors.back();
     }
 
-    if (mLevelData) {
-        for (int i = 0; i < LEVEL_HEIGHT; ++i) {
+    if (mLevelData && mLevelDataHeight > 0) {
+        for (int i = 0; i < mLevelDataHeight; ++i) {
             delete[] mLevelData[i];
         }
         delete[] mLevelData;

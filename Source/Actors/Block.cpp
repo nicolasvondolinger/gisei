@@ -1,73 +1,69 @@
 #include "Block.h"
 #include "../Game.h"
-#include "../Components/Drawing/AnimatorComponent.h"
+#include "../Components/Drawing/DrawComponent.h"
 #include "../Components/Physics/AABBColliderComponent.h"
-#include "../Components/Physics/RigidBodyComponent.h"
+#include "../Renderer/Texture.h"
 
-const float BUMP_GRAVITY = 3000.0f;
-const float BUMP_START_SPEED = -350.0f;
+class BlockDrawComponent : public DrawComponent {
+public:
+    BlockDrawComponent(Actor* owner, Texture* tex, SDL_Rect src, int w, int h)
+        : DrawComponent(owner, 100), mTexture(tex), mSrcRect(src), mWidth(w), mHeight(h) {}
+    
+    void Draw(Renderer* renderer) override {
+        if (!mIsVisible || !mTexture) return;
+        
+        Vector2 pos = mOwner->GetPosition();
+        Vector2 size(static_cast<float>(mWidth), static_cast<float>(mHeight));
+        
+        float u = static_cast<float>(mSrcRect.x) / mTexture->GetWidth();
+        float v = static_cast<float>(mSrcRect.y) / mTexture->GetHeight();
+        float uw = static_cast<float>(mSrcRect.w) / mTexture->GetWidth();
+        float vh = static_cast<float>(mSrcRect.h) / mTexture->GetHeight();
+        
+        Vector4 texRect(u, v, uw, vh);
+        
+        renderer->DrawTexture(
+            pos, size, 0.0f, mColor, mTexture, texRect,
+            mOwner->GetGame()->GetCameraPos(), false, 1.0f
+        );
+    }
+    
+private:
+    Texture* mTexture;
+    SDL_Rect mSrcRect;
+    int mWidth, mHeight;
+};
 
-Block::Block(Game* game, const string &texturePath, EBlockType type)
-        :Actor(game), 
-        mBlockType(type),
-        mIsBumping(false),
-        mBumpOffset(0.0f),
-        mBumpSpeed(0.0f),
-        mOriginalPosition(Vector2::Zero),
-        mHasSpawnedItem(false)
+Block::Block(Game* game, Texture* texture, SDL_Rect srcRect, EBlockType type)
+    :Actor(game), mType(type)
 {
-        AnimatorComponent* ac = new AnimatorComponent(
-                this,
-                Game::TILE_SIZE,
-                Game::TILE_SIZE
-        );
-
-
-        ac->AddAnimation("idle", texturePath, 1);
-        ac->SetAnimation("idle");
-
-        new AABBColliderComponent(
-                this,
-                0,
-                0,
-                32,
-                32,
-                ColliderLayer::Blocks,
-                true
-        );
+    new BlockDrawComponent(this, texture, srcRect, srcRect.w, srcRect.h);
+    
+    new AABBColliderComponent(
+        this, 0, 0, 32, 32,
+        ColliderLayer::Blocks, true
+    );
 }
 
 void Block::OnUpdate(float deltaTime)
 {
-
-        if (mOriginalPosition.x == 0 && mOriginalPosition.y == 0)
-                mOriginalPosition = mPosition;
-
-        if (!mIsBumping) return;
-
-        mBumpOffset += mBumpSpeed * deltaTime;
-        mBumpSpeed += BUMP_GRAVITY * deltaTime;
-
-        if (mBumpOffset >= 0.0f) {
-                mIsBumping = false;
-                mBumpOffset = 0.0f;
-                SetPosition(mOriginalPosition);
-        } else  SetPosition(mOriginalPosition + Vector2(0.0f, mBumpOffset));
-
+        // Não precisamos de update lógico se o bloco é estático
 }
 
-void Block::OnVerticalCollision(float minOverlap, AABBColliderComponent* other) {
-        if (mIsBumping || other->GetLayer() != ColliderLayer::Player) return;
-
-
-        bool playerIsBelow = other->GetOwner()->GetPosition().y > mPosition.y;
-        if (playerIsBelow) {
-                mIsBumping = true;
-                mBumpSpeed = BUMP_START_SPEED;
-
-                if(mBlockType != EBlockType::EspecialBrick){
-                        mGame->PlaySound(mGame->GetBumpSound());
-                } else if(mBlockType == EBlockType::EspecialBrick && !mHasSpawnedItem){
+void Block::OnCollision(Actor* other)
+{
+        // Se for um bloco de perigo (Espinho) e colidir com o Player
+        if (mType == EBlockType::Hazard)
+        {
+                // Verifique se o outro ator é o Ninja/Player
+                // Aqui estou assumindo que você tem como checar o tipo ou tag
+                // Exemplo genérico:
+                /*
+                Ninja* ninja = dynamic_cast<Ninja*>(other);
+                if (ninja) {
+                    ninja->TakeDamage(); // Sua função de dano
                 }
+                */
+                SDL_Log("Colisao com Espinho! Dano deve ser aplicado.");
         }
 }

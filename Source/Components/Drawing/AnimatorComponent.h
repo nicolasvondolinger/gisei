@@ -39,6 +39,7 @@ public:
     void SetAnimFPS(float fps);
     
     int GetCurrentFrame() const;
+    const std::string& GetCurrentAnimation() const { return mCurrentAnimName; }
 
 private:
     

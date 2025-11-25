@@ -46,8 +46,6 @@ add_executable(${PROJECT_NAME}
         Source/Actors/Block.h
         Source/Actors/Spawner.cpp
         Source/Actors/Spawner.h
-        Source/Actors/Samurai.cpp
-        Source/Actors/Samurai.h
         Source/Components/Drawing/AnimatorComponent.cpp
         Source/Components/Drawing/AnimatorComponent.h
         Source/Components/Drawing/RectComponent.cpp
@@ -76,6 +74,9 @@ add_executable(${PROJECT_NAME}
         Source/Actors/ParallaxBackground.cpp
         Source/Components/Drawing/ParallaxComponent.cpp
         Source/Components/Drawing/DashAfterimageComponent.cpp
+        Source/Actors/Ninja.cpp
+        Source/Actors/Dart.cpp
+        Source/Components/Drawing/DashSmokeComponent.cpp
 )
 
 
