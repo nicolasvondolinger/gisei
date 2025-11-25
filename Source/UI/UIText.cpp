@@ -1,7 +1,3 @@
-//
-// Created by Lucas N. Ferreira on 22/05/25.
-//
-
 #include "UIText.h"
 #include "../Renderer/Font.h"
 #include "../Renderer/Texture.h"
@@ -34,8 +30,8 @@ void UIText::SetText(const std::string &text)
     }
 
     mText = text;
-    // MUDANÇA 1: Renderizamos a textura sempre BRANCA Pura (1,1,1)
-    // Isso permite que o Shader tinja ela de qualquer cor depois.
+
+
     mTexture = mFont->RenderText(mText, Vector3(1.0f, 1.0f, 1.0f), mPointSize, mWrapLength);
 }
 
@@ -49,7 +45,7 @@ void UIText::Draw(class Shader* shader)
     if (!mTexture || !mIsVisible)
         return;
 
-    // --- 1. Desenhar o Fundo ---
+
     Matrix4 scaleMat = Matrix4::CreateScale(
         (static_cast<float>(mTexture->GetWidth()) + mMargin.x) * mScale,
         (static_cast<float>(mTexture->GetHeight()) + mMargin.y) * mScale,
@@ -65,7 +61,7 @@ void UIText::Draw(class Shader* shader)
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 
-    // --- 2. Desenhar o Texto ---
+    
     scaleMat = Matrix4::CreateScale(
         static_cast<float>(mTexture->GetWidth()) * mScale,
         static_cast<float>(mTexture->GetHeight()) * mScale,
@@ -77,9 +73,7 @@ void UIText::Draw(class Shader* shader)
     shader->SetFloatUniform("uTextureFactor", 1.0f);
     shader->SetVectorUniform("uBaseColor", Vector4(mTextColor, 1.0f));
 
-    // *** CORREÇÃO IMPORTANTE AQUI ***
-    // Dizemos ao shader para usar a textura inteira (0,0 até 1,1)
-    // Sem isso, o cálculo de coordenada de textura falha.
+
     shader->SetVectorUniform("uTexRect", Vector4(0.0f, 0.0f, 1.0f, 1.0f));
 
     mTexture->SetActive();

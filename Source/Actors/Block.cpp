@@ -1,7 +1,3 @@
-//
-// Created by Lucas N. Ferreira on 03/08/23.
-//
-
 #include "Block.h"
 #include "../Game.h"
 #include "../Components/Drawing/AnimatorComponent.h"
@@ -20,16 +16,13 @@ Block::Block(Game* game, const string &texturePath, EBlockType type)
         mOriginalPosition(Vector2::Zero),
         mHasSpawnedItem(false)
 {
-        // 1. Cria o componente com o NOVO construtor (Owner, Width, Height)
         AnimatorComponent* ac = new AnimatorComponent(
                 this,
                 Game::TILE_SIZE,
                 Game::TILE_SIZE
         );
 
-        // 2. Adiciona a textura como uma animação "idle"
-        // Assumimos que blocos padrão tem 1 frame.
-        // Se o bloco de interrogação (Question) for animado, você pode fazer um if(type == Question) numFrames = 4;
+
         ac->AddAnimation("idle", texturePath, 1);
         ac->SetAnimation("idle");
 
@@ -75,15 +68,6 @@ void Block::OnVerticalCollision(float minOverlap, AABBColliderComponent* other) 
                 if(mBlockType != EBlockType::EspecialBrick){
                         mGame->PlaySound(mGame->GetBumpSound());
                 } else if(mBlockType == EBlockType::EspecialBrick && !mHasSpawnedItem){
-                        // Lógica de spawnar itens (comentada no seu original)
-                        /*
-                        mHasSpawnedItem = true;
-                        // Mushroom* mushroom = new Mushroom(mGame, 100.0f);
-                        // mGame->PlaySound(mGame->GetMushroomSound());
-                        // Vector2 temp = mOriginalPosition;
-                        // temp.y -= Game::TILE_SIZE;
-                        // mushroom->SetPosition(temp);
-                        */
                 }
         }
 }

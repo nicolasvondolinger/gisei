@@ -1,6 +1,6 @@
-//
-// Created by Lucas N. Ferreira on 06/11/25.
-//
+
+
+
 
 #include "GameOver.h"
 #include "../../Game.h"

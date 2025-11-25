@@ -6,10 +6,10 @@
 #include <unordered_map>
 #include "Math.h"
 
-// Forward declarations
+
 class Actor;
 class Renderer;
-class Samurai; // ALTERADO DE MARIO PARA SAMURAI
+class Samurai;
 class DrawComponent;
 class AABBColliderComponent;
 class UIScreen;
@@ -46,7 +46,7 @@ public:
     const std::vector<class AABBColliderComponent*>& GetColliders() const { return mColliders; }
     Vector2 GetCameraPos() const { return mCameraPos; }
 
-    // ALTERADO: Getter do Player agora retorna Samurai
+
     Samurai* GetPlayer() const { return mSamurai; }
 
     int PlaySound(Mix_Chunk* sound);
@@ -98,7 +98,7 @@ private:
 
     Vector2 mCameraPos;
 
-    // ALTERADO: Variável membro para o Samurai
+
     Samurai* mSamurai;
 
     int** mLevelData;

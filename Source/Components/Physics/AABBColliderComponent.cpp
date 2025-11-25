@@ -1,6 +1,6 @@
-//
-// Created by Lucas N. Ferreira on 28/09/23.
-//
+
+
+
 
 #include "AABBColliderComponent.h"
 #include "../../Actors/Actor.h"

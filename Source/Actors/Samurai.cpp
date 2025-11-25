@@ -4,29 +4,33 @@
 #include "../Components/Physics/RigidBodyComponent.h"
 #include "../Components/Physics/AABBColliderComponent.h"
 
-Samurai::Samurai(Game* game, const float forwardSpeed, const float jumpSpeed)
-        : Actor(game)
-        , mIsRunning(false)
-        , mIsDead(false)
-        , mIsInvincible(false)
-        , mInvincibleTimer(0.0f)
-        , mForwardSpeed(forwardSpeed)
-        , mJumpSpeed(jumpSpeed)
+Samurai::Samurai(Game *game, const float accelerationForce, const float jumpSpeed)
+    : Actor(game)
+      , mIsRunning(false)
+      , mIsDead(false)
+      , mIsInvincible(false)
+      , mInvincibleTimer(0.0f)
+      , mAccelerationForce(accelerationForce)
+      , mMaxSpeed(400.0f)
+      , mJumpSpeed(jumpSpeed)
 {
     mDrawComponent = new AnimatorComponent(this, 128, 128);
-    mDrawComponent->AddAnimation("idle",  "../Assets/Sprites/Samurai/Idle.png", 6);
-    mDrawComponent->AddAnimation("run",  "../Assets/Sprites/Samurai/Run.png", 8);
-    mDrawComponent->AddAnimation("jump", "../Assets/Sprites/Samurai/Jump.png", 9); // Ajuste se o pulo for rápido demais
-    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Samurai/Dead.png", 6);
-    mDrawComponent->AddAnimation("attack1", "../Assets/Sprites/Samurai/Attack_1.png", 4);
+
+    mDrawComponent->AddAnimation("idle", "../Assets/Sprites/Samurai/Idle.png", 6, 10.0f, true);
+    mDrawComponent->AddAnimation("run", "../Assets/Sprites/Samurai/Run.png", 8, 10.0f, true);
+    mDrawComponent->AddAnimation("jump", "../Assets/Sprites/Samurai/Jump.png", 9, 10.0f, false);
+    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Samurai/Dead.png", 6, 10.0f, false);
+    mDrawComponent->AddAnimation("attack1", "../Assets/Sprites/Samurai/Attack_1.png", 4, 10.0f, false);
+
     mDrawComponent->SetAnimation("idle");
-    mDrawComponent->SetAnimFPS(6.0f);
-    mRigidBodyComponent = new RigidBodyComponent(this, 1.0, 1.0f, true); // Friction 4.0 para parar de escorregar rápido
+
+    mRigidBodyComponent = new RigidBodyComponent(this, 1.0f, 6.0f, true);
+
     mColliderComponent = new AABBColliderComponent (
         this,
         0,
         0,
-        65.0f,
+        128.0f,
         128.0f,
         ColliderLayer::Player
     );
@@ -39,14 +43,12 @@ void Samurai::OnProcessInput(const uint8_t* state) {
     mIsRunning = false;
 
     if(state[SDL_SCANCODE_D]){
-        force.x = mForwardSpeed;
-        mScale.x = 1.0f;
+        force.x += mAccelerationForce;
         mIsRunning = true;
     }
 
     if(state[SDL_SCANCODE_A]){
-        force.x = -mForwardSpeed;
-        mScale.x = -1.0f;
+        force.x -= mAccelerationForce;
         mIsRunning = true;
     }
 
@@ -57,7 +59,6 @@ void Samurai::OnProcessInput(const uint8_t* state) {
         vel.y = mJumpSpeed;
         mRigidBodyComponent->SetVelocity(vel);
     }
-
     mRigidBodyComponent->ApplyForce(force);
 }
 
@@ -70,12 +71,24 @@ void Samurai::OnUpdate(float deltaTime) {
         return;
     }
 
-    if(mRigidBodyComponent->GetVelocity().y != 0.0f){
+    if (mPosition.y > Game::WINDOW_HEIGHT + 100.0f){
+        Kill();
+        return;
+    }
+
+    Vector2 velocity = mRigidBodyComponent->GetVelocity();
+
+    if (velocity.x > mMaxSpeed) velocity.x = mMaxSpeed;
+    if (velocity.x < -mMaxSpeed) velocity.x = -mMaxSpeed;
+
+    mRigidBodyComponent->SetVelocity(velocity);
+
+    if (std::abs(velocity.y) > 20.0f) {
         mIsOnGround = false;
     }
 
-    if (mPosition.y > Game::WINDOW_HEIGHT + 100.0f){
-        Kill();
+    if (std::abs(velocity.x) > 1.0f) {
+        mScale.x = (velocity.x > 0.0f) ? 1.0f : -1.0f;
     }
 
     if (mIsInvincible) {
@@ -90,11 +103,9 @@ void Samurai::OnUpdate(float deltaTime) {
     }
 
     const float cameraX = GetGame()->GetCameraPos().x;
+    if (mPosition.x < cameraX + 25.0f) {
+        mPosition.x = cameraX + 25.0f;
 
-    if (mPosition.x < cameraX + 20.0f) {
-        mPosition.x = cameraX + 20.0f;
-
-        // Zera velocidade X se bater na "parede" da câmera
         Vector2 v = mRigidBodyComponent->GetVelocity();
         v.x = 0.0f;
         mRigidBodyComponent->SetVelocity(v);
@@ -109,7 +120,7 @@ void Samurai::ManageAnimations() {
     if(!mIsOnGround) {
         mDrawComponent->SetAnimation("jump");
     }
-    else if(mIsRunning){
+    else if(mIsRunning && std::abs(mRigidBodyComponent->GetVelocity().x) > 10.0f) {
         mDrawComponent->SetAnimation("run");
     }
     else {
@@ -136,6 +147,7 @@ void Samurai::Kill() {
 
 void Samurai::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
+
     if(other->GetLayer() == ColliderLayer::Enemy && !mIsInvincible) {
         Kill();
     }
@@ -146,14 +158,14 @@ void Samurai::OnVerticalCollision(const float minOverlap, AABBColliderComponent*
 
     if(other->GetLayer() == ColliderLayer::Enemy){
         float velocityY = mRigidBodyComponent->GetVelocity().y;
-
         if(velocityY > 0.0f){
             other->GetOwner()->Kill();
 
             Vector2 vel = mRigidBodyComponent->GetVelocity();
-            vel.y = -400.0f;
+            vel.y = -350.0f;
             mRigidBodyComponent->SetVelocity(vel);
         } else {
+
             Kill();
         }
     }

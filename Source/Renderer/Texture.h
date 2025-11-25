@@ -4,25 +4,26 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-class Texture
-{
+class Texture {
 public:
-	Texture();
-	~Texture();
+    Texture();
 
-	// CORREÇÃO AQUI: Adicionado 'bool repeat = false'
-	bool Load(const std::string &filePath, bool repeat = false);
+    ~Texture();
 
-	bool CreateFromSurface(SDL_Surface* surface);
 
-	void Unload();
-	void SetActive(int index = 0) const;
+    bool Load(const std::string &filePath, bool repeat = false);
 
-	int GetWidth() const { return mWidth; }
-	int GetHeight() const { return mHeight; }
+    bool CreateFromSurface(SDL_Surface *surface);
+
+    void Unload();
+
+    void SetActive(int index = 0) const;
+
+    int GetWidth() const { return mWidth; }
+    int GetHeight() const { return mHeight; }
 
 private:
-	GLuint mTextureID;
-	int mWidth;
-	int mHeight;
+    GLuint mTextureID;
+    int mWidth;
+    int mHeight;
 };

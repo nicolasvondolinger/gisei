@@ -5,8 +5,7 @@
 
 SoundHandle SoundHandle::Invalid;
 
-// Create the AudioSystem with specified number of channels
-// (Defaults to 8 channels)
+
 AudioSystem::AudioSystem(int numChannels)
 {
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
@@ -14,7 +13,7 @@ AudioSystem::AudioSystem(int numChannels)
     mChannels.resize(numChannels);
 }
 
-// Destroy the AudioSystem
+
 AudioSystem::~AudioSystem()
 {
     for (auto& sound : mSounds)
@@ -26,7 +25,7 @@ AudioSystem::~AudioSystem()
     Mix_CloseAudio();
 }
 
-// Updates the status of all the active sounds every frame
+
 void AudioSystem::Update(float deltaTime)
 {
     for(int i = 0; i < mChannels.size(); i++)
@@ -41,15 +40,9 @@ void AudioSystem::Update(float deltaTime)
     }
 }
 
-// Plays the sound with the specified name and loops if looping is true
-// Returns the SoundHandle which is used to perform any other actions on the
-// sound when active
-// NOTE: The soundName is without the "Assets/Sounds/" part of the file
-//       For example, pass in "ChompLoop.wav" rather than
-//       "Assets/Sounds/ChompLoop.wav".
+
 SoundHandle AudioSystem::PlaySound(const std::string& soundName, bool looping)
 {
-    // Get the sound with the given name
     Mix_Chunk *sound = GetSound(soundName);
 
     if (sound == nullptr) {
@@ -60,7 +53,7 @@ SoundHandle AudioSystem::PlaySound(const std::string& soundName, bool looping)
     return mLastHandle;
 }
 
-// Stops the sound if it is currently playing
+
 void AudioSystem::StopSound(SoundHandle sound)
 {
     if(mHandleMap.find(sound) == mHandleMap.end())
@@ -74,7 +67,7 @@ void AudioSystem::StopSound(SoundHandle sound)
     mChannels[mHandleMap[sound].mChannel].Reset();
 }
 
-// Pauses the sound if it is currently playing
+
 void AudioSystem::PauseSound(SoundHandle sound)
 {
     if(mHandleMap.find(sound) == mHandleMap.end())
@@ -90,7 +83,7 @@ void AudioSystem::PauseSound(SoundHandle sound)
     }
 }
 
-// Resumes the sound if it is currently paused
+
 void AudioSystem::ResumeSound(SoundHandle sound)
 {
     if(mHandleMap.find(sound) == mHandleMap.end())
@@ -106,7 +99,7 @@ void AudioSystem::ResumeSound(SoundHandle sound)
     }
 }
 
-// Returns the current state of the sound
+
 SoundState AudioSystem::GetSoundState(SoundHandle sound)
 {
     if(mHandleMap.find(sound) == mHandleMap.end())
@@ -122,7 +115,7 @@ SoundState AudioSystem::GetSoundState(SoundHandle sound)
     return SoundState::Playing;
 }
 
-// Stops all sounds on all channels
+
 void AudioSystem::StopAllSounds()
 {
     Mix_HaltChannel(-1);
@@ -135,7 +128,7 @@ void AudioSystem::StopAllSounds()
     mHandleMap.clear();
 }
 
-// Cache all sounds under Assets/Sounds
+
 void AudioSystem::CacheAllSounds()
 {
 #ifndef __clang_analyzer__
@@ -153,22 +146,22 @@ void AudioSystem::CacheAllSounds()
 #endif
 }
 
-// Used to preload the sound data of a sound
-// NOTE: The soundName is without the "Assets/Sounds/" part of the file
-//       For example, pass in "ChompLoop.wav" rather than
-//       "Assets/Sounds/ChompLoop.wav".
+
+
+
+
 void AudioSystem::CacheSound(const std::string& soundName)
 {
     GetSound(soundName);
 }
 
-// If the sound is already loaded, returns Mix_Chunk from the map.
-// Otherwise, will attempt to load the file and save it in the map.
-// Returns nullptr if sound is not found.
-// NOTE: The soundName is without the "Assets/Sounds/" part of the file
-//       For example, pass in "ChompLoop.wav" rather than
-//       "Assets/Sounds/ChompLoop.wav".
-Mix_Chunk* AudioSystem::GetSound(const std::string& soundName)
+
+
+
+
+
+
+Mix_Chunk *AudioSystem::GetSound(const std::string& soundName)
 {
     std::string fileName = "../Assets/Sounds/";
     fileName += soundName;
@@ -193,10 +186,10 @@ Mix_Chunk* AudioSystem::GetSound(const std::string& soundName)
     return chunk;
 }
 
-// Input for debugging purposes
+
 void AudioSystem::ProcessInput(const Uint8* keyState)
 {
-    // Debugging code that outputs all active sounds on leading edge of period key
+    
     if (keyState[SDL_SCANCODE_PERIOD] && !mLastDebugKey)
     {
         SDL_Log("[AudioSystem] Active Sounds:");

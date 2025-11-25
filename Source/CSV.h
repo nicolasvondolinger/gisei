@@ -21,4 +21,4 @@ namespace CSVHelper
 		retVal.emplace_back(std::stoi(str.substr(start, delimLoc - start)));
 		return retVal;
 	}
-} // namespace CSVHelper
+} 

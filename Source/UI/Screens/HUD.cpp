@@ -1,7 +1,3 @@
-//
-// Created by Lucas N. Ferreira on 08/12/23.
-//
-
 #include "HUD.h"
 #include "../../Game.h"
 #include <string>
@@ -22,25 +18,25 @@ HUD::HUD(class Game* game, const std::string& fontName)
 void HUD::SetHealth(int health) {
     switch (health) {
         case 3:
-            mHealth1->SetIsVisible(true); // Laranja
-            mHealth2->SetIsVisible(true); // Vermelho
-            mHealth3->SetIsVisible(true); // Azul
+            mHealth1->SetIsVisible(true); 
+            mHealth2->SetIsVisible(true); 
+            mHealth3->SetIsVisible(true); 
             break;
         case 2:
-            // Vida 2: Mostra Laranja e Vermelho
-            mHealth1->SetIsVisible(true); // Laranja
-            mHealth2->SetIsVisible(true); // Vermelho
+            
+            mHealth1->SetIsVisible(true); 
+            mHealth2->SetIsVisible(true); 
             mHealth3->SetIsVisible(false);
             break;
         case 1:
-            // Vida 1: Mostra Apenas Vermelho
+            
             mHealth1->SetIsVisible(false);
-            mHealth2->SetIsVisible(true); // Vermelho
+            mHealth2->SetIsVisible(true); 
             mHealth3->SetIsVisible(false);
             break;
         case 0:
         default:
-            // Vida 0 ou padrão: Desativa todas
+            
             mHealth1->SetIsVisible(false);
             mHealth2->SetIsVisible(false);
             mHealth3->SetIsVisible(false);
@@ -50,7 +46,7 @@ void HUD::SetHealth(int health) {
 
 void HUD::SetScore(int score)
 {
-    // Atualiza o texto do placar convertendo o 'int' para 'std::string'
-    // (Presume que UIText tem um método SetText)
+    
+    
     mScore->SetText(std::to_string(score));
 }

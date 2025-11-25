@@ -5,26 +5,12 @@
 #include "Random.h"
 #include "Actors/Actor.h"
 #include "Actors/Block.h"
-#include "Actors/Goomba.h"
 #include "Actors/Spawner.h"
 #include "Actors/Samurai.h"
-
-// Includes de UI
-#include <algorithm>
-#include <vector>
-#include <fstream> // Para LoadLevel
-#include <sstream> // Para LoadLevel
-#include <cstring> // Para memset
-#include <stdexcept> // Para stoi
-#include "Renderer/Renderer.h" // Incluir Renderer
-#include "UI/Screens/UIScreen.h"
-#include "UI/Screens/MainMenu.h"
-
 #include <algorithm>
 #include <vector>
 #include <fstream>
 #include <sstream>
-#include <cstring>
 #include <stdexcept>
 #include "Renderer/Renderer.h"
 #include "UI/Screens/UIScreen.h"
@@ -38,8 +24,8 @@ Game::Game()
         ,mIsDebugging(false)
         ,mUpdatingActors(false)
         ,mCameraPos(Vector2::Zero)
-        ,mSamurai(nullptr) // ALTERADO: Inicialização
-        ,mLevelData(nullptr)
+        , mSamurai(nullptr)
+        , mLevelData(nullptr)
         ,mBackgroundTexture(nullptr)
         ,mBackgroundScrollSpeed(0.25f)
         ,mBackgroundMusic(nullptr)
@@ -60,7 +46,7 @@ bool Game::Initialize() {
         return false;
     }
 
-    // Inicializa SDL_ttf (Necessário para UI)
+
     if (TTF_Init() != 0)
     {
         SDL_Log("Failed to initialize SDL_ttf");
@@ -70,7 +56,7 @@ bool Game::Initialize() {
     if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
         SDL_Log("SDL_mixer could not initialize! SDL_mixer Error: %s", Mix_GetError());
     }
-    // Não carregue a música aqui, deixe SetScene fazer isso
+
 
     mJumpSound = Mix_LoadWAV("../Assets/Sounds/Jump.wav");
     mJumpSuperSound = Mix_LoadWAV("../Assets/Sounds/JumpSuper.wav");
@@ -88,7 +74,7 @@ bool Game::Initialize() {
     mRenderer = new Renderer(mWindow);
     mRenderer->Initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    // Define a cena inicial como o Menu Principal
+
     SetScene(GameScene::MainMenu);
 
     mTicksCount = SDL_GetTicks();
@@ -202,14 +188,14 @@ void Game::BuildLevel(int** levelData, int width, int height) {
             Spawner* spawner = nullptr;
             switch (id) {
                 case 17:
-                    // ALTERADO: Instancia Samurai em vez de Samurai
+
                     mSamurai = new Samurai(this);
                     mSamurai->SetPosition(pos);
                     break;
                 case 1:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockA.png", EBlockType::Ground);
                     break;
-                // ... (Demais cases permanecem iguais) ...
+                
                 case 2:
                     block = new Block(this, "../Assets/Sprites/Blocks/BlockC.png", EBlockType::Question);
                     break;
@@ -363,9 +349,9 @@ void Game::UpdateActors(float deltaTime)
 }
 
 void Game::UpdateCamera() {
-    if(mSamurai == nullptr) return; // ALTERADO: Verifica Samurai
+    if(mSamurai == nullptr) return;
 
-    // ALTERADO: Usa posição do Samurai
+
     float targetX = mSamurai->GetPosition().x - (WINDOW_WIDTH/2.0f);
     float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - WINDOW_WIDTH;
     float newX = std::max(mCameraPos.x, targetX);
@@ -520,7 +506,7 @@ void Game::Shutdown()
     SDL_Quit();
 }
 
-// Adiciona a função PushUI que estava faltando
+
 void Game::PushUI(UIScreen* screen)
 {
     mUIStack.emplace_back(screen);
