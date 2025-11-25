@@ -4,6 +4,7 @@
 #include "Components/Drawing/ParallaxComponent.h"
 #include "Components/Drawing/DashSmokeComponent.h"
 #include "Components/Physics/RigidBodyComponent.h"
+#include "Components/Physics/AABBColliderComponent.h"
 #include "Random.h"
 #include "Actors/Actor.h"
 #include "Actors/Block.h"
@@ -138,106 +139,107 @@ void Game::SetScene(GameScene nextScene)
 void Game::InitializeActors() {
     new ParallaxBackground(this);
     
-    const int LEVEL_TILES_WIDTH = 60;
-    const int LEVEL_TILES_HEIGHT = 34;
+    struct Layer {
+        std::string csvPath;
+        std::string texturePath;
+        int columns;
+    };
     
-    mLevelData = LoadLevel("../Assets/Levels/level1.csv", LEVEL_TILES_WIDTH, LEVEL_TILES_HEIGHT);
-    if(mLevelData == nullptr){
-        SDL_Log("Falha ao carregar dados do nível.");
-        Quit();
-        return;
+    Layer layers[] = {
+        {"../Assets/Levels/level1-test_Tile Layer 1.csv", "../Assets/Levels/Tileset.png", 17},
+        {"../Assets/Levels/level1-test_Tile Layer 2.csv", "../Assets/Levels/Objects.png", 40},
+        {"../Assets/Levels/level1-test_Tile Layer 3.csv", "../Assets/Levels/cave_entrance.png", 6}
+    };
+    
+    for(const auto& layer : layers) {
+        int width, height;
+        int** data = LoadLevel(layer.csvPath, width, height);
+        if(data == nullptr){
+            SDL_Log("Falha ao carregar layer: %s", layer.csvPath.c_str());
+            continue;
+        }
+        BuildLevel(data, width, height, layer.texturePath, layer.columns);
+        
+        for(int i = 0; i < height; i++) {
+            delete[] data[i];
+        }
+        delete[] data;
     }
-    mLevelDataWidth = LEVEL_TILES_WIDTH;
-    mLevelDataHeight = LEVEL_TILES_HEIGHT;
-    BuildLevel(mLevelData, LEVEL_TILES_WIDTH, LEVEL_TILES_HEIGHT);
     
     mNinja = new Ninja(this);
-    mNinja->SetPosition(Vector2(100.0f, 500.0f));
+    mNinja->SetPosition(Vector2(64.0f, 640.0f));
 }
 
-int **Game::LoadLevel(const std::string& fileName, int width, int height) {
-
-    int** levelData = new int*[height];
-
-    for(int i = 0; i < height; i++){
-        levelData[i] = new int[width];
-        memset(levelData[i], 0, width * sizeof(int));
-    }
-
+int **Game::LoadLevel(const std::string& fileName, int& width, int& height) {
     std::ifstream file(fileName);
     if(!file.is_open()){
         SDL_Log("Erro ao abrir arquivo do nível: %s", fileName.c_str());
         return nullptr;
     }
 
-    std::string line; int i = 0;
+    std::vector<std::vector<int>> tempData;
+    std::string line;
+    width = 0;
 
-    while(i < height && getline(file, line)){
+    while(getline(file, line)){
+        std::vector<int> row;
         std::stringstream ss(line);
         std::string cell;
-        int j = 0;
-        while(j < width && getline(ss, cell, ',')){
+        while(getline(ss, cell, ',')){
             try {
-                levelData[i][j] = stoi(cell);
+                row.push_back(stoi(cell));
             } catch (const std::invalid_argument& e){
-                SDL_Log("Dado inválido na célula [%d][%d] em %s", i, j, fileName.c_str());
-                levelData[i][j] = 0;
+                row.push_back(-1);
             }
-            j++;
         }
-        i++;
+        if(row.size() > width) width = row.size();
+        tempData.push_back(row);
     }
-
     file.close();
+
+    height = tempData.size();
+    int** levelData = new int*[height];
+    for(int i = 0; i < height; i++){
+        levelData[i] = new int[width];
+        for(int j = 0; j < width; j++){
+            levelData[i][j] = (j < tempData[i].size()) ? tempData[i][j] : -1;
+        }
+    }
 
     return levelData;
 }
 
-void Game::BuildLevel(int** levelData, int width, int height) {
-
-    // 1. Defina os IDs que dão dano (Espinhos)
+void Game::BuildLevel(int** levelData, int width, int height, const std::string& tilesetPath, int columns) {
     std::set<int> hazardIds = { 182, 183, 184, 185, 199, 200, 201, 202 };
-
-    // 2. Carregue o Tileset Completo (Atlas)
-    // Certifique-se que o caminho está correto
-    Texture* tilesetTexture = mRenderer->GetTexture("../Assets/Levels/Tileset.png");
-
-    // 3. Configurações da Imagem do Tileset
-    const int TILESET_COLUMNS = 17; // <--- MUDE ISSO para o numero real de colunas da sua imagem png
-    const int TILE_SIZE_PX = 32;    // Tamanho do tile na imagem
+    Texture* tilesetTexture = mRenderer->GetTexture(tilesetPath);
+    const int TILE_SIZE_PX = 32;
+    bool hasCollision = (tilesetPath.find("Tileset.png") != std::string::npos);
 
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
             int id = levelData[i][j];
+            if(id == -1) continue;
 
-            if(id == -1) continue; // Empty space
-
-            // Calcula a posição no mundo
             Vector2 pos;
             pos.y = (i * TILE_SIZE) + (TILE_SIZE / 2.0f);
             pos.x = (j * TILE_SIZE) + (TILE_SIZE / 2.0f);
 
-            // --- Lógica do Bloco com Atlas ---
+            if(pos.y < 96.0f && hasCollision) continue;
 
-            // Use ID directly as index
-            int index = id;
-
-            // Calcula o recorte (srcRect)
             SDL_Rect srcRect;
             srcRect.w = TILE_SIZE_PX;
             srcRect.h = TILE_SIZE_PX;
-            srcRect.x = (index % TILESET_COLUMNS) * TILE_SIZE_PX;
-            srcRect.y = (index / TILESET_COLUMNS) * TILE_SIZE_PX;
+            srcRect.x = (id % columns) * TILE_SIZE_PX;
+            srcRect.y = (id / columns) * TILE_SIZE_PX;
 
-            // Define o tipo baseado na lista de perigos
-            EBlockType type = EBlockType::Normal;
-            if (hazardIds.count(id)) {
-                type = EBlockType::Hazard;
-            }
-
-            // Cria o bloco
+            EBlockType type = hazardIds.count(id) ? EBlockType::Hazard : EBlockType::Normal;
             Block* block = new Block(this, tilesetTexture, srcRect, type);
             block->SetPosition(pos);
+            
+            if(!hasCollision) {
+                auto collider = block->GetComponent<AABBColliderComponent>();
+                if(collider) collider->SetEnabled(false);
+            }
         }
     }
 }

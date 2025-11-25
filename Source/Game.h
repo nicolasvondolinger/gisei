@@ -80,8 +80,8 @@ private:
     void UpdateCamera();
 
     void InitializeActors();
-    int **LoadLevel(const std::string& fileName, int width, int height);
-    void BuildLevel(int** levelData, int width, int height);
+    int **LoadLevel(const std::string& fileName, int& width, int& height);
+    void BuildLevel(int** levelData, int width, int height, const std::string& tilesetPath, int columns);
 
     SDL_Window* mWindow;
     Renderer* mRenderer;
