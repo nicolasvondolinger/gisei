@@ -138,3 +138,11 @@ void AnimatorComponent::SetSize(int w, int h){
     mWidth = w;
     mHeight = h;
 }
+
+int AnimatorComponent::GetCurrentFrame() const {
+    if (mCurrentAnimName.empty()) return 0;
+    const AnimationData& anim = mAnimations.at(mCurrentAnimName);
+    int frame = static_cast<int>(mAnimTimer / anim.frameDuration);
+    if (frame >= anim.numFrames) frame = anim.numFrames - 1;
+    return frame;
+}

@@ -75,6 +75,7 @@ add_executable(${PROJECT_NAME}
         Source/UI/Screens/SettingsMenu.cpp
         Source/Actors/ParallaxBackground.cpp
         Source/Components/Drawing/ParallaxComponent.cpp
+        Source/Components/Drawing/DashAfterimageComponent.cpp
 )
 
 

@@ -16,17 +16,18 @@ SettingsMenu::SettingsMenu(class Game *game, const std::string &fontName)
     float centerX = Game::WINDOW_WIDTH / 2.0f;
     float centerY = Game::WINDOW_HEIGHT / 2.0f;
 
-    const Vector3 white(1.0f, 1.0f, 1.0f);
-    const Vector4 darkOverlay(0.0f, 0.0f, 0.0f, 0.95f); // Mais opaco
+    const Vector3 textMain(0.91f, 0.94f, 0.91f);      // #E8EFE8
+    const Vector3 textHover(0.66f, 0.80f, 0.70f);    // #A9CDB2
+    const Vector3 buttonBg(0.11f, 0.14f, 0.12f);     // #1C241F
+    const Vector4 darkOverlay(0.11f, 0.14f, 0.12f, 0.95f);
     const Vector4 transparent(0.0f, 0.0f, 0.0f, 0.0f);
 
     AddRect(Vector2(centerX, centerY), Vector2(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), 1.0f, 0.0f, 1000);
     mRects[0]->SetColor(darkOverlay);
 
     UIText* title = AddText("SETTINGS", Vector2(centerX, 150.0f), 1.2f, 0.0f, 56, 900, 1010);
-    title->SetTextColor(Vector3(0.8f, 0.1f, 0.1f)); // Crimson
+    title->SetTextColor(textHover);
     title->SetBackgroundColor(transparent);
-
 
     mVolumeText = AddText("Volume: 50%", Vector2(centerX, centerY - 80.0f), 0.9f, 0.0f, 36, 900, 1011);
     mVolumeText->SetBackgroundColor(transparent);
@@ -37,7 +38,7 @@ SettingsMenu::SettingsMenu(class Game *game, const std::string &fontName)
     mDifficultyText = AddText("Difficulty: Normal", Vector2(centerX, centerY + 80.0f), 0.9f, 0.0f, 36, 900, 1013);
     mDifficultyText->SetBackgroundColor(transparent);
 
-    mBackButton = AddButton("[ Back ]", [this]() {
+    mBackButton = AddButton("Back", [this]() {
         if (mGame->GetUIStack().size() > 1) {
              auto prevUI = mGame->GetUIStack()[mGame->GetUIStack().size() - 2];
              prevUI->SetState(UIState::Active);
@@ -45,12 +46,12 @@ SettingsMenu::SettingsMenu(class Game *game, const std::string &fontName)
         Close();
     }, Vector2(centerX, centerY + 180.0f), 1.0f, 0.0f, 42, 900, 1014);
 
-    mBackButton->SetTextColor(white);
-    mBackButton->SetHoverColor(Vector3(0.8f, 0.1f, 0.1f));
+    mBackButton->SetTextColor(textMain);
+    mBackButton->SetHoverColor(textHover);
     mBackButton->SetBackgroundColor(transparent);
 
     UIText* hint = AddText("Arrows to Change | Enter to Select", Vector2(centerX, Game::WINDOW_HEIGHT - 50.0f), 0.6f, 0.0f, 20, 900, 1015);
-    hint->SetTextColor(Vector3(0.6f, 0.6f, 0.6f));
+    hint->SetTextColor(Vector3(0.5f, 0.6f, 0.52f));
     hint->SetBackgroundColor(transparent);
 
     mSelectedButtonIndex = 0; 
@@ -61,19 +62,18 @@ SettingsMenu::~SettingsMenu() {
 }
 
 void SettingsMenu::UpdateSelectColor() {
-    const Vector3 white(1.0f, 1.0f, 1.0f);
-    const Vector3 selected(0.8f, 0.1f, 0.1f);
+    const Vector3 textMain(0.91f, 0.94f, 0.91f);   // #E8EFE8
+    const Vector3 textHover(0.66f, 0.80f, 0.70f); // #A9CDB2
 
-    // Reseta todos para branco
-    mVolumeText->SetTextColor(white);
-    mFullscreenText->SetTextColor(white);
-    mDifficultyText->SetTextColor(white);
+    mVolumeText->SetTextColor(textMain);
+    mFullscreenText->SetTextColor(textMain);
+    mDifficultyText->SetTextColor(textMain);
     mBackButton->SetHighlighted(false);
 
     switch (mSelectedButtonIndex) {
-        case 0: mVolumeText->SetTextColor(selected); break;
-        case 1: mFullscreenText->SetTextColor(selected); break;
-        case 2: mDifficultyText->SetTextColor(selected); break;
+        case 0: mVolumeText->SetTextColor(textHover); break;
+        case 1: mFullscreenText->SetTextColor(textHover); break;
+        case 2: mDifficultyText->SetTextColor(textHover); break;
         case 3: mBackButton->SetHighlighted(true); break;
     }
 }

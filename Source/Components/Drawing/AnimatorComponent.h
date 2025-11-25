@@ -37,6 +37,8 @@ public:
 
 
     void SetAnimFPS(float fps);
+    
+    int GetCurrentFrame() const;
 
 private:
     

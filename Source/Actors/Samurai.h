@@ -1,5 +1,14 @@
 #pragma once
 #include "Actor.h"
+#include <vector>
+
+struct DashParticle {
+    Vector2 position;
+    Vector2 velocity;
+    float lifetime;
+    float maxLifetime;
+    float size;
+};
 
 class Samurai : public Actor
 {
@@ -15,9 +24,12 @@ public:
 
     void Kill() override;
     void StageClear();
+    
+    const std::vector<DashParticle>& GetDashParticles() const;
 
 private:
     void ManageAnimations();
+    void CreateDashParticles(const Vector2& startPos, const Vector2& endPos);
 
 
     float mAccelerationForce;
@@ -26,11 +38,21 @@ private:
 
     bool mIsRunning;
     bool mIsDead;
+    bool mIsAttacking;
+    bool mIsDashing;
+    bool mIsDefending;
+    
+    float mAttackTimer;
+    float mDashTimer;
+    float mDashSpeed;
+    Vector2 mDashDirection;
 
     
     bool mIsInvincible;
     float mInvincibleTimer;
     const float mInvincibleDuration = 1.5f;
+    
+    std::vector<DashParticle> mDashParticles;
 
     
     class RigidBodyComponent* mRigidBodyComponent;
