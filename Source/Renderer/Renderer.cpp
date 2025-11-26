@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "Font.h"
 #include "../UI/UIElement.h"
+#include <SDL2/SDL.h>
 
 
 Renderer::Renderer(SDL_Window *window)
@@ -63,6 +64,8 @@ bool Renderer::Initialize(float width, float height) {
 
     glDisable(GL_DEPTH_TEST);
 
+    UpdateViewportToWindow();
+
     return true;
 }
 
@@ -108,6 +111,14 @@ void Renderer::Shutdown() {
 
     SDL_GL_DeleteContext(mContext);
     SDL_DestroyWindow(mWindow);
+}
+
+void Renderer::UpdateViewportToWindow() {
+    int w = 0, h = 0;
+    SDL_GL_GetDrawableSize(mWindow, &w, &h);
+    if (w > 0 && h > 0) {
+        glViewport(0, 0, w, h);
+    }
 }
 
 

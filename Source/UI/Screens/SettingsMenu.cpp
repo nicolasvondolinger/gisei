@@ -3,6 +3,7 @@
 #include "../UIButton.h"
 #include "../UIText.h"
 #include "../../Renderer/Renderer.h"
+#include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
 SettingsMenu::SettingsMenu(class Game *game, const std::string &fontName)
@@ -54,6 +55,10 @@ SettingsMenu::SettingsMenu(class Game *game, const std::string &fontName)
     hint->SetTextColor(Vector3(0.5f, 0.6f, 0.52f));
     hint->SetBackgroundColor(transparent);
 
+    Uint32 flags = SDL_GetWindowFlags(mGame->GetRenderer()->GetWindow());
+    mIsFullscreen = (flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP)) != 0;
+    mFullscreenText->SetText(mIsFullscreen ? "Fullscreen: ON" : "Fullscreen: OFF");
+
     mSelectedButtonIndex = 0; 
     UpdateSelectColor();
 }
@@ -91,7 +96,23 @@ void SettingsMenu::UpdateDifficultyText() {
 
 void SettingsMenu::UpdateFullscreenText() {
     mFullscreenText->SetText(mIsFullscreen ? "Fullscreen: ON" : "Fullscreen: OFF");
-    SDL_SetWindowFullscreen(mGame->GetRenderer()->GetWindow(), mIsFullscreen ? SDL_WINDOW_FULLSCREEN : 0);
+
+    SDL_Window* window = mGame->GetRenderer()->GetWindow();
+    Uint32 targetFlag = mIsFullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
+    if (SDL_SetWindowFullscreen(window, targetFlag) != 0) {
+        mIsFullscreen = !mIsFullscreen;
+        mFullscreenText->SetText(mIsFullscreen ? "Fullscreen: ON" : "Fullscreen: OFF");
+        return;
+    }
+
+    if (!mIsFullscreen) {
+        constexpr int windowedWidth = 1600;
+        constexpr int windowedHeight = 900;
+        SDL_SetWindowSize(window, windowedWidth, windowedHeight);
+        SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+    }
+
+    mGame->GetRenderer()->UpdateViewportToWindow();
 }
 
 void SettingsMenu::HandleKeyPress(int key) {

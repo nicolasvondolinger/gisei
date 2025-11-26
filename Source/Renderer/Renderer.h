@@ -64,6 +64,7 @@ public:
     class Shader *GetBaseShader() const { return mBaseShader; }
     SDL_Window* GetWindow() const { return mWindow; }
     SDL_Renderer* GetSDLRenderer() const { return SDL_GetRenderer(mWindow); }
+    void UpdateViewportToWindow();
 
 private:
     void Draw(RendererMode mode, const Matrix4 &modelMatrix, const Vector2 &cameraPos, VertexArray *vertices,
