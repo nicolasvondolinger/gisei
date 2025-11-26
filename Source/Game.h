@@ -46,6 +46,8 @@ public:
     Renderer* GetRenderer() { return mRenderer; }
     const std::vector<class AABBColliderComponent*>& GetColliders() const { return mColliders; }
     Vector2 GetCameraPos() const { return mCameraPos; }
+    bool IsPaused() const { return mIsPaused; }
+    GameScene GetCurrentScene() const { return mCurrentScene; }
 
 
     Ninja* GetPlayer() const { return mNinja; }
@@ -61,6 +63,8 @@ public:
     void SetWaitingToQuit(bool status) { mWaitingToQuit = status; }
     void SetDeathSoundChannel(int channel) { mDeathSoundChannel = channel; }
     void SetStageClearSoundChannel(int channel) { mStageClearSoundChannel = channel; }
+    void PauseGame();
+    void ResumeGame();
 
     void Quit() { mIsRunning = false; }
 
@@ -87,9 +91,11 @@ private:
     Renderer* mRenderer;
     Uint32 mTicksCount;
     bool mIsRunning;
+    bool mIsPaused;
     bool mIsDebugging;
     bool mUpdatingActors;
     bool mWaitingToQuit = false;
+    GameScene mCurrentScene;
 
     std::vector<Actor*> mActors;
     std::vector<Actor*> mPendingActors;

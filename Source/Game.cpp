@@ -19,16 +19,19 @@
 #include "Renderer/Renderer.h"
 #include "UI/Screens/UIScreen.h"
 #include "UI/Screens/MainMenu.h"
+#include "UI/Screens/PauseMenu.h"
 
 Game::Game()
         :mWindow(nullptr)
         ,mRenderer(nullptr)
         ,mTicksCount(0)
         ,mIsRunning(true)
+        ,mIsPaused(false)
         ,mIsDebugging(false)
         ,mUpdatingActors(false)
         ,mCameraPos(Vector2::Zero)
         , mNinja(nullptr)
+        , mCurrentScene(GameScene::MainMenu)
         , mLevelData(nullptr)
         , mLevelDataWidth(0)
         , mLevelDataHeight(0)
@@ -119,6 +122,8 @@ void Game::UnloadScene()
 
 void Game::SetScene(GameScene nextScene)
 {
+    mIsPaused = false;
+    mCurrentScene = nextScene;
     UnloadScene();
     switch (nextScene) {
         case GameScene::MainMenu:
@@ -282,6 +287,10 @@ void Game::ProcessInput()
                 if (!mUIStack.empty() && mUIStack.back()->GetState() == UIScreen::UIState::Active) {
                     mUIStack.back()->HandleKeyPress(event.key.keysym.sym);
                 }
+
+                if (event.key.keysym.sym == SDLK_ESCAPE && mCurrentScene == GameScene::Level1 && !mIsPaused) {
+                    PauseGame();
+                }
                 break;
         }
     }
@@ -290,7 +299,7 @@ void Game::ProcessInput()
 
     bool uiConsomeInput = !mUIStack.empty() && !mUIStack.back()->GetIsTransparent();
 
-    if (!uiConsomeInput)
+    if (!uiConsomeInput && !mIsPaused)
     {
         for (auto actor : mActors)
         {
@@ -309,9 +318,10 @@ void Game::UpdateGame(float deltaTime) {
         return;
     }
 
-    UpdateActors(deltaTime);
-
-    UpdateCamera();
+    if (!mIsPaused) {
+        UpdateActors(deltaTime);
+        UpdateCamera();
+    }
 
     for (auto ui : mUIStack) {
         if (ui->GetState() == UIScreen::UIState::Active) {
@@ -366,7 +376,7 @@ void Game::UpdateCamera() {
 
     float targetX = mNinja->GetPosition().x - (WINDOW_WIDTH/2.0f);
     float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - WINDOW_WIDTH;
-    float newX = std::max(mCameraPos.x, targetX);
+    float newX = targetX;
     newX = std::max(0.0f, newX);
     newX = std::min(maxCameraX, newX);
     mCameraPos.x = newX;
@@ -540,6 +550,16 @@ void Game::Shutdown()
 void Game::PushUI(UIScreen* screen)
 {
     mUIStack.emplace_back(screen);
+}
+
+void Game::PauseGame() {
+    if (mIsPaused) return;
+    mIsPaused = true;
+    new PauseMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
+}
+
+void Game::ResumeGame() {
+    mIsPaused = false;
 }
 
 int Game::PlaySound(Mix_Chunk* sound) {
