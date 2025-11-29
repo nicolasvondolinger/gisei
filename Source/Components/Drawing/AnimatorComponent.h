@@ -5,6 +5,8 @@
 #include <vector>
 #include <unordered_map>
 
+class AABBColliderComponent;
+
 
 struct AnimationData {
     class Texture *texture;

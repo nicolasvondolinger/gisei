@@ -28,7 +28,7 @@ Ninja::Ninja(Game *game, const float accelerationForce, const float jumpSpeed)
       , mMaxSpeed(400.0f)
       , mJumpSpeed(jumpSpeed)
 {
-    mDrawComponent = new AnimatorComponent(this, 128, 128);
+    mDrawComponent = new AnimatorComponent(this, 64, 64);
 
     mDrawComponent->AddAnimation("idle", "../Assets/Sprites/Ninja/Idle.png", 6, 10.0f, true);
     mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Ninja/Walk.png", 8, 10.0f, true);
@@ -50,9 +50,9 @@ Ninja::Ninja(Game *game, const float accelerationForce, const float jumpSpeed)
     mColliderComponent = new AABBColliderComponent (
         this,
         0,
-        10,
-        40.0f,
-        70.0f,
+        0,
+        20.0f,
+        48.0f,
         ColliderLayer::Player
     );
     

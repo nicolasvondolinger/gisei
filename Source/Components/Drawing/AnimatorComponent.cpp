@@ -3,6 +3,7 @@
 #include "../../Game.h"
 #include "../../Renderer/Renderer.h"
 #include "../../Renderer/Texture.h"
+#include "../Physics/AABBColliderComponent.h"
 
 AnimatorComponent::AnimatorComponent(class Actor* owner, int width, int height, int drawOrder)
         :DrawComponent(owner, drawOrder)
@@ -90,7 +91,15 @@ void AnimatorComponent::Draw(Renderer* renderer) {
     if (!anim.texture) return;
 
     
+    auto collider = mOwner->GetComponent<AABBColliderComponent>();
     Vector2 pos = mOwner->GetPosition();
+    
+    if (collider) {
+        float hitboxHeight = collider->GetMax().y - collider->GetMin().y;
+        float spriteHeight = static_cast<float>(mHeight);
+        pos.y += (hitboxHeight - spriteHeight) / 2.0f;
+    }
+    
     float rot = mOwner->GetRotation();
     Vector2 size(static_cast<float>(mWidth), static_cast<float>(mHeight));
     Vector3 color(1.0f, 1.0f, 1.0f);

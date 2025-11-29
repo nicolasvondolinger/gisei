@@ -401,8 +401,7 @@ void Game::UpdateActors(float deltaTime)
 void Game::UpdateCamera() {
     if(mNinja == nullptr) return;
 
-
-    float targetX = mNinja->GetPosition().x - (WINDOW_WIDTH/2.0f);
+    float targetX = mNinja->GetPosition().x - (WINDOW_WIDTH/3.0f);
     float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - WINDOW_WIDTH;
     float newX = targetX;
     newX = std::max(0.0f, newX);
