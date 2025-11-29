@@ -66,6 +66,7 @@ public:
     SDL_Renderer* GetSDLRenderer() const { return SDL_GetRenderer(mWindow); }
     void UpdateViewportToWindow();
     void DrawFade(float alpha);
+    void SetView(float width, float height);
 
 private:
     void Draw(RendererMode mode, const Matrix4 &modelMatrix, const Vector2 &cameraPos, VertexArray *vertices,

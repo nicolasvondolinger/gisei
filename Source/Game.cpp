@@ -21,6 +21,7 @@
 #include "UI/Screens/MainMenu.h"
 #include "UI/Screens/PauseMenu.h"
 #include "UI/Screens/GameOver.h"
+#include "UI/Screens/HUD.h"
 
 Game::Game()
         :mWindow(nullptr)
@@ -45,6 +46,7 @@ Game::Game()
         ,mSpiritOrbSound(nullptr)
         ,mBumpSound(nullptr)
         ,mStageClearSound(nullptr)
+        ,mHUD(nullptr)
 {
 }
 
@@ -105,6 +107,7 @@ void Game::UnloadScene()
         delete ui;
     }
     mUIStack.clear();
+    mHUD = nullptr;
 
     if (mLevelData) {
         for (int i = 0; i < mLevelDataHeight; ++i) {
@@ -134,19 +137,36 @@ void Game::LoadScene(GameScene scene)
     mIsPaused = false;
     mCurrentScene = scene;
     UnloadScene();
+
+    // Defina o fator de zoom que você quer (2.0f = 2x mais perto)
+    float zoomFactor = 2.0f; 
+
     switch (scene) {
         case GameScene::MainMenu:
+            // MENU: Resolução original (Sem zoom)
+            mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+            
             mBackgroundTexture = nullptr;
             new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
+
         case GameScene::Level1:
+            mRenderer->SetView(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
+
             mBackgroundMusic = Mix_LoadMUS("../Assets/Sounds/Troubadeck 20 Long Lonely Road.ogg");
             if (mBackgroundMusic) {
                 Mix_PlayMusic(mBackgroundMusic, -1);
             }
             InitializeActors();
+            
+            // ADICIONE ISTO:
+            mHUD = new HUD(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
+
         case GameScene::GameOver:
+            // GAME OVER: Resolução original (Sem zoom)
+            mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+
             mBackgroundTexture = nullptr;
             new GameOver(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
@@ -349,6 +369,10 @@ void Game::UpdateGame(float deltaTime) {
     if (!mIsPaused) {
         UpdateActors(deltaTime);
         UpdateCamera();
+
+        if (mCurrentScene == GameScene::Level1 && mNinja && mHUD) {
+            mHUD->UpdateHUD(mNinja);
+        }
     }
 
     for (auto ui : mUIStack) {
@@ -401,13 +425,33 @@ void Game::UpdateActors(float deltaTime)
 void Game::UpdateCamera() {
     if(mNinja == nullptr) return;
 
-    float targetX = mNinja->GetPosition().x - (WINDOW_WIDTH/3.0f);
-    float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - WINDOW_WIDTH;
-    float newX = targetX;
-    newX = std::max(0.0f, newX);
-    newX = std::min(maxCameraX, newX);
-    mCameraPos.x = newX;
-    mCameraPos.y = 0.0f;
+    // --- Configuração do Zoom ---
+    // Mantenha igual ao valor usado no LoadScene
+    float zoomFactor = 2.0f; 
+    
+    // Calcula o tamanho real da "lente" da câmera
+    float logicalWidth = WINDOW_WIDTH / zoomFactor;
+    float logicalHeight = WINDOW_HEIGHT / zoomFactor;
+
+    // --- EIXO X (Horizontal) ---
+    float targetX = mNinja->GetPosition().x - (logicalWidth / 2.0f);
+    float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - logicalWidth;
+    
+    // Usa std::clamp para manter dentro dos limites (requer <algorithm>)
+    // Se não tiver <algorithm>, use std::max e std::min como antes
+    mCameraPos.x = std::clamp(targetX, 0.0f, maxCameraX);
+
+    // --- EIXO Y (Vertical) ---
+    // Centraliza o Ninja verticalmente
+    float targetY = mNinja->GetPosition().y - (logicalHeight / 2.0f);
+
+    // Define o limite vertical da câmera
+    // Assumindo que a altura da fase é igual à altura original da janela (768px)
+    float levelHeight = (float)WINDOW_HEIGHT; 
+    float maxCameraY = levelHeight - logicalHeight;
+
+    // Trava a câmera para não mostrar além do teto ou abaixo do chão
+    mCameraPos.y = std::clamp(targetY, 0.0f, maxCameraY);
 }
 
 void Game::AddActor(Actor* actor) {
@@ -473,66 +517,81 @@ void Game::DrawFade() {
 void Game::GenerateOutput()
 {
     mRenderer->Clear();
+
+    // ---------------------------------------------------------
+    // FASE 1: DESENHO DO MUNDO (COM ZOOM)
+    // ---------------------------------------------------------
+    float zoomFactor = 2.0f; 
+
+    if (mCurrentScene == GameScene::Level1) {
+        // Aplica o zoom para a fase
+        mRenderer->SetView(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
+    } else {
+        // Menu usa resolução normal
+        mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+    }
+
+    // Ativa shader para objetos do jogo (uIsUI = 0)
     mRenderer->GetBaseShader()->SetActive();
     mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
 
+    // 1. Background (Se existir)
     if(mBackgroundTexture){
-        Vector2 parallaxCam = mCameraPos * mBackgroundScrollSpeed;
-        float texWidth = static_cast<float>(mBackgroundTexture->GetWidth());
-        float texHeight = static_cast<float>(mBackgroundTexture->GetHeight());
-        float uOffset = parallaxCam.x / texWidth;
-        float uScale = static_cast<float>(WINDOW_WIDTH) / texWidth;
-        float vScale = static_cast<float>(WINDOW_HEIGHT) / texHeight;
+         Vector2 quadPos = mCameraPos + Vector2(WINDOW_WIDTH / (2.0f * zoomFactor), WINDOW_HEIGHT / (2.0f * zoomFactor));
+         Vector2 quadSize(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
+         
+         // Lógica do Parallax simples para o fundo
+         Vector2 parallaxCam = mCameraPos * mBackgroundScrollSpeed;
+         float texWidth = static_cast<float>(mBackgroundTexture->GetWidth());
+         float texHeight = static_cast<float>(mBackgroundTexture->GetHeight());
+         float uOffset = parallaxCam.x / texWidth;
+         float uScale = static_cast<float>(WINDOW_WIDTH / zoomFactor) / texWidth;
+         float vScale = static_cast<float>(WINDOW_HEIGHT / zoomFactor) / texHeight;
+         Vector4 texRect(uOffset, 0.0f, uScale, vScale);
 
-        Vector4 texRect(uOffset, 0.0f, uScale, vScale);
-
-        Vector2 quadPos = mCameraPos + Vector2(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
-        Vector2 quadSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-        mRenderer->DrawTexture(
-            quadPos,
-            quadSize,
-            0.0f,
-            Vector3(1.0f, 1.0f, 1.0f),
-            mBackgroundTexture,
-            texRect,
-            mCameraPos,
-            false,
-            1.0f
-        );
+         mRenderer->DrawTexture(quadPos, quadSize, 0.0f, Vector3::One, mBackgroundTexture, texRect, mCameraPos);
     }
 
-    for (auto actor : mActors)
-    {
+    // 2. Atores Especiais (Parallax)
+    for (auto actor : mActors) {
         auto parallax = actor->GetComponent<ParallaxComponent>();
         if (parallax && parallax->IsEnabled()) {
             parallax->Draw(mRenderer);
         }
     }
 
-    for (auto drawable : mDrawables)
-    {
+    // 3. Objetos do Jogo (Inimigos, Ninja, Blocos)
+    for (auto drawable : mDrawables) {
         drawable->Draw(mRenderer);
-
-        if(mIsDebugging)
-        {
-              for (auto comp : drawable->GetOwner()->GetComponents())
-              {
+        if(mIsDebugging) {
+             for (auto comp : drawable->GetOwner()->GetComponents()) {
                 comp->DebugDraw(mRenderer);
-              }
+             }
         }
     }
     
-    for (auto actor : mActors)
-    {
+    // 4. Partículas/Fumaça
+    for (auto actor : mActors) {
         auto smoke = actor->GetComponent<DashSmokeComponent>();
         if (smoke && smoke->IsEnabled()) {
             smoke->Draw(mRenderer);
         }
     }
     
-    mRenderer->Draw();
+    // ---------------------------------------------------------
+    // FASE 2: DESENHO DA UI (SEM ZOOM)
+    // ---------------------------------------------------------
+    
+    // Reseta a visão para o tamanho original da janela (1024x768)
+    mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    // CORREÇÃO: Apenas chamamos o Draw do renderer. 
+    // Ele já sabe desenhar todos os botões/textos ativos.
+    mRenderer->Draw(); 
+    
+    // Desenha o Fade por cima de tudo (também sem zoom)
     DrawFade();
+    
     mRenderer->Present();
 }
 

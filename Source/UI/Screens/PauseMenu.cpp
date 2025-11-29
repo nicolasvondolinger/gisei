@@ -45,13 +45,13 @@ PauseMenu::PauseMenu(class Game* game, const std::string& fontName)
         new SettingsMenu(mGame, "../Assets/Fonts/Alkhemikal.ttf");
     }, settingsPos, 1.0f, 0.0f, 46, 900, 921);
 
-    mMainMenuButton = AddButton("Back to Menu", [this]() {
+    mMainMenuButton = AddButton("Main Menu", [this]() {
         mGame->ResumeGame();
         Close();
         mGame->SetScene(GameScene::MainMenu);
     }, mainMenuPos, 1.0f, 0.0f, 46, 900, 922);
 
-    mQuitButton = AddButton("Leave", [this]() {
+    mQuitButton = AddButton("Quit", [this]() {
         mGame->Quit();
     }, quitPos, 1.0f, 0.0f, 46, 900, 923);
 

@@ -75,6 +75,7 @@ public:
     Mix_Chunk* GetSpiritOrbSound();
     Mix_Chunk* GetBumpSound();
     Mix_Chunk* GetStageClearSound();
+    class HUD* GetHUD() { return mHUD; }
 
     void SetWaitingToQuit(bool status) { mWaitingToQuit = status; }
     void SetDeathSoundChannel(int channel) { mDeathSoundChannel = channel; }
@@ -98,6 +99,7 @@ private:
     void GenerateOutput();
     void UpdateActors(float deltaTime);
     void UpdateCamera();
+    class HUD* mHUD;
 
     void InitializeActors();
     int **LoadLevel(const std::string& fileName, int& width, int& height);

@@ -10,6 +10,16 @@ struct DashParticle {
     float size;
 };
 
+enum class ActionState {
+    None,           // Parado/Andando normal
+    CrouchGoingDown,// Baixando (agacha.png)
+    CrouchHolding,  // Segurando embaixo (Congelado no final de agacha.png)
+    CrouchGoingUp,  // Subindo (sobe.png)
+    ShieldStart,    // Entrando na defesa (inicio_defesa.png)
+    ShieldHolding,  // Segurando defesa (Congelado no final de inicio_defesa.png)
+    ShieldEnd       // Saindo da defesa (fim_defesa.png)
+};
+
 class Ninja : public Actor
 {
 public:
@@ -23,6 +33,12 @@ public:
     void OnVerticalCollision(const float minOverlap, class AABBColliderComponent* other) override;
 
     void Kill() override;
+    int GetHealth() const { return mHealth; }
+    int GetMaxHealth() const { return mMaxHealth; }
+    float GetDashCooldown() const { return mDashCooldown; }
+    float GetDashCooldownTime() const { return mDashCooldownTime; }
+
+    void TakeDamage();
     void StageClear();
     
     bool IsDashing() const { return mIsDashing; }
@@ -41,8 +57,12 @@ private:
     bool mIsDead;
     bool mIsAttacking;
     bool mIsDashing;
-    bool mIsDefending;
     bool mIsShooting;
+
+    ActionState mActionState;
+
+    class Actor* mShieldEffectActor;
+    class AnimatorComponent* mShieldEffectAnim;
     
     float mAttackTimer;
     float mDashTimer;
@@ -53,6 +73,8 @@ private:
     Vector2 mDashStartPos;
     Vector2 mDashEndPos;
 
+    int mHealth;
+    int mMaxHealth;
     
     bool mIsInvincible;
     float mInvincibleTimer;

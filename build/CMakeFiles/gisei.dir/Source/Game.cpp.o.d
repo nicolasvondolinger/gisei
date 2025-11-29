@@ -497,4 +497,5 @@ CMakeFiles/gisei.dir/Source/Game.cpp.o: \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../UIRect.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/MainMenu.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/PauseMenu.h \
- /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/GameOver.h
+ /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/GameOver.h \
+ /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/HUD.h

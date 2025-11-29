@@ -298,3 +298,16 @@ void Renderer::DrawFade(float alpha) {
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
+
+void Renderer::SetView(float width, float height) {
+    // Atualiza as dimensões internas
+    mScreenWidth = width;
+    mScreenHeight = height;
+
+    // Recalcula a matriz de projeção ortográfica com o novo tamanho
+    mOrthoProjection = Matrix4::CreateOrtho(0.0f, mScreenWidth, mScreenHeight, 0.0f, -1.0f, 1.0f);
+    
+    // Envia a nova matriz para o Shader
+    mBaseShader->SetActive();
+    mBaseShader->SetMatrixUniform("uOrthoProj", mOrthoProjection);
+}

@@ -471,4 +471,6 @@ CMakeFiles/gisei.dir/Source/Components/Drawing/AnimatorComponent.cpp.o: \
  /usr/include/SDL2/SDL_mixer.h /usr/include/SDL2/SDL_stdinc.h \
  /usr/include/SDL2/SDL_rwops.h /usr/include/SDL2/SDL_audio.h \
  /usr/include/SDL2/SDL_endian.h \
- /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../../AudioSystem.h
+ /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../../AudioSystem.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../Physics/AABBColliderComponent.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../Physics/RigidBodyComponent.h
