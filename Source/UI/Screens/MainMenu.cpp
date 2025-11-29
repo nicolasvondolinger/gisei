@@ -28,7 +28,7 @@ MainMenu::MainMenu(class Game *game, const std::string &fontName)
 
     UIButton *playButton = AddButton("Begin Journey", [this]() {
         Close();
-        mGame->SetScene(GameScene::Level1);
+        mGame->SetScene(GameScene::Intro);
     }, playButtonPos, 1.0f, 0.0f, 48, 900, 200);
 
     playButton->SetTextColor(textMain);

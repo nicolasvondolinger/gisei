@@ -20,6 +20,7 @@ class Font;
 
 enum class GameScene
 {
+    Intro,
     MainMenu,
     Level1, 
     GameOver

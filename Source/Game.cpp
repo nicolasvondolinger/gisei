@@ -21,6 +21,7 @@
 #include "UI/Screens/MainMenu.h"
 #include "UI/Screens/PauseMenu.h"
 #include "UI/Screens/GameOver.h"
+#include "UI/Screens/IntroCrawl.h"
 
 Game::Game()
         :mWindow(nullptr)
@@ -131,10 +132,21 @@ void Game::SetScene(GameScene nextScene)
 
 void Game::LoadScene(GameScene scene)
 {
-    mIsPaused = false;
+    // Pause gameplay updates during the intro so we can render a static preview of the level
+    mIsPaused = (scene == GameScene::Intro);
     mCurrentScene = scene;
+    // Reset any pending quit state from previous scenes
+    mWaitingToQuit = false;
+    mDeathSoundChannel = -1;
+    mStageClearSoundChannel = -1;
     UnloadScene();
     switch (scene) {
+        case GameScene::Intro:
+            mBackgroundTexture = nullptr;
+            // Build the level in a frozen state to use as intro background
+            InitializeActors();
+            new IntroCrawl(this, "../Assets/Fonts/Alkhemikal.ttf");
+            break;
         case GameScene::MainMenu:
             mBackgroundTexture = nullptr;
             new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
