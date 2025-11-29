@@ -1,5 +1,6 @@
 #include "PauseMenu.h"
 #include "SettingsMenu.h"
+#include "ControlsMenu.h"
 #include "../../Game.h"
 #include "../UIButton.h"
 #include "../UIText.h"
@@ -9,6 +10,7 @@ PauseMenu::PauseMenu(class Game* game, const std::string& fontName)
         : UIScreen(game, fontName)
         , mResumeButton(nullptr)
         , mSettingsButton(nullptr)
+        , mControlsButton(nullptr)
         , mMainMenuButton(nullptr)
         , mQuitButton(nullptr) {
 
@@ -32,8 +34,9 @@ PauseMenu::PauseMenu(class Game* game, const std::string& fontName)
 
     Vector2 resumePos(centerX, centerY - 60.0f);
     Vector2 settingsPos(centerX, centerY + 20.0f);
-    Vector2 mainMenuPos(centerX, centerY + 100.0f);
-    Vector2 quitPos(centerX, centerY + 180.0f);
+    Vector2 controlsPos(centerX, centerY + 100.0f);
+    Vector2 mainMenuPos(centerX, centerY + 180.0f);
+    Vector2 quitPos(centerX, centerY + 260.0f);
 
     mResumeButton = AddButton("Continue", [this]() {
         mGame->ResumeGame();
@@ -45,15 +48,20 @@ PauseMenu::PauseMenu(class Game* game, const std::string& fontName)
         new SettingsMenu(mGame, "../Assets/Fonts/Alkhemikal.ttf");
     }, settingsPos, 1.0f, 0.0f, 46, 900, 921);
 
+    mControlsButton = AddButton("Controls", [this]() {
+        SetState(UIState::Paused);
+        new ControlsMenu(mGame, "../Assets/Fonts/Alkhemikal.ttf");
+    }, controlsPos, 1.0f, 0.0f, 46, 900, 922);
+
     mMainMenuButton = AddButton("Back to Menu", [this]() {
         mGame->ResumeGame();
         Close();
         mGame->SetScene(GameScene::MainMenu);
-    }, mainMenuPos, 1.0f, 0.0f, 46, 900, 922);
+    }, mainMenuPos, 1.0f, 0.0f, 46, 900, 923);
 
     mQuitButton = AddButton("Leave", [this]() {
         mGame->Quit();
-    }, quitPos, 1.0f, 0.0f, 46, 900, 923);
+    }, quitPos, 1.0f, 0.0f, 46, 900, 924);
 
     for (auto button : mButtons) {
         button->SetTextColor(textMain);

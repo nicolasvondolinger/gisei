@@ -71,6 +71,8 @@ add_executable(${PROJECT_NAME}
         Source/UI/Screens/GameOver.h
         Source/UI/Screens/PauseMenu.cpp 
         Source/UI/Screens/PauseMenu.h
+        Source/UI/Screens/ControlsMenu.cpp
+        Source/UI/Screens/ControlsMenu.h
         Source/Renderer/Font.h
         Source/Renderer/Font.cpp
         Source/Actors/Yokai.cpp
