@@ -7,7 +7,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/home/nicolasvondolinger/codes/tp3-super-mario-bros-1-1-nicolasvondolinger/CMakeLists.txt"
+  "/home/nicolasvondolinger/codes/gisei/CMakeLists.txt"
   "CMakeFiles/3.25.1/CMakeCCompiler.cmake"
   "CMakeFiles/3.25.1/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.25.1/CMakeSystem.cmake"
@@ -15,6 +15,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/lib/x86_64-linux-gnu/cmake/SDL2_image/sdl2_image-config.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/SDL2_mixer/sdl2_mixer-config-version.cmake"
   "/usr/lib/x86_64-linux-gnu/cmake/SDL2_mixer/sdl2_mixer-config.cmake"
+  "/usr/lib/x86_64-linux-gnu/cmake/SDL2_ttf/sdl2_ttf-config-version.cmake"
+  "/usr/lib/x86_64-linux-gnu/cmake/SDL2_ttf/sdl2_ttf-config.cmake"
   "/usr/local/lib/cmake/SDL2/SDL2Config.cmake"
   "/usr/local/lib/cmake/SDL2/SDL2ConfigVersion.cmake"
   "/usr/local/lib/cmake/SDL2/SDL2Targets-noconfig.cmake"
@@ -65,5 +67,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/tp3-smb.dir/DependInfo.cmake"
+  "CMakeFiles/gisei.dir/DependInfo.cmake"
   )

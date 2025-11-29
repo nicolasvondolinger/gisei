@@ -20,6 +20,7 @@
 #include "UI/Screens/UIScreen.h"
 #include "UI/Screens/MainMenu.h"
 #include "UI/Screens/PauseMenu.h"
+#include "UI/Screens/GameOver.h"
 
 Game::Game()
         :mWindow(nullptr)
@@ -83,9 +84,11 @@ bool Game::Initialize() {
     mRenderer = new Renderer(mWindow);
     mRenderer->Initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
+    mFadeAlpha = 0.0f;
+    mFadeState = FadeState::None;
 
-    SetScene(GameScene::MainMenu);
-
+    LoadScene(GameScene::MainMenu);
+    
     mTicksCount = SDL_GetTicks();
 
     return true;
@@ -122,10 +125,16 @@ void Game::UnloadScene()
 
 void Game::SetScene(GameScene nextScene)
 {
+    mNextScene = nextScene;
+    mFadeState = FadeState::FadingOut;
+}
+
+void Game::LoadScene(GameScene scene)
+{
     mIsPaused = false;
-    mCurrentScene = nextScene;
+    mCurrentScene = scene;
     UnloadScene();
-    switch (nextScene) {
+    switch (scene) {
         case GameScene::MainMenu:
             mBackgroundTexture = nullptr;
             new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
@@ -137,9 +146,12 @@ void Game::SetScene(GameScene nextScene)
             }
             InitializeActors();
             break;
+        case GameScene::GameOver:
+            mBackgroundTexture = nullptr;
+            new GameOver(this, "../Assets/Fonts/Alkhemikal.ttf");
+            break;
     }
 }
-
 
 void Game::InitializeActors() {
     new ParallaxBackground(this);
@@ -309,6 +321,22 @@ void Game::ProcessInput()
 }
 
 void Game::UpdateGame(float deltaTime) {
+
+    if (mFadeState == FadeState::FadingOut) {
+        mFadeAlpha += 2.5f * deltaTime;
+        if (mFadeAlpha >= 1.0f) {
+            mFadeAlpha = 1.0f;
+            LoadScene(mNextScene); 
+            mFadeState = FadeState::FadingIn;
+        }
+    } else if (mFadeState == FadeState::FadingIn) {
+        mFadeAlpha -= 2.5f * deltaTime;
+        if (mFadeAlpha <= 0.0f) {
+            mFadeAlpha = 0.0f;
+            mFadeState = FadeState::None;
+        }
+    }
+
     if (mWaitingToQuit){
         bool deathSoundFinished = (mDeathSoundChannel == -1 || Mix_Playing(mDeathSoundChannel) == 0);
         bool stageClearSoundFinished = (mStageClearSoundChannel == -1 || Mix_Playing(mStageClearSoundChannel) == 0);
@@ -437,6 +465,12 @@ void Game::RemoveCollider(AABBColliderComponent* collider)
     }
 }
 
+void Game::DrawFade() {
+    if (mFadeState != FadeState::None) {
+        mRenderer->DrawFade(mFadeAlpha);
+    }
+}
+
 void Game::GenerateOutput()
 {
     mRenderer->Clear();
@@ -498,10 +532,8 @@ void Game::GenerateOutput()
         }
     }
     
-
-
     mRenderer->Draw();
-
+    DrawFade();
     mRenderer->Present();
 }
 

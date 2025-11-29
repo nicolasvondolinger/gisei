@@ -65,6 +65,7 @@ public:
     SDL_Window* GetWindow() const { return mWindow; }
     SDL_Renderer* GetSDLRenderer() const { return SDL_GetRenderer(mWindow); }
     void UpdateViewportToWindow();
+    void DrawFade(float alpha);
 
 private:
     void Draw(RendererMode mode, const Matrix4 &modelMatrix, const Vector2 &cameraPos, VertexArray *vertices,
@@ -77,6 +78,11 @@ private:
 
 
     class Shader *mBaseShader;
+
+    // Sprite shader
+	class Shader* mSpriteShader;
+    // Mesh shader
+    class Shader* mMeshShader;
 
 
     class VertexArray *mSpriteVerts;

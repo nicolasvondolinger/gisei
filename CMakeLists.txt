@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.25.1)
+
 # Configurando o padrão c++
 set(CMAKE_CXX_STANDARD 17)
 
@@ -12,7 +13,6 @@ find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(OpenGL REQUIRED)
-
 
 add_executable(${PROJECT_NAME}
         Source/Renderer/Shader.cpp
@@ -56,6 +56,8 @@ add_executable(${PROJECT_NAME}
         Source/UI/UIElement.h
         Source/UI/UIImage.cpp
         Source/UI/UIImage.h
+        Source/UI/AudioSystem.cpp
+        Source/UI/AudioSystem.h
         Source/UI/Screens/UIScreen.cpp
         Source/UI/Screens/UIScreen.h
         Source/UI/UIText.cpp
@@ -67,6 +69,8 @@ add_executable(${PROJECT_NAME}
         Source/UI/Screens/MainMenu.h
         Source/UI/Screens/GameOver.cpp
         Source/UI/Screens/GameOver.h
+        Source/UI/Screens/PauseMenu.cpp 
+        Source/UI/Screens/PauseMenu.h
         Source/Renderer/Font.h
         Source/Renderer/Font.cpp
         Source/Actors/Yokai.cpp
@@ -80,4 +84,11 @@ add_executable(${PROJECT_NAME}
 )
 
 
-target_link_libraries(${PROJECT_NAME} PRIVATE GLEW::GLEW SDL2::SDL2 SDL2_image::SDL2_image SDL2_mixer::SDL2_mixer SDL2_ttf::SDL2_ttf)
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    GLEW::GLEW 
+    SDL2::SDL2 
+    SDL2_image::SDL2_image 
+    SDL2_mixer::SDL2_mixer 
+    SDL2_ttf::SDL2_ttf
+    OpenGL::GL
+)

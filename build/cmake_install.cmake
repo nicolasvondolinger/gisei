@@ -1,4 +1,4 @@
-# Install script for directory: /home/nicolasvondolinger/codes/tp3-super-mario-bros-1-1-nicolasvondolinger
+# Install script for directory: /home/nicolasvondolinger/codes/gisei
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/nicolasvondolinger/codes/tp3-super-mario-bros-1-1-nicolasvondolinger/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/nicolasvondolinger/codes/gisei/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -42,7 +42,7 @@ MainMenu::MainMenu(class Game *game, const std::string &fontName)
     settingsButton->SetHoverColor(textHover);
     settingsButton->SetBackgroundColor(Vector4(buttonBg, 0.8f));
 
-    UIButton *exitButton = AddButton("Leave", [this]() {
+    UIButton *exitButton = AddButton("Quit", [this]() {
         mGame->Quit();
     }, exitButtonPos, 1.0f, 0.0f, 48, 900, 200);
 

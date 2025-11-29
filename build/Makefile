@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/nicolasvondolinger/codes/tp3-super-mario-bros-1-1-nicolasvondolinger
+CMAKE_SOURCE_DIR = /home/nicolasvondolinger/codes/gisei
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/nicolasvondolinger/codes/tp3-super-mario-bros-1-1-nicolasvondolinger/build
+CMAKE_BINARY_DIR = /home/nicolasvondolinger/codes/gisei/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nicolasvondolinger/codes/tp3-super-mario-bros-1-1-nicolasvondolinger/build/CMakeFiles /home/nicolasvondolinger/codes/tp3-super-mario-bros-1-1-nicolasvondolinger/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nicolasvondolinger/codes/gisei/build/CMakeFiles /home/nicolasvondolinger/codes/gisei/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/nicolasvondolinger/codes/tp3-super-mario-bros-1-1-nicolasvondolinger/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nicolasvondolinger/codes/gisei/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named tp3-smb
+# Target rules for targets named gisei
 
 # Build rule for target.
-tp3-smb: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tp3-smb
-.PHONY : tp3-smb
+gisei: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gisei
+.PHONY : gisei
 
 # fast build rule for target.
-tp3-smb/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/build
-.PHONY : tp3-smb/fast
+gisei/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/build
+.PHONY : gisei/fast
 
 Source/Actors/Actor.o: Source/Actors/Actor.cpp.o
 .PHONY : Source/Actors/Actor.o
 
 # target to build an object file
 Source/Actors/Actor.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Actor.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Actor.cpp.o
 .PHONY : Source/Actors/Actor.cpp.o
 
 Source/Actors/Actor.i: Source/Actors/Actor.cpp.i
@@ -142,7 +142,7 @@ Source/Actors/Actor.i: Source/Actors/Actor.cpp.i
 
 # target to preprocess a source file
 Source/Actors/Actor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Actor.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Actor.cpp.i
 .PHONY : Source/Actors/Actor.cpp.i
 
 Source/Actors/Actor.s: Source/Actors/Actor.cpp.s
@@ -150,7 +150,7 @@ Source/Actors/Actor.s: Source/Actors/Actor.cpp.s
 
 # target to generate assembly for a file
 Source/Actors/Actor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Actor.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Actor.cpp.s
 .PHONY : Source/Actors/Actor.cpp.s
 
 Source/Actors/Block.o: Source/Actors/Block.cpp.o
@@ -158,7 +158,7 @@ Source/Actors/Block.o: Source/Actors/Block.cpp.o
 
 # target to build an object file
 Source/Actors/Block.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Block.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Block.cpp.o
 .PHONY : Source/Actors/Block.cpp.o
 
 Source/Actors/Block.i: Source/Actors/Block.cpp.i
@@ -166,7 +166,7 @@ Source/Actors/Block.i: Source/Actors/Block.cpp.i
 
 # target to preprocess a source file
 Source/Actors/Block.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Block.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Block.cpp.i
 .PHONY : Source/Actors/Block.cpp.i
 
 Source/Actors/Block.s: Source/Actors/Block.cpp.s
@@ -174,87 +174,87 @@ Source/Actors/Block.s: Source/Actors/Block.cpp.s
 
 # target to generate assembly for a file
 Source/Actors/Block.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Block.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Block.cpp.s
 .PHONY : Source/Actors/Block.cpp.s
 
-Source/Actors/Goomba.o: Source/Actors/Goomba.cpp.o
-.PHONY : Source/Actors/Goomba.o
+Source/Actors/Dart.o: Source/Actors/Dart.cpp.o
+.PHONY : Source/Actors/Dart.o
 
 # target to build an object file
-Source/Actors/Goomba.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Goomba.cpp.o
-.PHONY : Source/Actors/Goomba.cpp.o
+Source/Actors/Dart.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o
+.PHONY : Source/Actors/Dart.cpp.o
 
-Source/Actors/Goomba.i: Source/Actors/Goomba.cpp.i
-.PHONY : Source/Actors/Goomba.i
+Source/Actors/Dart.i: Source/Actors/Dart.cpp.i
+.PHONY : Source/Actors/Dart.i
 
 # target to preprocess a source file
-Source/Actors/Goomba.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Goomba.cpp.i
-.PHONY : Source/Actors/Goomba.cpp.i
+Source/Actors/Dart.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.i
+.PHONY : Source/Actors/Dart.cpp.i
 
-Source/Actors/Goomba.s: Source/Actors/Goomba.cpp.s
-.PHONY : Source/Actors/Goomba.s
+Source/Actors/Dart.s: Source/Actors/Dart.cpp.s
+.PHONY : Source/Actors/Dart.s
 
 # target to generate assembly for a file
-Source/Actors/Goomba.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Goomba.cpp.s
-.PHONY : Source/Actors/Goomba.cpp.s
+Source/Actors/Dart.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.s
+.PHONY : Source/Actors/Dart.cpp.s
 
-Source/Actors/Mario.o: Source/Actors/Mario.cpp.o
-.PHONY : Source/Actors/Mario.o
+Source/Actors/Ninja.o: Source/Actors/Ninja.cpp.o
+.PHONY : Source/Actors/Ninja.o
 
 # target to build an object file
-Source/Actors/Mario.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Mario.cpp.o
-.PHONY : Source/Actors/Mario.cpp.o
+Source/Actors/Ninja.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o
+.PHONY : Source/Actors/Ninja.cpp.o
 
-Source/Actors/Mario.i: Source/Actors/Mario.cpp.i
-.PHONY : Source/Actors/Mario.i
+Source/Actors/Ninja.i: Source/Actors/Ninja.cpp.i
+.PHONY : Source/Actors/Ninja.i
 
 # target to preprocess a source file
-Source/Actors/Mario.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Mario.cpp.i
-.PHONY : Source/Actors/Mario.cpp.i
+Source/Actors/Ninja.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.i
+.PHONY : Source/Actors/Ninja.cpp.i
 
-Source/Actors/Mario.s: Source/Actors/Mario.cpp.s
-.PHONY : Source/Actors/Mario.s
+Source/Actors/Ninja.s: Source/Actors/Ninja.cpp.s
+.PHONY : Source/Actors/Ninja.s
 
 # target to generate assembly for a file
-Source/Actors/Mario.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Mario.cpp.s
-.PHONY : Source/Actors/Mario.cpp.s
+Source/Actors/Ninja.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.s
+.PHONY : Source/Actors/Ninja.cpp.s
 
-Source/Actors/Mushroom.o: Source/Actors/Mushroom.cpp.o
-.PHONY : Source/Actors/Mushroom.o
+Source/Actors/ParallaxBackground.o: Source/Actors/ParallaxBackground.cpp.o
+.PHONY : Source/Actors/ParallaxBackground.o
 
 # target to build an object file
-Source/Actors/Mushroom.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Mushroom.cpp.o
-.PHONY : Source/Actors/Mushroom.cpp.o
+Source/Actors/ParallaxBackground.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o
+.PHONY : Source/Actors/ParallaxBackground.cpp.o
 
-Source/Actors/Mushroom.i: Source/Actors/Mushroom.cpp.i
-.PHONY : Source/Actors/Mushroom.i
+Source/Actors/ParallaxBackground.i: Source/Actors/ParallaxBackground.cpp.i
+.PHONY : Source/Actors/ParallaxBackground.i
 
 # target to preprocess a source file
-Source/Actors/Mushroom.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Mushroom.cpp.i
-.PHONY : Source/Actors/Mushroom.cpp.i
+Source/Actors/ParallaxBackground.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.i
+.PHONY : Source/Actors/ParallaxBackground.cpp.i
 
-Source/Actors/Mushroom.s: Source/Actors/Mushroom.cpp.s
-.PHONY : Source/Actors/Mushroom.s
+Source/Actors/ParallaxBackground.s: Source/Actors/ParallaxBackground.cpp.s
+.PHONY : Source/Actors/ParallaxBackground.s
 
 # target to generate assembly for a file
-Source/Actors/Mushroom.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Mushroom.cpp.s
-.PHONY : Source/Actors/Mushroom.cpp.s
+Source/Actors/ParallaxBackground.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.s
+.PHONY : Source/Actors/ParallaxBackground.cpp.s
 
 Source/Actors/Spawner.o: Source/Actors/Spawner.cpp.o
 .PHONY : Source/Actors/Spawner.o
 
 # target to build an object file
 Source/Actors/Spawner.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Spawner.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Spawner.cpp.o
 .PHONY : Source/Actors/Spawner.cpp.o
 
 Source/Actors/Spawner.i: Source/Actors/Spawner.cpp.i
@@ -262,7 +262,7 @@ Source/Actors/Spawner.i: Source/Actors/Spawner.cpp.i
 
 # target to preprocess a source file
 Source/Actors/Spawner.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Spawner.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Spawner.cpp.i
 .PHONY : Source/Actors/Spawner.cpp.i
 
 Source/Actors/Spawner.s: Source/Actors/Spawner.cpp.s
@@ -270,15 +270,39 @@ Source/Actors/Spawner.s: Source/Actors/Spawner.cpp.s
 
 # target to generate assembly for a file
 Source/Actors/Spawner.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Actors/Spawner.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Spawner.cpp.s
 .PHONY : Source/Actors/Spawner.cpp.s
+
+Source/Actors/Yokai.o: Source/Actors/Yokai.cpp.o
+.PHONY : Source/Actors/Yokai.o
+
+# target to build an object file
+Source/Actors/Yokai.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o
+.PHONY : Source/Actors/Yokai.cpp.o
+
+Source/Actors/Yokai.i: Source/Actors/Yokai.cpp.i
+.PHONY : Source/Actors/Yokai.i
+
+# target to preprocess a source file
+Source/Actors/Yokai.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.i
+.PHONY : Source/Actors/Yokai.cpp.i
+
+Source/Actors/Yokai.s: Source/Actors/Yokai.cpp.s
+.PHONY : Source/Actors/Yokai.s
+
+# target to generate assembly for a file
+Source/Actors/Yokai.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.s
+.PHONY : Source/Actors/Yokai.cpp.s
 
 Source/Components/Component.o: Source/Components/Component.cpp.o
 .PHONY : Source/Components/Component.o
 
 # target to build an object file
 Source/Components/Component.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Component.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Component.cpp.o
 .PHONY : Source/Components/Component.cpp.o
 
 Source/Components/Component.i: Source/Components/Component.cpp.i
@@ -286,7 +310,7 @@ Source/Components/Component.i: Source/Components/Component.cpp.i
 
 # target to preprocess a source file
 Source/Components/Component.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Component.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Component.cpp.i
 .PHONY : Source/Components/Component.cpp.i
 
 Source/Components/Component.s: Source/Components/Component.cpp.s
@@ -294,7 +318,7 @@ Source/Components/Component.s: Source/Components/Component.cpp.s
 
 # target to generate assembly for a file
 Source/Components/Component.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Component.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Component.cpp.s
 .PHONY : Source/Components/Component.cpp.s
 
 Source/Components/Drawing/AnimatorComponent.o: Source/Components/Drawing/AnimatorComponent.cpp.o
@@ -302,7 +326,7 @@ Source/Components/Drawing/AnimatorComponent.o: Source/Components/Drawing/Animato
 
 # target to build an object file
 Source/Components/Drawing/AnimatorComponent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Drawing/AnimatorComponent.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/AnimatorComponent.cpp.o
 .PHONY : Source/Components/Drawing/AnimatorComponent.cpp.o
 
 Source/Components/Drawing/AnimatorComponent.i: Source/Components/Drawing/AnimatorComponent.cpp.i
@@ -310,7 +334,7 @@ Source/Components/Drawing/AnimatorComponent.i: Source/Components/Drawing/Animato
 
 # target to preprocess a source file
 Source/Components/Drawing/AnimatorComponent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Drawing/AnimatorComponent.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/AnimatorComponent.cpp.i
 .PHONY : Source/Components/Drawing/AnimatorComponent.cpp.i
 
 Source/Components/Drawing/AnimatorComponent.s: Source/Components/Drawing/AnimatorComponent.cpp.s
@@ -318,15 +342,63 @@ Source/Components/Drawing/AnimatorComponent.s: Source/Components/Drawing/Animato
 
 # target to generate assembly for a file
 Source/Components/Drawing/AnimatorComponent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Drawing/AnimatorComponent.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/AnimatorComponent.cpp.s
 .PHONY : Source/Components/Drawing/AnimatorComponent.cpp.s
+
+Source/Components/Drawing/DashAfterimageComponent.o: Source/Components/Drawing/DashAfterimageComponent.cpp.o
+.PHONY : Source/Components/Drawing/DashAfterimageComponent.o
+
+# target to build an object file
+Source/Components/Drawing/DashAfterimageComponent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o
+.PHONY : Source/Components/Drawing/DashAfterimageComponent.cpp.o
+
+Source/Components/Drawing/DashAfterimageComponent.i: Source/Components/Drawing/DashAfterimageComponent.cpp.i
+.PHONY : Source/Components/Drawing/DashAfterimageComponent.i
+
+# target to preprocess a source file
+Source/Components/Drawing/DashAfterimageComponent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.i
+.PHONY : Source/Components/Drawing/DashAfterimageComponent.cpp.i
+
+Source/Components/Drawing/DashAfterimageComponent.s: Source/Components/Drawing/DashAfterimageComponent.cpp.s
+.PHONY : Source/Components/Drawing/DashAfterimageComponent.s
+
+# target to generate assembly for a file
+Source/Components/Drawing/DashAfterimageComponent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.s
+.PHONY : Source/Components/Drawing/DashAfterimageComponent.cpp.s
+
+Source/Components/Drawing/DashSmokeComponent.o: Source/Components/Drawing/DashSmokeComponent.cpp.o
+.PHONY : Source/Components/Drawing/DashSmokeComponent.o
+
+# target to build an object file
+Source/Components/Drawing/DashSmokeComponent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o
+.PHONY : Source/Components/Drawing/DashSmokeComponent.cpp.o
+
+Source/Components/Drawing/DashSmokeComponent.i: Source/Components/Drawing/DashSmokeComponent.cpp.i
+.PHONY : Source/Components/Drawing/DashSmokeComponent.i
+
+# target to preprocess a source file
+Source/Components/Drawing/DashSmokeComponent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.i
+.PHONY : Source/Components/Drawing/DashSmokeComponent.cpp.i
+
+Source/Components/Drawing/DashSmokeComponent.s: Source/Components/Drawing/DashSmokeComponent.cpp.s
+.PHONY : Source/Components/Drawing/DashSmokeComponent.s
+
+# target to generate assembly for a file
+Source/Components/Drawing/DashSmokeComponent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.s
+.PHONY : Source/Components/Drawing/DashSmokeComponent.cpp.s
 
 Source/Components/Drawing/DrawComponent.o: Source/Components/Drawing/DrawComponent.cpp.o
 .PHONY : Source/Components/Drawing/DrawComponent.o
 
 # target to build an object file
 Source/Components/Drawing/DrawComponent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Drawing/DrawComponent.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/DrawComponent.cpp.o
 .PHONY : Source/Components/Drawing/DrawComponent.cpp.o
 
 Source/Components/Drawing/DrawComponent.i: Source/Components/Drawing/DrawComponent.cpp.i
@@ -334,7 +406,7 @@ Source/Components/Drawing/DrawComponent.i: Source/Components/Drawing/DrawCompone
 
 # target to preprocess a source file
 Source/Components/Drawing/DrawComponent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Drawing/DrawComponent.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/DrawComponent.cpp.i
 .PHONY : Source/Components/Drawing/DrawComponent.cpp.i
 
 Source/Components/Drawing/DrawComponent.s: Source/Components/Drawing/DrawComponent.cpp.s
@@ -342,15 +414,39 @@ Source/Components/Drawing/DrawComponent.s: Source/Components/Drawing/DrawCompone
 
 # target to generate assembly for a file
 Source/Components/Drawing/DrawComponent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Drawing/DrawComponent.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/DrawComponent.cpp.s
 .PHONY : Source/Components/Drawing/DrawComponent.cpp.s
+
+Source/Components/Drawing/ParallaxComponent.o: Source/Components/Drawing/ParallaxComponent.cpp.o
+.PHONY : Source/Components/Drawing/ParallaxComponent.o
+
+# target to build an object file
+Source/Components/Drawing/ParallaxComponent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o
+.PHONY : Source/Components/Drawing/ParallaxComponent.cpp.o
+
+Source/Components/Drawing/ParallaxComponent.i: Source/Components/Drawing/ParallaxComponent.cpp.i
+.PHONY : Source/Components/Drawing/ParallaxComponent.i
+
+# target to preprocess a source file
+Source/Components/Drawing/ParallaxComponent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.i
+.PHONY : Source/Components/Drawing/ParallaxComponent.cpp.i
+
+Source/Components/Drawing/ParallaxComponent.s: Source/Components/Drawing/ParallaxComponent.cpp.s
+.PHONY : Source/Components/Drawing/ParallaxComponent.s
+
+# target to generate assembly for a file
+Source/Components/Drawing/ParallaxComponent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.s
+.PHONY : Source/Components/Drawing/ParallaxComponent.cpp.s
 
 Source/Components/Drawing/RectComponent.o: Source/Components/Drawing/RectComponent.cpp.o
 .PHONY : Source/Components/Drawing/RectComponent.o
 
 # target to build an object file
 Source/Components/Drawing/RectComponent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Drawing/RectComponent.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/RectComponent.cpp.o
 .PHONY : Source/Components/Drawing/RectComponent.cpp.o
 
 Source/Components/Drawing/RectComponent.i: Source/Components/Drawing/RectComponent.cpp.i
@@ -358,7 +454,7 @@ Source/Components/Drawing/RectComponent.i: Source/Components/Drawing/RectCompone
 
 # target to preprocess a source file
 Source/Components/Drawing/RectComponent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Drawing/RectComponent.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/RectComponent.cpp.i
 .PHONY : Source/Components/Drawing/RectComponent.cpp.i
 
 Source/Components/Drawing/RectComponent.s: Source/Components/Drawing/RectComponent.cpp.s
@@ -366,7 +462,7 @@ Source/Components/Drawing/RectComponent.s: Source/Components/Drawing/RectCompone
 
 # target to generate assembly for a file
 Source/Components/Drawing/RectComponent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Drawing/RectComponent.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/RectComponent.cpp.s
 .PHONY : Source/Components/Drawing/RectComponent.cpp.s
 
 Source/Components/ParticleSystemComponent.o: Source/Components/ParticleSystemComponent.cpp.o
@@ -374,7 +470,7 @@ Source/Components/ParticleSystemComponent.o: Source/Components/ParticleSystemCom
 
 # target to build an object file
 Source/Components/ParticleSystemComponent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/ParticleSystemComponent.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/ParticleSystemComponent.cpp.o
 .PHONY : Source/Components/ParticleSystemComponent.cpp.o
 
 Source/Components/ParticleSystemComponent.i: Source/Components/ParticleSystemComponent.cpp.i
@@ -382,7 +478,7 @@ Source/Components/ParticleSystemComponent.i: Source/Components/ParticleSystemCom
 
 # target to preprocess a source file
 Source/Components/ParticleSystemComponent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/ParticleSystemComponent.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/ParticleSystemComponent.cpp.i
 .PHONY : Source/Components/ParticleSystemComponent.cpp.i
 
 Source/Components/ParticleSystemComponent.s: Source/Components/ParticleSystemComponent.cpp.s
@@ -390,7 +486,7 @@ Source/Components/ParticleSystemComponent.s: Source/Components/ParticleSystemCom
 
 # target to generate assembly for a file
 Source/Components/ParticleSystemComponent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/ParticleSystemComponent.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/ParticleSystemComponent.cpp.s
 .PHONY : Source/Components/ParticleSystemComponent.cpp.s
 
 Source/Components/Physics/AABBColliderComponent.o: Source/Components/Physics/AABBColliderComponent.cpp.o
@@ -398,7 +494,7 @@ Source/Components/Physics/AABBColliderComponent.o: Source/Components/Physics/AAB
 
 # target to build an object file
 Source/Components/Physics/AABBColliderComponent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Physics/AABBColliderComponent.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Physics/AABBColliderComponent.cpp.o
 .PHONY : Source/Components/Physics/AABBColliderComponent.cpp.o
 
 Source/Components/Physics/AABBColliderComponent.i: Source/Components/Physics/AABBColliderComponent.cpp.i
@@ -406,7 +502,7 @@ Source/Components/Physics/AABBColliderComponent.i: Source/Components/Physics/AAB
 
 # target to preprocess a source file
 Source/Components/Physics/AABBColliderComponent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Physics/AABBColliderComponent.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Physics/AABBColliderComponent.cpp.i
 .PHONY : Source/Components/Physics/AABBColliderComponent.cpp.i
 
 Source/Components/Physics/AABBColliderComponent.s: Source/Components/Physics/AABBColliderComponent.cpp.s
@@ -414,7 +510,7 @@ Source/Components/Physics/AABBColliderComponent.s: Source/Components/Physics/AAB
 
 # target to generate assembly for a file
 Source/Components/Physics/AABBColliderComponent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Physics/AABBColliderComponent.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Physics/AABBColliderComponent.cpp.s
 .PHONY : Source/Components/Physics/AABBColliderComponent.cpp.s
 
 Source/Components/Physics/RigidBodyComponent.o: Source/Components/Physics/RigidBodyComponent.cpp.o
@@ -422,7 +518,7 @@ Source/Components/Physics/RigidBodyComponent.o: Source/Components/Physics/RigidB
 
 # target to build an object file
 Source/Components/Physics/RigidBodyComponent.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Physics/RigidBodyComponent.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Physics/RigidBodyComponent.cpp.o
 .PHONY : Source/Components/Physics/RigidBodyComponent.cpp.o
 
 Source/Components/Physics/RigidBodyComponent.i: Source/Components/Physics/RigidBodyComponent.cpp.i
@@ -430,7 +526,7 @@ Source/Components/Physics/RigidBodyComponent.i: Source/Components/Physics/RigidB
 
 # target to preprocess a source file
 Source/Components/Physics/RigidBodyComponent.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Physics/RigidBodyComponent.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Physics/RigidBodyComponent.cpp.i
 .PHONY : Source/Components/Physics/RigidBodyComponent.cpp.i
 
 Source/Components/Physics/RigidBodyComponent.s: Source/Components/Physics/RigidBodyComponent.cpp.s
@@ -438,7 +534,7 @@ Source/Components/Physics/RigidBodyComponent.s: Source/Components/Physics/RigidB
 
 # target to generate assembly for a file
 Source/Components/Physics/RigidBodyComponent.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Components/Physics/RigidBodyComponent.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Physics/RigidBodyComponent.cpp.s
 .PHONY : Source/Components/Physics/RigidBodyComponent.cpp.s
 
 Source/Game.o: Source/Game.cpp.o
@@ -446,7 +542,7 @@ Source/Game.o: Source/Game.cpp.o
 
 # target to build an object file
 Source/Game.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Game.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Game.cpp.o
 .PHONY : Source/Game.cpp.o
 
 Source/Game.i: Source/Game.cpp.i
@@ -454,7 +550,7 @@ Source/Game.i: Source/Game.cpp.i
 
 # target to preprocess a source file
 Source/Game.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Game.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Game.cpp.i
 .PHONY : Source/Game.cpp.i
 
 Source/Game.s: Source/Game.cpp.s
@@ -462,7 +558,7 @@ Source/Game.s: Source/Game.cpp.s
 
 # target to generate assembly for a file
 Source/Game.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Game.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Game.cpp.s
 .PHONY : Source/Game.cpp.s
 
 Source/Main.o: Source/Main.cpp.o
@@ -470,7 +566,7 @@ Source/Main.o: Source/Main.cpp.o
 
 # target to build an object file
 Source/Main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Main.cpp.o
 .PHONY : Source/Main.cpp.o
 
 Source/Main.i: Source/Main.cpp.i
@@ -478,7 +574,7 @@ Source/Main.i: Source/Main.cpp.i
 
 # target to preprocess a source file
 Source/Main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Main.cpp.i
 .PHONY : Source/Main.cpp.i
 
 Source/Main.s: Source/Main.cpp.s
@@ -486,7 +582,7 @@ Source/Main.s: Source/Main.cpp.s
 
 # target to generate assembly for a file
 Source/Main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Main.cpp.s
 .PHONY : Source/Main.cpp.s
 
 Source/Math.o: Source/Math.cpp.o
@@ -494,7 +590,7 @@ Source/Math.o: Source/Math.cpp.o
 
 # target to build an object file
 Source/Math.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Math.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Math.cpp.o
 .PHONY : Source/Math.cpp.o
 
 Source/Math.i: Source/Math.cpp.i
@@ -502,7 +598,7 @@ Source/Math.i: Source/Math.cpp.i
 
 # target to preprocess a source file
 Source/Math.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Math.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Math.cpp.i
 .PHONY : Source/Math.cpp.i
 
 Source/Math.s: Source/Math.cpp.s
@@ -510,7 +606,7 @@ Source/Math.s: Source/Math.cpp.s
 
 # target to generate assembly for a file
 Source/Math.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Math.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Math.cpp.s
 .PHONY : Source/Math.cpp.s
 
 Source/Random.o: Source/Random.cpp.o
@@ -518,7 +614,7 @@ Source/Random.o: Source/Random.cpp.o
 
 # target to build an object file
 Source/Random.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Random.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Random.cpp.o
 .PHONY : Source/Random.cpp.o
 
 Source/Random.i: Source/Random.cpp.i
@@ -526,7 +622,7 @@ Source/Random.i: Source/Random.cpp.i
 
 # target to preprocess a source file
 Source/Random.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Random.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Random.cpp.i
 .PHONY : Source/Random.cpp.i
 
 Source/Random.s: Source/Random.cpp.s
@@ -534,15 +630,39 @@ Source/Random.s: Source/Random.cpp.s
 
 # target to generate assembly for a file
 Source/Random.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Random.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Random.cpp.s
 .PHONY : Source/Random.cpp.s
+
+Source/Renderer/Font.o: Source/Renderer/Font.cpp.o
+.PHONY : Source/Renderer/Font.o
+
+# target to build an object file
+Source/Renderer/Font.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o
+.PHONY : Source/Renderer/Font.cpp.o
+
+Source/Renderer/Font.i: Source/Renderer/Font.cpp.i
+.PHONY : Source/Renderer/Font.i
+
+# target to preprocess a source file
+Source/Renderer/Font.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.i
+.PHONY : Source/Renderer/Font.cpp.i
+
+Source/Renderer/Font.s: Source/Renderer/Font.cpp.s
+.PHONY : Source/Renderer/Font.s
+
+# target to generate assembly for a file
+Source/Renderer/Font.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.s
+.PHONY : Source/Renderer/Font.cpp.s
 
 Source/Renderer/Renderer.o: Source/Renderer/Renderer.cpp.o
 .PHONY : Source/Renderer/Renderer.o
 
 # target to build an object file
 Source/Renderer/Renderer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/Renderer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Renderer.cpp.o
 .PHONY : Source/Renderer/Renderer.cpp.o
 
 Source/Renderer/Renderer.i: Source/Renderer/Renderer.cpp.i
@@ -550,7 +670,7 @@ Source/Renderer/Renderer.i: Source/Renderer/Renderer.cpp.i
 
 # target to preprocess a source file
 Source/Renderer/Renderer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/Renderer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Renderer.cpp.i
 .PHONY : Source/Renderer/Renderer.cpp.i
 
 Source/Renderer/Renderer.s: Source/Renderer/Renderer.cpp.s
@@ -558,7 +678,7 @@ Source/Renderer/Renderer.s: Source/Renderer/Renderer.cpp.s
 
 # target to generate assembly for a file
 Source/Renderer/Renderer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/Renderer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Renderer.cpp.s
 .PHONY : Source/Renderer/Renderer.cpp.s
 
 Source/Renderer/Shader.o: Source/Renderer/Shader.cpp.o
@@ -566,7 +686,7 @@ Source/Renderer/Shader.o: Source/Renderer/Shader.cpp.o
 
 # target to build an object file
 Source/Renderer/Shader.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/Shader.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Shader.cpp.o
 .PHONY : Source/Renderer/Shader.cpp.o
 
 Source/Renderer/Shader.i: Source/Renderer/Shader.cpp.i
@@ -574,7 +694,7 @@ Source/Renderer/Shader.i: Source/Renderer/Shader.cpp.i
 
 # target to preprocess a source file
 Source/Renderer/Shader.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/Shader.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Shader.cpp.i
 .PHONY : Source/Renderer/Shader.cpp.i
 
 Source/Renderer/Shader.s: Source/Renderer/Shader.cpp.s
@@ -582,7 +702,7 @@ Source/Renderer/Shader.s: Source/Renderer/Shader.cpp.s
 
 # target to generate assembly for a file
 Source/Renderer/Shader.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/Shader.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Shader.cpp.s
 .PHONY : Source/Renderer/Shader.cpp.s
 
 Source/Renderer/Texture.o: Source/Renderer/Texture.cpp.o
@@ -590,7 +710,7 @@ Source/Renderer/Texture.o: Source/Renderer/Texture.cpp.o
 
 # target to build an object file
 Source/Renderer/Texture.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/Texture.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Texture.cpp.o
 .PHONY : Source/Renderer/Texture.cpp.o
 
 Source/Renderer/Texture.i: Source/Renderer/Texture.cpp.i
@@ -598,7 +718,7 @@ Source/Renderer/Texture.i: Source/Renderer/Texture.cpp.i
 
 # target to preprocess a source file
 Source/Renderer/Texture.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/Texture.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Texture.cpp.i
 .PHONY : Source/Renderer/Texture.cpp.i
 
 Source/Renderer/Texture.s: Source/Renderer/Texture.cpp.s
@@ -606,7 +726,7 @@ Source/Renderer/Texture.s: Source/Renderer/Texture.cpp.s
 
 # target to generate assembly for a file
 Source/Renderer/Texture.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/Texture.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/Texture.cpp.s
 .PHONY : Source/Renderer/Texture.cpp.s
 
 Source/Renderer/VertexArray.o: Source/Renderer/VertexArray.cpp.o
@@ -614,7 +734,7 @@ Source/Renderer/VertexArray.o: Source/Renderer/VertexArray.cpp.o
 
 # target to build an object file
 Source/Renderer/VertexArray.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/VertexArray.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/VertexArray.cpp.o
 .PHONY : Source/Renderer/VertexArray.cpp.o
 
 Source/Renderer/VertexArray.i: Source/Renderer/VertexArray.cpp.i
@@ -622,7 +742,7 @@ Source/Renderer/VertexArray.i: Source/Renderer/VertexArray.cpp.i
 
 # target to preprocess a source file
 Source/Renderer/VertexArray.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/VertexArray.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/VertexArray.cpp.i
 .PHONY : Source/Renderer/VertexArray.cpp.i
 
 Source/Renderer/VertexArray.s: Source/Renderer/VertexArray.cpp.s
@@ -630,8 +750,296 @@ Source/Renderer/VertexArray.s: Source/Renderer/VertexArray.cpp.s
 
 # target to generate assembly for a file
 Source/Renderer/VertexArray.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tp3-smb.dir/build.make CMakeFiles/tp3-smb.dir/Source/Renderer/VertexArray.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Renderer/VertexArray.cpp.s
 .PHONY : Source/Renderer/VertexArray.cpp.s
+
+Source/UI/AudioSystem.o: Source/UI/AudioSystem.cpp.o
+.PHONY : Source/UI/AudioSystem.o
+
+# target to build an object file
+Source/UI/AudioSystem.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/AudioSystem.cpp.o
+.PHONY : Source/UI/AudioSystem.cpp.o
+
+Source/UI/AudioSystem.i: Source/UI/AudioSystem.cpp.i
+.PHONY : Source/UI/AudioSystem.i
+
+# target to preprocess a source file
+Source/UI/AudioSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/AudioSystem.cpp.i
+.PHONY : Source/UI/AudioSystem.cpp.i
+
+Source/UI/AudioSystem.s: Source/UI/AudioSystem.cpp.s
+.PHONY : Source/UI/AudioSystem.s
+
+# target to generate assembly for a file
+Source/UI/AudioSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/AudioSystem.cpp.s
+.PHONY : Source/UI/AudioSystem.cpp.s
+
+Source/UI/Screens/GameOver.o: Source/UI/Screens/GameOver.cpp.o
+.PHONY : Source/UI/Screens/GameOver.o
+
+# target to build an object file
+Source/UI/Screens/GameOver.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/GameOver.cpp.o
+.PHONY : Source/UI/Screens/GameOver.cpp.o
+
+Source/UI/Screens/GameOver.i: Source/UI/Screens/GameOver.cpp.i
+.PHONY : Source/UI/Screens/GameOver.i
+
+# target to preprocess a source file
+Source/UI/Screens/GameOver.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/GameOver.cpp.i
+.PHONY : Source/UI/Screens/GameOver.cpp.i
+
+Source/UI/Screens/GameOver.s: Source/UI/Screens/GameOver.cpp.s
+.PHONY : Source/UI/Screens/GameOver.s
+
+# target to generate assembly for a file
+Source/UI/Screens/GameOver.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/GameOver.cpp.s
+.PHONY : Source/UI/Screens/GameOver.cpp.s
+
+Source/UI/Screens/HUD.o: Source/UI/Screens/HUD.cpp.o
+.PHONY : Source/UI/Screens/HUD.o
+
+# target to build an object file
+Source/UI/Screens/HUD.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/HUD.cpp.o
+.PHONY : Source/UI/Screens/HUD.cpp.o
+
+Source/UI/Screens/HUD.i: Source/UI/Screens/HUD.cpp.i
+.PHONY : Source/UI/Screens/HUD.i
+
+# target to preprocess a source file
+Source/UI/Screens/HUD.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/HUD.cpp.i
+.PHONY : Source/UI/Screens/HUD.cpp.i
+
+Source/UI/Screens/HUD.s: Source/UI/Screens/HUD.cpp.s
+.PHONY : Source/UI/Screens/HUD.s
+
+# target to generate assembly for a file
+Source/UI/Screens/HUD.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/HUD.cpp.s
+.PHONY : Source/UI/Screens/HUD.cpp.s
+
+Source/UI/Screens/MainMenu.o: Source/UI/Screens/MainMenu.cpp.o
+.PHONY : Source/UI/Screens/MainMenu.o
+
+# target to build an object file
+Source/UI/Screens/MainMenu.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/MainMenu.cpp.o
+.PHONY : Source/UI/Screens/MainMenu.cpp.o
+
+Source/UI/Screens/MainMenu.i: Source/UI/Screens/MainMenu.cpp.i
+.PHONY : Source/UI/Screens/MainMenu.i
+
+# target to preprocess a source file
+Source/UI/Screens/MainMenu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/MainMenu.cpp.i
+.PHONY : Source/UI/Screens/MainMenu.cpp.i
+
+Source/UI/Screens/MainMenu.s: Source/UI/Screens/MainMenu.cpp.s
+.PHONY : Source/UI/Screens/MainMenu.s
+
+# target to generate assembly for a file
+Source/UI/Screens/MainMenu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/MainMenu.cpp.s
+.PHONY : Source/UI/Screens/MainMenu.cpp.s
+
+Source/UI/Screens/PauseMenu.o: Source/UI/Screens/PauseMenu.cpp.o
+.PHONY : Source/UI/Screens/PauseMenu.o
+
+# target to build an object file
+Source/UI/Screens/PauseMenu.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/PauseMenu.cpp.o
+.PHONY : Source/UI/Screens/PauseMenu.cpp.o
+
+Source/UI/Screens/PauseMenu.i: Source/UI/Screens/PauseMenu.cpp.i
+.PHONY : Source/UI/Screens/PauseMenu.i
+
+# target to preprocess a source file
+Source/UI/Screens/PauseMenu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/PauseMenu.cpp.i
+.PHONY : Source/UI/Screens/PauseMenu.cpp.i
+
+Source/UI/Screens/PauseMenu.s: Source/UI/Screens/PauseMenu.cpp.s
+.PHONY : Source/UI/Screens/PauseMenu.s
+
+# target to generate assembly for a file
+Source/UI/Screens/PauseMenu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/PauseMenu.cpp.s
+.PHONY : Source/UI/Screens/PauseMenu.cpp.s
+
+Source/UI/Screens/SettingsMenu.o: Source/UI/Screens/SettingsMenu.cpp.o
+.PHONY : Source/UI/Screens/SettingsMenu.o
+
+# target to build an object file
+Source/UI/Screens/SettingsMenu.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o
+.PHONY : Source/UI/Screens/SettingsMenu.cpp.o
+
+Source/UI/Screens/SettingsMenu.i: Source/UI/Screens/SettingsMenu.cpp.i
+.PHONY : Source/UI/Screens/SettingsMenu.i
+
+# target to preprocess a source file
+Source/UI/Screens/SettingsMenu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.i
+.PHONY : Source/UI/Screens/SettingsMenu.cpp.i
+
+Source/UI/Screens/SettingsMenu.s: Source/UI/Screens/SettingsMenu.cpp.s
+.PHONY : Source/UI/Screens/SettingsMenu.s
+
+# target to generate assembly for a file
+Source/UI/Screens/SettingsMenu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.s
+.PHONY : Source/UI/Screens/SettingsMenu.cpp.s
+
+Source/UI/Screens/UIScreen.o: Source/UI/Screens/UIScreen.cpp.o
+.PHONY : Source/UI/Screens/UIScreen.o
+
+# target to build an object file
+Source/UI/Screens/UIScreen.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/UIScreen.cpp.o
+.PHONY : Source/UI/Screens/UIScreen.cpp.o
+
+Source/UI/Screens/UIScreen.i: Source/UI/Screens/UIScreen.cpp.i
+.PHONY : Source/UI/Screens/UIScreen.i
+
+# target to preprocess a source file
+Source/UI/Screens/UIScreen.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/UIScreen.cpp.i
+.PHONY : Source/UI/Screens/UIScreen.cpp.i
+
+Source/UI/Screens/UIScreen.s: Source/UI/Screens/UIScreen.cpp.s
+.PHONY : Source/UI/Screens/UIScreen.s
+
+# target to generate assembly for a file
+Source/UI/Screens/UIScreen.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/UIScreen.cpp.s
+.PHONY : Source/UI/Screens/UIScreen.cpp.s
+
+Source/UI/UIButton.o: Source/UI/UIButton.cpp.o
+.PHONY : Source/UI/UIButton.o
+
+# target to build an object file
+Source/UI/UIButton.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIButton.cpp.o
+.PHONY : Source/UI/UIButton.cpp.o
+
+Source/UI/UIButton.i: Source/UI/UIButton.cpp.i
+.PHONY : Source/UI/UIButton.i
+
+# target to preprocess a source file
+Source/UI/UIButton.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIButton.cpp.i
+.PHONY : Source/UI/UIButton.cpp.i
+
+Source/UI/UIButton.s: Source/UI/UIButton.cpp.s
+.PHONY : Source/UI/UIButton.s
+
+# target to generate assembly for a file
+Source/UI/UIButton.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIButton.cpp.s
+.PHONY : Source/UI/UIButton.cpp.s
+
+Source/UI/UIElement.o: Source/UI/UIElement.cpp.o
+.PHONY : Source/UI/UIElement.o
+
+# target to build an object file
+Source/UI/UIElement.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIElement.cpp.o
+.PHONY : Source/UI/UIElement.cpp.o
+
+Source/UI/UIElement.i: Source/UI/UIElement.cpp.i
+.PHONY : Source/UI/UIElement.i
+
+# target to preprocess a source file
+Source/UI/UIElement.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIElement.cpp.i
+.PHONY : Source/UI/UIElement.cpp.i
+
+Source/UI/UIElement.s: Source/UI/UIElement.cpp.s
+.PHONY : Source/UI/UIElement.s
+
+# target to generate assembly for a file
+Source/UI/UIElement.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIElement.cpp.s
+.PHONY : Source/UI/UIElement.cpp.s
+
+Source/UI/UIImage.o: Source/UI/UIImage.cpp.o
+.PHONY : Source/UI/UIImage.o
+
+# target to build an object file
+Source/UI/UIImage.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIImage.cpp.o
+.PHONY : Source/UI/UIImage.cpp.o
+
+Source/UI/UIImage.i: Source/UI/UIImage.cpp.i
+.PHONY : Source/UI/UIImage.i
+
+# target to preprocess a source file
+Source/UI/UIImage.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIImage.cpp.i
+.PHONY : Source/UI/UIImage.cpp.i
+
+Source/UI/UIImage.s: Source/UI/UIImage.cpp.s
+.PHONY : Source/UI/UIImage.s
+
+# target to generate assembly for a file
+Source/UI/UIImage.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIImage.cpp.s
+.PHONY : Source/UI/UIImage.cpp.s
+
+Source/UI/UIRect.o: Source/UI/UIRect.cpp.o
+.PHONY : Source/UI/UIRect.o
+
+# target to build an object file
+Source/UI/UIRect.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIRect.cpp.o
+.PHONY : Source/UI/UIRect.cpp.o
+
+Source/UI/UIRect.i: Source/UI/UIRect.cpp.i
+.PHONY : Source/UI/UIRect.i
+
+# target to preprocess a source file
+Source/UI/UIRect.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIRect.cpp.i
+.PHONY : Source/UI/UIRect.cpp.i
+
+Source/UI/UIRect.s: Source/UI/UIRect.cpp.s
+.PHONY : Source/UI/UIRect.s
+
+# target to generate assembly for a file
+Source/UI/UIRect.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIRect.cpp.s
+.PHONY : Source/UI/UIRect.cpp.s
+
+Source/UI/UIText.o: Source/UI/UIText.cpp.o
+.PHONY : Source/UI/UIText.o
+
+# target to build an object file
+Source/UI/UIText.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIText.cpp.o
+.PHONY : Source/UI/UIText.cpp.o
+
+Source/UI/UIText.i: Source/UI/UIText.cpp.i
+.PHONY : Source/UI/UIText.i
+
+# target to preprocess a source file
+Source/UI/UIText.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIText.cpp.i
+.PHONY : Source/UI/UIText.cpp.i
+
+Source/UI/UIText.s: Source/UI/UIText.cpp.s
+.PHONY : Source/UI/UIText.s
+
+# target to generate assembly for a file
+Source/UI/UIText.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/UIText.cpp.s
+.PHONY : Source/UI/UIText.cpp.s
 
 # Help Target
 help:
@@ -641,34 +1049,46 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... tp3-smb"
+	@echo "... gisei"
 	@echo "... Source/Actors/Actor.o"
 	@echo "... Source/Actors/Actor.i"
 	@echo "... Source/Actors/Actor.s"
 	@echo "... Source/Actors/Block.o"
 	@echo "... Source/Actors/Block.i"
 	@echo "... Source/Actors/Block.s"
-	@echo "... Source/Actors/Goomba.o"
-	@echo "... Source/Actors/Goomba.i"
-	@echo "... Source/Actors/Goomba.s"
-	@echo "... Source/Actors/Mario.o"
-	@echo "... Source/Actors/Mario.i"
-	@echo "... Source/Actors/Mario.s"
-	@echo "... Source/Actors/Mushroom.o"
-	@echo "... Source/Actors/Mushroom.i"
-	@echo "... Source/Actors/Mushroom.s"
+	@echo "... Source/Actors/Dart.o"
+	@echo "... Source/Actors/Dart.i"
+	@echo "... Source/Actors/Dart.s"
+	@echo "... Source/Actors/Ninja.o"
+	@echo "... Source/Actors/Ninja.i"
+	@echo "... Source/Actors/Ninja.s"
+	@echo "... Source/Actors/ParallaxBackground.o"
+	@echo "... Source/Actors/ParallaxBackground.i"
+	@echo "... Source/Actors/ParallaxBackground.s"
 	@echo "... Source/Actors/Spawner.o"
 	@echo "... Source/Actors/Spawner.i"
 	@echo "... Source/Actors/Spawner.s"
+	@echo "... Source/Actors/Yokai.o"
+	@echo "... Source/Actors/Yokai.i"
+	@echo "... Source/Actors/Yokai.s"
 	@echo "... Source/Components/Component.o"
 	@echo "... Source/Components/Component.i"
 	@echo "... Source/Components/Component.s"
 	@echo "... Source/Components/Drawing/AnimatorComponent.o"
 	@echo "... Source/Components/Drawing/AnimatorComponent.i"
 	@echo "... Source/Components/Drawing/AnimatorComponent.s"
+	@echo "... Source/Components/Drawing/DashAfterimageComponent.o"
+	@echo "... Source/Components/Drawing/DashAfterimageComponent.i"
+	@echo "... Source/Components/Drawing/DashAfterimageComponent.s"
+	@echo "... Source/Components/Drawing/DashSmokeComponent.o"
+	@echo "... Source/Components/Drawing/DashSmokeComponent.i"
+	@echo "... Source/Components/Drawing/DashSmokeComponent.s"
 	@echo "... Source/Components/Drawing/DrawComponent.o"
 	@echo "... Source/Components/Drawing/DrawComponent.i"
 	@echo "... Source/Components/Drawing/DrawComponent.s"
+	@echo "... Source/Components/Drawing/ParallaxComponent.o"
+	@echo "... Source/Components/Drawing/ParallaxComponent.i"
+	@echo "... Source/Components/Drawing/ParallaxComponent.s"
 	@echo "... Source/Components/Drawing/RectComponent.o"
 	@echo "... Source/Components/Drawing/RectComponent.i"
 	@echo "... Source/Components/Drawing/RectComponent.s"
@@ -693,6 +1113,9 @@ help:
 	@echo "... Source/Random.o"
 	@echo "... Source/Random.i"
 	@echo "... Source/Random.s"
+	@echo "... Source/Renderer/Font.o"
+	@echo "... Source/Renderer/Font.i"
+	@echo "... Source/Renderer/Font.s"
 	@echo "... Source/Renderer/Renderer.o"
 	@echo "... Source/Renderer/Renderer.i"
 	@echo "... Source/Renderer/Renderer.s"
@@ -705,6 +1128,42 @@ help:
 	@echo "... Source/Renderer/VertexArray.o"
 	@echo "... Source/Renderer/VertexArray.i"
 	@echo "... Source/Renderer/VertexArray.s"
+	@echo "... Source/UI/AudioSystem.o"
+	@echo "... Source/UI/AudioSystem.i"
+	@echo "... Source/UI/AudioSystem.s"
+	@echo "... Source/UI/Screens/GameOver.o"
+	@echo "... Source/UI/Screens/GameOver.i"
+	@echo "... Source/UI/Screens/GameOver.s"
+	@echo "... Source/UI/Screens/HUD.o"
+	@echo "... Source/UI/Screens/HUD.i"
+	@echo "... Source/UI/Screens/HUD.s"
+	@echo "... Source/UI/Screens/MainMenu.o"
+	@echo "... Source/UI/Screens/MainMenu.i"
+	@echo "... Source/UI/Screens/MainMenu.s"
+	@echo "... Source/UI/Screens/PauseMenu.o"
+	@echo "... Source/UI/Screens/PauseMenu.i"
+	@echo "... Source/UI/Screens/PauseMenu.s"
+	@echo "... Source/UI/Screens/SettingsMenu.o"
+	@echo "... Source/UI/Screens/SettingsMenu.i"
+	@echo "... Source/UI/Screens/SettingsMenu.s"
+	@echo "... Source/UI/Screens/UIScreen.o"
+	@echo "... Source/UI/Screens/UIScreen.i"
+	@echo "... Source/UI/Screens/UIScreen.s"
+	@echo "... Source/UI/UIButton.o"
+	@echo "... Source/UI/UIButton.i"
+	@echo "... Source/UI/UIButton.s"
+	@echo "... Source/UI/UIElement.o"
+	@echo "... Source/UI/UIElement.i"
+	@echo "... Source/UI/UIElement.s"
+	@echo "... Source/UI/UIImage.o"
+	@echo "... Source/UI/UIImage.i"
+	@echo "... Source/UI/UIImage.s"
+	@echo "... Source/UI/UIRect.o"
+	@echo "... Source/UI/UIRect.i"
+	@echo "... Source/UI/UIRect.s"
+	@echo "... Source/UI/UIText.o"
+	@echo "... Source/UI/UIText.i"
+	@echo "... Source/UI/UIText.s"
 .PHONY : help
 
 

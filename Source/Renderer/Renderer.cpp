@@ -272,3 +272,29 @@ Font *Renderer::GetFont(const std::string &fileName) {
         return font;
     }
 }
+
+void Renderer::DrawFade(float alpha) {
+    if (alpha <= 0.0f) return;
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    mBaseShader->SetActive();
+    mSpriteVerts->SetActive();
+
+    // 1. Escala o quadrado para o tamanho da tela
+    Matrix4 scaleMat = Matrix4::CreateScale(Vector3(mScreenWidth, mScreenHeight, 1.0f));
+    
+    // 2. CORREÇÃO: Move o quadrado para o centro da tela (Largura/2, Altura/2)
+    Matrix4 transMat = Matrix4::CreateTranslation(Vector3(mScreenWidth / 2.0f, mScreenHeight / 2.0f, 0.0f));
+    
+    // 3. Combina as matrizes (Escala * Translação)
+    Matrix4 world = scaleMat * transMat;
+
+    mBaseShader->SetMatrixUniform("uWorldTransform", world);
+    mBaseShader->SetFloatUniform("uTextureFactor", 0.0f);
+    mBaseShader->SetVectorUniform("uBaseColor", Vector4(0.0f, 0.0f, 0.0f, alpha));
+    mBaseShader->SetVectorUniform("uCameraPos", Vector2::Zero);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}

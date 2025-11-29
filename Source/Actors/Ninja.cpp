@@ -62,15 +62,13 @@ Ninja::Ninja(Game *game, const float accelerationForce, const float jumpSpeed)
 void Ninja::OnProcessInput(const uint8_t* state) {
     if (mIsDead || mIsAttacking || mIsDashing || mIsShooting) return;
 
+    // 1. Detecta se está defendendo, mas NÃO retorna nem zera a velocidade aqui
     mIsDefending = state[SDL_SCANCODE_S] && mIsOnGround;
-    if (mIsDefending) {
-        mRigidBodyComponent->SetVelocity(Vector2::Zero);
-        return;
-    }
 
     Vector2 force = Vector2::Zero;
     mIsRunning = false;
 
+    // 2. Processa movimentação (agora funciona mesmo se mIsDefending for true)
     if(state[SDL_SCANCODE_D]){
         force.x += mAccelerationForce;
         mIsRunning = true;
@@ -81,7 +79,13 @@ void Ninja::OnProcessInput(const uint8_t* state) {
         mIsRunning = true;
     }
 
-    if(state[SDL_SCANCODE_SPACE] && mIsOnGround) {
+    // (Opcional) Reduz a força pela metade se estiver defendendo (andar agachado)
+    if (mIsDefending) {
+        force.x *= 0.5f; 
+    }
+
+    // 3. Bloqueia o pulo se estiver defendendo (!mIsDefending)
+    if(state[SDL_SCANCODE_SPACE] && mIsOnGround && !mIsDefending) {
         mGame->PlaySound(mGame->GetJumpSound());
         Vector2 vel = mRigidBodyComponent->GetVelocity();
         vel.y = mJumpSpeed;
@@ -273,7 +277,7 @@ void Ninja::Kill() {
         Mix_HaltMusic();
         int channel = mGame->PlaySound(mGame->GetDeadSound());
         mGame->SetDeathSoundChannel(channel);
-        mGame->SetWaitingToQuit(true);
+        mGame->SetScene(GameScene::GameOver);
     }
 }
 

@@ -5,6 +5,8 @@
 #include <string>
 #include <unordered_map>
 #include "Math.h"
+#include "Renderer/Renderer.h"
+#include "AudioSystem.h"
 
 
 class Actor;
@@ -19,7 +21,15 @@ class Font;
 enum class GameScene
 {
     MainMenu,
-    Level1
+    Level1, 
+    GameOver
+};
+
+enum class FadeState
+{
+    None,
+    FadingOut, 
+    FadingIn   
 };
 
 class Game
@@ -40,8 +50,14 @@ public:
 
     void PushUI(UIScreen* screen);
     std::vector<UIScreen*>& GetUIStack() { return mUIStack; }
-    void SetScene(GameScene nextScene);
+
+    // Audio
+    AudioSystem* GetAudio() { return mAudio; }
+
+    void SetScene(GameScene scene);
+    void LoadScene(GameScene scene);
     void UnloadScene();
+    void DrawFade();
 
     Renderer* GetRenderer() { return mRenderer; }
     const std::vector<class AABBColliderComponent*>& GetColliders() const { return mColliders; }
@@ -105,6 +121,12 @@ private:
 
     Vector2 mCameraPos;
 
+    FadeState mFadeState;
+    float mFadeAlpha;     // 0.0f (transparente) a 1.0f (preto)
+    GameScene mNextScene;
+
+    // Audio system
+    AudioSystem* mAudio;
 
     Ninja* mNinja;
 
