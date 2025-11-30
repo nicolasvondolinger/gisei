@@ -16,7 +16,7 @@ Dart::Dart(Game* game, const Vector2& direction)
     mRigidBodyComponent = new RigidBodyComponent(this, 0.0f, 0.0f, false);
     mRigidBodyComponent->SetVelocity(mDirection * mSpeed);
 
-    mColliderComponent = new AABBColliderComponent(this, 0, 0, 12, 12, ColliderLayer::Player);
+    mColliderComponent = new AABBColliderComponent(this, 0, 0, 8, 8, ColliderLayer::Player);
 }
 
 void Dart::OnUpdate(float deltaTime)

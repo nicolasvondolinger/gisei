@@ -245,11 +245,13 @@ void Ninja::OnUpdate(float deltaTime) {
     if (mActionState == ActionState::CrouchGoingDown) {
         if (mDrawComponent->GetCurrentFrame() >= 4) {
             mActionState = ActionState::CrouchHolding;
+            mColliderComponent->SetSize(20.0f, 24.0f);
         }
     }
     else if (mActionState == ActionState::CrouchGoingUp) {
         if (mDrawComponent->GetCurrentFrame() >= 4) {
             mActionState = ActionState::None;
+            mColliderComponent->SetSize(20.0f, 48.0f);
         }
     }
     else if (mActionState == ActionState::ShieldStart) {

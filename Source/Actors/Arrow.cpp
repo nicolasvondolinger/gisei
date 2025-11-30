@@ -17,7 +17,7 @@ Arrow::Arrow(Game* game, const Vector2& direction)
     mRigidBodyComponent = new RigidBodyComponent(this, 0.0f, 0.0f, false);
     mRigidBodyComponent->SetVelocity(mDirection * mSpeed);
 
-    mColliderComponent = new AABBColliderComponent(this, 0, 0, 16, 16, ColliderLayer::Enemy);
+    mColliderComponent = new AABBColliderComponent(this, 0, 0, 8, 8, ColliderLayer::Enemy);
 }
 
 void Arrow::OnUpdate(float deltaTime)
