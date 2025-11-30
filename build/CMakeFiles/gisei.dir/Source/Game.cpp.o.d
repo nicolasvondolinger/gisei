@@ -296,6 +296,7 @@ CMakeFiles/gisei.dir/Source/Game.cpp.o: \
  /usr/include/c++/12/bits/stl_map.h \
  /usr/include/c++/12/bits/stl_multimap.h \
  /usr/local/include/SDL2/SDL_stdinc.h \
+ /home/nicolasvondolinger/codes/gisei/Source/LanguageManager.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/DrawComponent.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../Component.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/stdc++.h \
@@ -498,5 +499,6 @@ CMakeFiles/gisei.dir/Source/Game.cpp.o: \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/MainMenu.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/PauseMenu.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/GameOver.h \
+ /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/IntroCrawl.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/HUD.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/AnimatorComponent.h

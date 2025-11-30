@@ -22,7 +22,7 @@ pause.title=PAUSA
 pause.resume=Continuar
 pause.settings=Configurações
 pause.controls=Comandos
-pause.menu=Voltar ao Menu
+pause.menu=Voltar ao Menu Principal
 pause.quit=Sair
 
 # Settings Menu

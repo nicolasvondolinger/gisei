@@ -470,6 +470,7 @@ CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o: \
  /usr/include/SDL2/SDL_rwops.h /usr/include/SDL2/SDL_audio.h \
  /usr/include/SDL2/SDL_endian.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/../AudioSystem.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/../LanguageManager.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/../Components/Drawing/AnimatorComponent.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/../Components/Drawing/DrawComponent.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/../Components/Drawing/../Component.h \

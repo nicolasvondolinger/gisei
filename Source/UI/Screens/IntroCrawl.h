@@ -2,6 +2,7 @@
 
 #include "UIScreen.h"
 #include <vector>
+#include <SDL2/SDL_mixer.h>
 
 class UIText;
 class UIRect;
@@ -33,10 +34,10 @@ private:
         float alpha;
     };
 
-    std::vector<UIText*> mLines;
-    std::vector<float> mLineDelays;
-    std::vector<Particle> mParticles;
-    std::vector<Streak> mStreaks;
+    vector<UIText*> mLines;
+    vector<float> mLineDelays;
+    vector<Particle> mParticles;
+    vector<Streak> mStreaks;
     UIText* mTitle;
     UIText* mSubtitle;
     UIText* mHint;
@@ -47,5 +48,5 @@ private:
     Vector2 mOverlayCenter;
 
     void LoadNarration();
-    class Mix_Music* mNarration;
+    Mix_Music* mNarration;
 };

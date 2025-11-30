@@ -585,6 +585,30 @@ Source/Game.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Game.cpp.s
 .PHONY : Source/Game.cpp.s
 
+Source/LanguageManager.o: Source/LanguageManager.cpp.o
+.PHONY : Source/LanguageManager.o
+
+# target to build an object file
+Source/LanguageManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o
+.PHONY : Source/LanguageManager.cpp.o
+
+Source/LanguageManager.i: Source/LanguageManager.cpp.i
+.PHONY : Source/LanguageManager.i
+
+# target to preprocess a source file
+Source/LanguageManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/LanguageManager.cpp.i
+.PHONY : Source/LanguageManager.cpp.i
+
+Source/LanguageManager.s: Source/LanguageManager.cpp.s
+.PHONY : Source/LanguageManager.s
+
+# target to generate assembly for a file
+Source/LanguageManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/LanguageManager.cpp.s
+.PHONY : Source/LanguageManager.cpp.s
+
 Source/Main.o: Source/Main.cpp.o
 .PHONY : Source/Main.o
 
@@ -801,6 +825,30 @@ Source/UI/AudioSystem.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/AudioSystem.cpp.s
 .PHONY : Source/UI/AudioSystem.cpp.s
 
+Source/UI/Screens/ControlsMenu.o: Source/UI/Screens/ControlsMenu.cpp.o
+.PHONY : Source/UI/Screens/ControlsMenu.o
+
+# target to build an object file
+Source/UI/Screens/ControlsMenu.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o
+.PHONY : Source/UI/Screens/ControlsMenu.cpp.o
+
+Source/UI/Screens/ControlsMenu.i: Source/UI/Screens/ControlsMenu.cpp.i
+.PHONY : Source/UI/Screens/ControlsMenu.i
+
+# target to preprocess a source file
+Source/UI/Screens/ControlsMenu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.i
+.PHONY : Source/UI/Screens/ControlsMenu.cpp.i
+
+Source/UI/Screens/ControlsMenu.s: Source/UI/Screens/ControlsMenu.cpp.s
+.PHONY : Source/UI/Screens/ControlsMenu.s
+
+# target to generate assembly for a file
+Source/UI/Screens/ControlsMenu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.s
+.PHONY : Source/UI/Screens/ControlsMenu.cpp.s
+
 Source/UI/Screens/GameOver.o: Source/UI/Screens/GameOver.cpp.o
 .PHONY : Source/UI/Screens/GameOver.o
 
@@ -848,6 +896,30 @@ Source/UI/Screens/HUD.s: Source/UI/Screens/HUD.cpp.s
 Source/UI/Screens/HUD.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/HUD.cpp.s
 .PHONY : Source/UI/Screens/HUD.cpp.s
+
+Source/UI/Screens/IntroCrawl.o: Source/UI/Screens/IntroCrawl.cpp.o
+.PHONY : Source/UI/Screens/IntroCrawl.o
+
+# target to build an object file
+Source/UI/Screens/IntroCrawl.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o
+.PHONY : Source/UI/Screens/IntroCrawl.cpp.o
+
+Source/UI/Screens/IntroCrawl.i: Source/UI/Screens/IntroCrawl.cpp.i
+.PHONY : Source/UI/Screens/IntroCrawl.i
+
+# target to preprocess a source file
+Source/UI/Screens/IntroCrawl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.i
+.PHONY : Source/UI/Screens/IntroCrawl.cpp.i
+
+Source/UI/Screens/IntroCrawl.s: Source/UI/Screens/IntroCrawl.cpp.s
+.PHONY : Source/UI/Screens/IntroCrawl.s
+
+# target to generate assembly for a file
+Source/UI/Screens/IntroCrawl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.s
+.PHONY : Source/UI/Screens/IntroCrawl.cpp.s
 
 Source/UI/Screens/MainMenu.o: Source/UI/Screens/MainMenu.cpp.o
 .PHONY : Source/UI/Screens/MainMenu.o
@@ -1131,6 +1203,9 @@ help:
 	@echo "... Source/Game.o"
 	@echo "... Source/Game.i"
 	@echo "... Source/Game.s"
+	@echo "... Source/LanguageManager.o"
+	@echo "... Source/LanguageManager.i"
+	@echo "... Source/LanguageManager.s"
 	@echo "... Source/Main.o"
 	@echo "... Source/Main.i"
 	@echo "... Source/Main.s"
@@ -1158,12 +1233,18 @@ help:
 	@echo "... Source/UI/AudioSystem.o"
 	@echo "... Source/UI/AudioSystem.i"
 	@echo "... Source/UI/AudioSystem.s"
+	@echo "... Source/UI/Screens/ControlsMenu.o"
+	@echo "... Source/UI/Screens/ControlsMenu.i"
+	@echo "... Source/UI/Screens/ControlsMenu.s"
 	@echo "... Source/UI/Screens/GameOver.o"
 	@echo "... Source/UI/Screens/GameOver.i"
 	@echo "... Source/UI/Screens/GameOver.s"
 	@echo "... Source/UI/Screens/HUD.o"
 	@echo "... Source/UI/Screens/HUD.i"
 	@echo "... Source/UI/Screens/HUD.s"
+	@echo "... Source/UI/Screens/IntroCrawl.o"
+	@echo "... Source/UI/Screens/IntroCrawl.i"
+	@echo "... Source/UI/Screens/IntroCrawl.s"
 	@echo "... Source/UI/Screens/MainMenu.o"
 	@echo "... Source/UI/Screens/MainMenu.i"
 	@echo "... Source/UI/Screens/MainMenu.s"

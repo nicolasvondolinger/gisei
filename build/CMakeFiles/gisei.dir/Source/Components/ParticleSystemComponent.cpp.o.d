@@ -293,6 +293,7 @@ CMakeFiles/gisei.dir/Source/Components/ParticleSystemComponent.cpp.o: \
  /usr/include/c++/12/bits/stl_map.h \
  /usr/include/c++/12/bits/stl_multimap.h \
  /usr/local/include/SDL2/SDL_stdinc.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Components/../LanguageManager.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/ParticleSystemComponent.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/../Actors/Actor.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/stdc++.h \

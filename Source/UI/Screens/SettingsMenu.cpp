@@ -168,12 +168,30 @@ void SettingsMenu::UpdateLanguageText() {
 }
 
 void SettingsMenu::RefreshStaticTexts() {
+    // 1. Carrega o novo arquivo de linguagem (Global)
     const std::string langCode = (mLanguageIndex == 0) ? "en" : "pt";
     auto& lang = mGame->GetLanguage();
     lang.Load(langCode, "../Assets/Lang");
 
-    // Disparar rebuild das UIs na próxima atualização
-    mGame->OnLanguageChanged();
+    // 2. Atualiza os textos do PRÓPRIO SettingsMenu
+    mTitleText->SetText(lang.Get("settings.title"));
+    mHintText->SetText(lang.Get("settings.hint"));
+    mBackButton->SetText(lang.Get("settings.back"));
+
+    UpdateVolumeText();
+    UpdateDifficultyText();
+    UpdateFullscreenText();
+    UpdateLanguageText();
+
+    // 3. NOVO: Avisa todas as outras telas abertas (PauseMenu, HUD, etc)
+    // Isso garante que o menu de pause atualize o texto "Resume" para "Continuar", etc.
+    for (auto ui : mGame->GetUIStack()) {
+        // Não precisamos chamar no 'this' de novo pois já atualizamos acima,
+        // mas chamamos nos outros.
+        if (ui != this) {
+            ui->OnLanguageChanged();
+        }
+    }
 }
 
 void SettingsMenu::HandleKeyPress(int key) {
@@ -200,42 +218,44 @@ void SettingsMenu::HandleKeyPress(int key) {
         case SDLK_a:
             if (mSelectedButtonIndex == 0 && mVolumeLevel > 0) {
                 mVolumeLevel--;
+                UpdateVolumeText(); // Volume muda, atualiza texto
             } else if (mSelectedButtonIndex == 1) {
                 mIsFullscreen = !mIsFullscreen;
+                UpdateFullscreenText(); // Fullscreen muda, atualiza texto
             } else if (mSelectedButtonIndex == 2 && mDifficultyLevel > 0) {
                 mDifficultyLevel--;
+                UpdateDifficultyText(); // Dificuldade muda, atualiza texto
             } else if (mSelectedButtonIndex == 3) {
+                // Idioma muda: Chama a função mestre que atualiza TUDO
                 mLanguageIndex = (mLanguageIndex == 0) ? 1 : 0;
-                RefreshStaticTexts();
+                RefreshStaticTexts(); 
             }
-            UpdateVolumeText();
-            UpdateFullscreenText();
-            UpdateDifficultyText();
-            UpdateLanguageText();
             break;
 
         case SDLK_RIGHT:
         case SDLK_d:
             if (mSelectedButtonIndex == 0 && mVolumeLevel < 10) {
                 mVolumeLevel++;
+                UpdateVolumeText();
             } else if (mSelectedButtonIndex == 1) {
                 mIsFullscreen = !mIsFullscreen;
+                UpdateFullscreenText();
             } else if (mSelectedButtonIndex == 2 && mDifficultyLevel < 2) {
                 mDifficultyLevel++;
+                UpdateDifficultyText();
             } else if (mSelectedButtonIndex == 3) {
                 mLanguageIndex = (mLanguageIndex == 0) ? 1 : 0;
                 RefreshStaticTexts();
             }
-            UpdateVolumeText();
-            UpdateFullscreenText();
-            UpdateDifficultyText();
-            UpdateLanguageText();
             break;
-
+            
         case SDLK_RETURN:
         case SDLK_KP_ENTER:
         case SDLK_SPACE:
             if (mSelectedButtonIndex == 4) {
+                // Quando sair, aí sim podemos avisar o jogo que mudou,
+                // caso o Menu Principal precise ser recarregado.
+                // Mas geralmente, ao voltar, o Menu Principal já vai ler o 'lang' atualizado no update dele.
                 mBackButton->OnClick();
             } else if (mSelectedButtonIndex == 1) {
                 mIsFullscreen = !mIsFullscreen;
@@ -243,15 +263,7 @@ void SettingsMenu::HandleKeyPress(int key) {
             } else if (mSelectedButtonIndex == 3) {
                 mLanguageIndex = (mLanguageIndex == 0) ? 1 : 0;
                 RefreshStaticTexts();
-                UpdateVolumeText();
-                UpdateFullscreenText();
-                UpdateDifficultyText();
-                UpdateLanguageText();
             }
-            break;
-
-        case SDLK_ESCAPE:
-            mBackButton->OnClick(); 
             break;
     }
 }
