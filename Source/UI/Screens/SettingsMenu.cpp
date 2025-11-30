@@ -203,6 +203,7 @@ void SettingsMenu::HandleKeyPress(int key) {
             if (mSelectedButtonIndex < MAX_ITEMS) {
                 mSelectedButtonIndex++;
                 UpdateSelectColor();
+                mGame->PlaySound(mGame->GetUIHoverSound());
             }
             break;
 
@@ -211,6 +212,7 @@ void SettingsMenu::HandleKeyPress(int key) {
             if (mSelectedButtonIndex > 0) {
                 mSelectedButtonIndex--;
                 UpdateSelectColor();
+                mGame->PlaySound(mGame->GetUIHoverSound());
             }
             break;
 
@@ -230,6 +232,11 @@ void SettingsMenu::HandleKeyPress(int key) {
                 mLanguageIndex = (mLanguageIndex == 0) ? 1 : 0;
                 RefreshStaticTexts(); 
             }
+            UpdateVolumeText();
+            UpdateFullscreenText();
+            UpdateDifficultyText();
+            UpdateLanguageText();
+            mGame->PlaySound(mGame->GetUIHoverSound());
             break;
 
         case SDLK_RIGHT:
@@ -247,12 +254,18 @@ void SettingsMenu::HandleKeyPress(int key) {
                 mLanguageIndex = (mLanguageIndex == 0) ? 1 : 0;
                 RefreshStaticTexts();
             }
+            UpdateVolumeText();
+            UpdateFullscreenText();
+            UpdateDifficultyText();
+            UpdateLanguageText();
+            mGame->PlaySound(mGame->GetUIHoverSound());
             break;
             
         case SDLK_RETURN:
         case SDLK_KP_ENTER:
         case SDLK_SPACE:
             if (mSelectedButtonIndex == 4) {
+                mGame->PlaySound(mGame->GetUIBackSound());
                 // Quando sair, aí sim podemos avisar o jogo que mudou,
                 // caso o Menu Principal precise ser recarregado.
                 // Mas geralmente, ao voltar, o Menu Principal já vai ler o 'lang' atualizado no update dele.
@@ -264,6 +277,11 @@ void SettingsMenu::HandleKeyPress(int key) {
                 mLanguageIndex = (mLanguageIndex == 0) ? 1 : 0;
                 RefreshStaticTexts();
             }
+            break;
+
+        case SDLK_ESCAPE:
+            mGame->PlaySound(mGame->GetUIBackSound());
+            mBackButton->OnClick(); 
             break;
     }
 }

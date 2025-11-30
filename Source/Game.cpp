@@ -50,6 +50,9 @@ Game::Game()
         ,mStageClearSound(nullptr)
         ,mAudio(nullptr)
         ,mHUD(nullptr)
+        ,mUIHoverSound(nullptr)
+        ,mUIConfirmSound(nullptr)
+        ,mUIBackSound(nullptr)
         ,mIsHitStop(false)
         ,mHitStopTimer(0.0f)
 {
@@ -81,6 +84,9 @@ bool Game::Initialize() {
     mSpiritOrbSound = Mix_LoadWAV("../Assets/Sounds/8_Buffs_Heals_SFX/02_Heal_02.wav");
     mBumpSound = Mix_LoadWAV("../Assets/Sounds/10_Battle_SFX/15_Impact_flesh_02.wav");
     mStageClearSound = Mix_LoadWAV("../Assets/Sounds/10_UI_Menu_SFX/013_Confirm_03.wav");
+    mUIHoverSound = Mix_LoadWAV("../Assets/Sounds/10_UI_Menu_SFX/001_Hover_01.wav");
+    mUIConfirmSound = Mix_LoadWAV("../Assets/Sounds/10_UI_Menu_SFX/013_Confirm_03.wav");
+    mUIBackSound = Mix_LoadWAV("../Assets/Sounds/10_UI_Menu_SFX/029_Decline_09.wav");
 
     mWindow = SDL_CreateWindow("Gisei: The Path of the Shattered Blade", 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
     if (!mWindow) {
@@ -704,6 +710,9 @@ void Game::Shutdown()
     if (mSpiritOrbSound) Mix_FreeChunk(mSpiritOrbSound);
     if (mBumpSound) Mix_FreeChunk(mBumpSound);
     if (mStageClearSound) Mix_FreeChunk(mStageClearSound);
+    if (mUIHoverSound) Mix_FreeChunk(mUIHoverSound);
+    if (mUIConfirmSound) Mix_FreeChunk(mUIConfirmSound);
+    if (mUIBackSound) Mix_FreeChunk(mUIBackSound);
 
     mRenderer->Shutdown();
     delete mRenderer;

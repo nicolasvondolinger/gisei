@@ -6,6 +6,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <cmath>
 #include <cstdlib>
+#include <algorithm>
 
 IntroCrawl::IntroCrawl(class Game* game, const std::string& fontName)
     : UIScreen(game, fontName)

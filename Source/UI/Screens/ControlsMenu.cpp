@@ -78,6 +78,7 @@ void ControlsMenu::HandleKeyPress(int key) {
         case SDLK_SPACE:
         case SDLK_ESCAPE:
             if (mBackButton) {
+                mGame->PlaySound(mGame->GetUIBackSound());
                 mBackButton->OnClick();
             }
             break;

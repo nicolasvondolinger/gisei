@@ -57,12 +57,15 @@ void GameOver::HandleKeyPress(int key) {
                 mSelectedButtonIndex++;
                 mSelectedButtonIndex%=mButtons.size();
                 mButtons[mSelectedButtonIndex]->SetHighlighted(true);
+                mGame->PlaySound(mGame->GetUIHoverSound());
         }else if(key == SDLK_UP || key == SDLK_w){
                 mButtons[mSelectedButtonIndex]->SetHighlighted(false);
                 mSelectedButtonIndex--;
                 mSelectedButtonIndex%=mButtons.size();
                 mButtons[mSelectedButtonIndex]->SetHighlighted(true);
+                mGame->PlaySound(mGame->GetUIHoverSound());
         } else if (key==SDLK_RETURN){
+                mGame->PlaySound(mGame->GetUIConfirmSound());
                 mButtons[mSelectedButtonIndex]->OnClick();
         }
 }

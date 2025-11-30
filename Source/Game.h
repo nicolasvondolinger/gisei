@@ -82,6 +82,9 @@ public:
     Mix_Chunk* GetSpiritOrbSound();
     Mix_Chunk* GetBumpSound();
     Mix_Chunk* GetStageClearSound();
+    Mix_Chunk* GetUIHoverSound() { return mUIHoverSound; }
+    Mix_Chunk* GetUIConfirmSound() { return mUIConfirmSound; }
+    Mix_Chunk* GetUIBackSound() { return mUIBackSound; }
     class HUD* GetHUD() { return mHUD; }
 
     void SetWaitingToQuit(bool status) { mWaitingToQuit = status; }
@@ -158,6 +161,9 @@ private:
     Mix_Chunk* mSpiritOrbSound;
     Mix_Chunk* mBumpSound;
     Mix_Chunk* mStageClearSound;
+    Mix_Chunk* mUIHoverSound;
+    Mix_Chunk* mUIConfirmSound;
+    Mix_Chunk* mUIBackSound;
     
     int mDeathSoundChannel = -1;
     int mStageClearSoundChannel = -1;
