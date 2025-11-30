@@ -96,18 +96,22 @@ void PauseMenu::HandleKeyPress(int key) {
         case SDLK_DOWN:
         case SDLK_s:
             ChangeSelection(mSelectedButtonIndex + 1);
+            mGame->PlaySound(mGame->GetUIHoverSound());
             break;
         case SDLK_UP:
         case SDLK_w:
             ChangeSelection(mSelectedButtonIndex - 1);
+            mGame->PlaySound(mGame->GetUIHoverSound());
             break;
         case SDLK_RETURN:
         case SDLK_KP_ENTER:
         case SDLK_SPACE:
+            mGame->PlaySound(mGame->GetUIConfirmSound());
             ActivateSelection();
             break;
         case SDLK_ESCAPE:
         case SDLK_p:
+            mGame->PlaySound(mGame->GetUIBackSound());
             mResumeButton->OnClick();
             break;
     }

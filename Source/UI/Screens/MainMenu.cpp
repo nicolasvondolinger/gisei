@@ -75,6 +75,7 @@ void MainMenu::HandleKeyPress(int key) {
             mButtons[currentSelection]->SetHighlighted(false);
             mSelectedButtonIndex = (currentSelection + 1) % mButtons.size();
             mButtons[mSelectedButtonIndex]->SetHighlighted(true);
+            mGame->PlaySound(mGame->GetUIHoverSound());
             break;
 
         case SDLK_UP:
@@ -82,12 +83,14 @@ void MainMenu::HandleKeyPress(int key) {
             mButtons[currentSelection]->SetHighlighted(false);
             mSelectedButtonIndex = (currentSelection - 1 + mButtons.size()) % mButtons.size();
             mButtons[mSelectedButtonIndex]->SetHighlighted(true);
+            mGame->PlaySound(mGame->GetUIHoverSound());
             break;
 
         case SDLK_RETURN:
         case SDLK_KP_ENTER:
         case SDLK_SPACE:
             if (mSelectedButtonIndex >= 0 && mSelectedButtonIndex < mButtons.size()) {
+                mGame->PlaySound(mGame->GetUIConfirmSound());
                 mButtons[mSelectedButtonIndex]->OnClick();
             }
             break;

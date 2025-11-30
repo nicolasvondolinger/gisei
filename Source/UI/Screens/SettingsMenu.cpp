@@ -185,6 +185,7 @@ void SettingsMenu::HandleKeyPress(int key) {
             if (mSelectedButtonIndex < MAX_ITEMS) {
                 mSelectedButtonIndex++;
                 UpdateSelectColor();
+                mGame->PlaySound(mGame->GetUIHoverSound());
             }
             break;
 
@@ -193,6 +194,7 @@ void SettingsMenu::HandleKeyPress(int key) {
             if (mSelectedButtonIndex > 0) {
                 mSelectedButtonIndex--;
                 UpdateSelectColor();
+                mGame->PlaySound(mGame->GetUIHoverSound());
             }
             break;
 
@@ -212,6 +214,7 @@ void SettingsMenu::HandleKeyPress(int key) {
             UpdateFullscreenText();
             UpdateDifficultyText();
             UpdateLanguageText();
+            mGame->PlaySound(mGame->GetUIHoverSound());
             break;
 
         case SDLK_RIGHT:
@@ -230,12 +233,14 @@ void SettingsMenu::HandleKeyPress(int key) {
             UpdateFullscreenText();
             UpdateDifficultyText();
             UpdateLanguageText();
+            mGame->PlaySound(mGame->GetUIHoverSound());
             break;
 
         case SDLK_RETURN:
         case SDLK_KP_ENTER:
         case SDLK_SPACE:
             if (mSelectedButtonIndex == 4) {
+                mGame->PlaySound(mGame->GetUIBackSound());
                 mBackButton->OnClick();
             } else if (mSelectedButtonIndex == 1) {
                 mIsFullscreen = !mIsFullscreen;
@@ -251,6 +256,7 @@ void SettingsMenu::HandleKeyPress(int key) {
             break;
 
         case SDLK_ESCAPE:
+            mGame->PlaySound(mGame->GetUIBackSound());
             mBackButton->OnClick(); 
             break;
     }
