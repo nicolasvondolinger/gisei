@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -9,7 +8,6 @@
 #include "VertexArray.h"
 #include "Texture.h"
 #include "Font.h"
-
 
 class Shader;
 class UIElement;
@@ -22,15 +20,11 @@ enum class RendererMode {
 class Renderer {
 public:
     Renderer(SDL_Window *window);
-
     ~Renderer();
 
     bool Initialize(float width, float height);
-
     void Shutdown();
-
     void UnloadData();
-
 
     void DrawRect(const Vector2 &position, const Vector2 &size, float rotation,
                   const Vector3 &color, const Vector2 &cameraPos, RendererMode mode);
@@ -44,28 +38,25 @@ public:
     void DrawGeometry(const Vector2 &position, const Vector2 &size, float rotation,
                       const Vector3 &color, const Vector2 &cameraPos, VertexArray *vertexArray, RendererMode mode);
 
-
     void AddUIElement(class UIElement *comp);
-
     void RemoveUIElement(class UIElement *comp);
 
-
     void Clear();
-
     void Draw();
-
     void Present();
 
-
     class Texture *GetTexture(const std::string &fileName, bool repeat = false);
-
     class Font *GetFont(const std::string &fileName);
 
     class Shader *GetBaseShader() const { return mBaseShader; }
     SDL_Window* GetWindow() const { return mWindow; }
     SDL_Renderer* GetSDLRenderer() const { return SDL_GetRenderer(mWindow); }
     void UpdateViewportToWindow();
+    
     void DrawFade(float alpha);
+    void DrawDarkOverlay(float alpha);
+    void DrawHitStopOverlay(float alpha);
+    void SetView(float width, float height);
 
 private:
     void Draw(RendererMode mode, const Matrix4 &modelMatrix, const Vector2 &cameraPos, VertexArray *vertices,
@@ -73,34 +64,20 @@ private:
               float textureFactor = 1.0f);
 
     bool LoadShaders();
-
     void CreateSpriteVerts();
 
-
     class Shader *mBaseShader;
-
-    // Sprite shader
-	class Shader* mSpriteShader;
-    // Mesh shader
-    class Shader* mMeshShader;
-
-
     class VertexArray *mSpriteVerts;
-
 
     SDL_Window *mWindow;
     SDL_GLContext mContext;
 
-
     Matrix4 mOrthoProjection;
-
 
     std::unordered_map<std::string, class Texture *> mTextures;
     std::unordered_map<std::string, class Font *> mFonts;
 
-
     std::vector<class UIElement *> mUIElements;
-
 
     float mScreenWidth;
     float mScreenHeight;

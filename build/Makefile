@@ -465,6 +465,30 @@ Source/Components/Drawing/RectComponent.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/RectComponent.cpp.s
 .PHONY : Source/Components/Drawing/RectComponent.cpp.s
 
+Source/Components/Drawing/SpriteComponent.o: Source/Components/Drawing/SpriteComponent.cpp.o
+.PHONY : Source/Components/Drawing/SpriteComponent.o
+
+# target to build an object file
+Source/Components/Drawing/SpriteComponent.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/SpriteComponent.cpp.o
+.PHONY : Source/Components/Drawing/SpriteComponent.cpp.o
+
+Source/Components/Drawing/SpriteComponent.i: Source/Components/Drawing/SpriteComponent.cpp.i
+.PHONY : Source/Components/Drawing/SpriteComponent.i
+
+# target to preprocess a source file
+Source/Components/Drawing/SpriteComponent.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/SpriteComponent.cpp.i
+.PHONY : Source/Components/Drawing/SpriteComponent.cpp.i
+
+Source/Components/Drawing/SpriteComponent.s: Source/Components/Drawing/SpriteComponent.cpp.s
+.PHONY : Source/Components/Drawing/SpriteComponent.s
+
+# target to generate assembly for a file
+Source/Components/Drawing/SpriteComponent.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Components/Drawing/SpriteComponent.cpp.s
+.PHONY : Source/Components/Drawing/SpriteComponent.cpp.s
+
 Source/Components/ParticleSystemComponent.o: Source/Components/ParticleSystemComponent.cpp.o
 .PHONY : Source/Components/ParticleSystemComponent.o
 
@@ -1092,6 +1116,9 @@ help:
 	@echo "... Source/Components/Drawing/RectComponent.o"
 	@echo "... Source/Components/Drawing/RectComponent.i"
 	@echo "... Source/Components/Drawing/RectComponent.s"
+	@echo "... Source/Components/Drawing/SpriteComponent.o"
+	@echo "... Source/Components/Drawing/SpriteComponent.i"
+	@echo "... Source/Components/Drawing/SpriteComponent.s"
 	@echo "... Source/Components/ParticleSystemComponent.o"
 	@echo "... Source/Components/ParticleSystemComponent.i"
 	@echo "... Source/Components/ParticleSystemComponent.s"

@@ -21,6 +21,8 @@
 #include "UI/Screens/MainMenu.h"
 #include "UI/Screens/PauseMenu.h"
 #include "UI/Screens/GameOver.h"
+#include "UI/Screens/HUD.h"
+#include "Components/Drawing/AnimatorComponent.h"
 
 Game::Game()
         :mWindow(nullptr)
@@ -45,6 +47,9 @@ Game::Game()
         ,mSpiritOrbSound(nullptr)
         ,mBumpSound(nullptr)
         ,mStageClearSound(nullptr)
+        ,mHUD(nullptr)
+        ,mIsHitStop(false)
+        ,mHitStopTimer(0.0f)
 {
 }
 
@@ -105,6 +110,7 @@ void Game::UnloadScene()
         delete ui;
     }
     mUIStack.clear();
+    mHUD = nullptr;
 
     if (mLevelData) {
         for (int i = 0; i < mLevelDataHeight; ++i) {
@@ -134,19 +140,36 @@ void Game::LoadScene(GameScene scene)
     mIsPaused = false;
     mCurrentScene = scene;
     UnloadScene();
+
+    // Defina o fator de zoom que você quer (2.0f = 2x mais perto)
+    float zoomFactor = 2.0f; 
+
     switch (scene) {
         case GameScene::MainMenu:
+            // MENU: Resolução original (Sem zoom)
+            mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+            
             mBackgroundTexture = nullptr;
             new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
+
         case GameScene::Level1:
+            mRenderer->SetView(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
+
             mBackgroundMusic = Mix_LoadMUS("../Assets/Sounds/Troubadeck 20 Long Lonely Road.ogg");
             if (mBackgroundMusic) {
                 Mix_PlayMusic(mBackgroundMusic, -1);
             }
             InitializeActors();
+            
+            // ADICIONE ISTO:
+            mHUD = new HUD(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
+
         case GameScene::GameOver:
+            // GAME OVER: Resolução original (Sem zoom)
+            mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+
             mBackgroundTexture = nullptr;
             new GameOver(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
@@ -227,10 +250,14 @@ int **Game::LoadLevel(const std::string& fileName, int& width, int& height) {
 }
 
 void Game::BuildLevel(int** levelData, int width, int height, const std::string& tilesetPath, int columns) {
-    std::set<int> hazardIds = { 182, 183, 184, 185, 199, 200, 201, 202 };
+    // Apenas os espinhos causam dano agora
+    std::set<int> thornIds = { 285, 325 };
+
     Texture* tilesetTexture = mRenderer->GetTexture(tilesetPath);
     const int TILE_SIZE_PX = 32;
-    bool hasCollision = (tilesetPath.find("Tileset.png") != std::string::npos);
+    
+    // Verifica se é a camada de colisão principal (Tileset.png)
+    bool isCollisionLayer = (tilesetPath.find("Tileset.png") != std::string::npos);
 
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
@@ -241,19 +268,47 @@ void Game::BuildLevel(int** levelData, int width, int height, const std::string&
             pos.y = (i * TILE_SIZE) + (TILE_SIZE / 2.0f);
             pos.x = (j * TILE_SIZE) + (TILE_SIZE / 2.0f);
 
-            if(pos.y < 96.0f && hasCollision) continue;
+            // Pula o "céu" apenas na camada de colisão
+            if(pos.y < 96.0f && isCollisionLayer) continue;
 
+            // --- LÓGICA DOS ESPINHOS (285, 325) ---
+            if (thornIds.count(id)) {
+                std::string thornPath;
+                if (id == 285) thornPath = "../Assets/Sprites/Blocks/thorns_top.png";
+                else if (id == 325) thornPath = "../Assets/Sprites/Blocks/thorns_bottom.png";
+                
+                Texture* thornTex = mRenderer->GetTexture(thornPath);
+                
+                SDL_Rect thornRect;
+                thornRect.x = 0; thornRect.y = 0;
+                thornRect.w = thornTex->GetWidth();
+                thornRect.h = thornTex->GetHeight();
+
+                // Cria o bloco de espinho
+                Block* block = new Block(this, thornTex, thornRect, EBlockType::Thorns);
+                block->SetPosition(pos);
+                
+                // IMPORTANTE: Não desativamos o collider aqui. 
+                // O Block já nasce com collider ativado, então ele vai funcionar
+                // mesmo estando na camada "Objects".
+                
+                continue; // Pula a lógica padrão e vai para o próximo bloco
+            }
+            // -------------------------------------
+
+            // --- LÓGICA PADRÃO (Outros blocos) ---
             SDL_Rect srcRect;
             srcRect.w = TILE_SIZE_PX;
             srcRect.h = TILE_SIZE_PX;
             srcRect.x = (id % columns) * TILE_SIZE_PX;
             srcRect.y = (id / columns) * TILE_SIZE_PX;
 
-            EBlockType type = hazardIds.count(id) ? EBlockType::Hazard : EBlockType::Normal;
-            Block* block = new Block(this, tilesetTexture, srcRect, type);
+            // Todos os outros blocos são normais
+            Block* block = new Block(this, tilesetTexture, srcRect, EBlockType::Normal);
             block->SetPosition(pos);
             
-            if(!hasCollision) {
+            // Se NÃO for a camada de colisão (ex: Objects.png), desativa a física
+            if(!isCollisionLayer) {
                 auto collider = block->GetComponent<AABBColliderComponent>();
                 if(collider) collider->SetEnabled(false);
             }
@@ -322,6 +377,13 @@ void Game::ProcessInput()
 
 void Game::UpdateGame(float deltaTime) {
 
+    if (mIsHitStop) {
+        mHitStopTimer -= deltaTime;
+        if (mHitStopTimer <= 0.0f) {
+            mIsHitStop = false;
+        } else return;
+    }
+
     if (mFadeState == FadeState::FadingOut) {
         mFadeAlpha += 2.5f * deltaTime;
         if (mFadeAlpha >= 1.0f) {
@@ -349,6 +411,10 @@ void Game::UpdateGame(float deltaTime) {
     if (!mIsPaused) {
         UpdateActors(deltaTime);
         UpdateCamera();
+
+        if (mCurrentScene == GameScene::Level1 && mNinja && mHUD) {
+            mHUD->UpdateHUD(mNinja);
+        }
     }
 
     for (auto ui : mUIStack) {
@@ -401,13 +467,33 @@ void Game::UpdateActors(float deltaTime)
 void Game::UpdateCamera() {
     if(mNinja == nullptr) return;
 
-    float targetX = mNinja->GetPosition().x - (WINDOW_WIDTH/3.0f);
-    float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - WINDOW_WIDTH;
-    float newX = targetX;
-    newX = std::max(0.0f, newX);
-    newX = std::min(maxCameraX, newX);
-    mCameraPos.x = newX;
-    mCameraPos.y = 0.0f;
+    // --- Configuração do Zoom ---
+    // Mantenha igual ao valor usado no LoadScene
+    float zoomFactor = 2.0f; 
+    
+    // Calcula o tamanho real da "lente" da câmera
+    float logicalWidth = WINDOW_WIDTH / zoomFactor;
+    float logicalHeight = WINDOW_HEIGHT / zoomFactor;
+
+    // --- EIXO X (Horizontal) ---
+    float targetX = mNinja->GetPosition().x - (logicalWidth / 2.0f);
+    float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - logicalWidth;
+    
+    // Usa std::clamp para manter dentro dos limites (requer <algorithm>)
+    // Se não tiver <algorithm>, use std::max e std::min como antes
+    mCameraPos.x = std::clamp(targetX, 0.0f, maxCameraX);
+
+    // --- EIXO Y (Vertical) ---
+    // Centraliza o Ninja verticalmente
+    float targetY = mNinja->GetPosition().y - (logicalHeight / 2.0f);
+
+    // Define o limite vertical da câmera
+    // Assumindo que a altura da fase é igual à altura original da janela (768px)
+    float levelHeight = (float)WINDOW_HEIGHT; 
+    float maxCameraY = levelHeight - logicalHeight;
+
+    // Trava a câmera para não mostrar além do teto ou abaixo do chão
+    mCameraPos.y = std::clamp(targetY, 0.0f, maxCameraY);
 }
 
 void Game::AddActor(Actor* actor) {
@@ -473,66 +559,68 @@ void Game::DrawFade() {
 void Game::GenerateOutput()
 {
     mRenderer->Clear();
+
+    float zoomFactor = 2.0f; 
+
+    if (mCurrentScene == GameScene::Level1) {
+        mRenderer->SetView(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
+    } else {
+        mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+    }
+
     mRenderer->GetBaseShader()->SetActive();
     mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
 
     if(mBackgroundTexture){
-        Vector2 parallaxCam = mCameraPos * mBackgroundScrollSpeed;
-        float texWidth = static_cast<float>(mBackgroundTexture->GetWidth());
-        float texHeight = static_cast<float>(mBackgroundTexture->GetHeight());
-        float uOffset = parallaxCam.x / texWidth;
-        float uScale = static_cast<float>(WINDOW_WIDTH) / texWidth;
-        float vScale = static_cast<float>(WINDOW_HEIGHT) / texHeight;
-
-        Vector4 texRect(uOffset, 0.0f, uScale, vScale);
-
-        Vector2 quadPos = mCameraPos + Vector2(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
-        Vector2 quadSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-        mRenderer->DrawTexture(
-            quadPos,
-            quadSize,
-            0.0f,
-            Vector3(1.0f, 1.0f, 1.0f),
-            mBackgroundTexture,
-            texRect,
-            mCameraPos,
-            false,
-            1.0f
-        );
+         Vector2 quadPos = mCameraPos + Vector2(WINDOW_WIDTH / (2.0f * zoomFactor), WINDOW_HEIGHT / (2.0f * zoomFactor));
+         Vector2 quadSize(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
+         Vector2 parallaxCam = mCameraPos * mBackgroundScrollSpeed;
+         float texWidth = static_cast<float>(mBackgroundTexture->GetWidth());
+         float texHeight = static_cast<float>(mBackgroundTexture->GetHeight());
+         float uOffset = parallaxCam.x / texWidth;
+         float uScale = static_cast<float>(WINDOW_WIDTH / zoomFactor) / texWidth;
+         float vScale = static_cast<float>(WINDOW_HEIGHT / zoomFactor) / texHeight;
+         Vector4 texRect(uOffset, 0.0f, uScale, vScale);
+         mRenderer->DrawTexture(quadPos, quadSize, 0.0f, Vector3::One, mBackgroundTexture, texRect, mCameraPos);
     }
 
-    for (auto actor : mActors)
-    {
+    for (auto actor : mActors) {
         auto parallax = actor->GetComponent<ParallaxComponent>();
-        if (parallax && parallax->IsEnabled()) {
-            parallax->Draw(mRenderer);
-        }
+        if (parallax && parallax->IsEnabled()) parallax->Draw(mRenderer);
     }
 
-    for (auto drawable : mDrawables)
-    {
+    for (auto drawable : mDrawables) {
         drawable->Draw(mRenderer);
-
-        if(mIsDebugging)
-        {
-              for (auto comp : drawable->GetOwner()->GetComponents())
-              {
-                comp->DebugDraw(mRenderer);
-              }
+        if(mIsDebugging) {
+             for (auto comp : drawable->GetOwner()->GetComponents()) comp->DebugDraw(mRenderer);
         }
     }
     
-    for (auto actor : mActors)
-    {
+    for (auto actor : mActors) {
         auto smoke = actor->GetComponent<DashSmokeComponent>();
-        if (smoke && smoke->IsEnabled()) {
-            smoke->Draw(mRenderer);
+        if (smoke && smoke->IsEnabled()) smoke->Draw(mRenderer);
+    }
+
+    
+    if (mIsHitStop) {
+        mRenderer->DrawHitStopOverlay(0.5f);
+        
+        if (mNinja) {
+            // Limpa configurações do shader para garantir desenho limpo
+            mRenderer->GetBaseShader()->SetActive();
+            mRenderer->GetBaseShader()->SetVectorUniform("uBaseColor", Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+            mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
+            
+            // Aqui ele brilha sobre a escuridão
+            mNinja->GetDrawComponent()->Draw(mRenderer);
         }
     }
     
-    mRenderer->Draw();
+    mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+    mRenderer->Draw(); 
+    
     DrawFade();
+    
     mRenderer->Present();
 }
 
@@ -600,6 +688,11 @@ int Game::PlaySound(Mix_Chunk* sound) {
     }
 
     return channel;
+}
+
+void Game::StartHitStop(float duration) {
+    mIsHitStop = true;
+    mHitStopTimer = duration;
 }
 
 Mix_Chunk* Game::GetJumpSound(){

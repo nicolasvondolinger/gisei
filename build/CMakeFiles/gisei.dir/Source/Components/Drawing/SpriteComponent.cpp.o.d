@@ -1,7 +1,7 @@
-CMakeFiles/gisei.dir/Source/Components/Drawing/AnimatorComponent.cpp.o: \
- /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/AnimatorComponent.cpp \
+CMakeFiles/gisei.dir/Source/Components/Drawing/SpriteComponent.cpp.o: \
+ /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/SpriteComponent.cpp \
  /usr/include/stdc-predef.h \
- /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/AnimatorComponent.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/SpriteComponent.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/DrawComponent.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../Component.h \
  /usr/local/include/SDL2/SDL_stdinc.h \
@@ -471,6 +471,4 @@ CMakeFiles/gisei.dir/Source/Components/Drawing/AnimatorComponent.cpp.o: \
  /usr/include/SDL2/SDL_mixer.h /usr/include/SDL2/SDL_stdinc.h \
  /usr/include/SDL2/SDL_rwops.h /usr/include/SDL2/SDL_audio.h \
  /usr/include/SDL2/SDL_endian.h \
- /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../../AudioSystem.h \
- /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../Physics/AABBColliderComponent.h \
- /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../Physics/RigidBodyComponent.h
+ /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/../../AudioSystem.h
