@@ -12,6 +12,9 @@ public:
     void Kill() override;
 
 private:
+    bool HasGroundAhead() const;
+    void TurnAround();
+
     bool mIsDying;
     float mForwardSpeed;
     float mDyingTimer;

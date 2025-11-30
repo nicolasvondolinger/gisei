@@ -10,10 +10,10 @@ SkeletonSpearman::SkeletonSpearman(Game* game, float forwardSpeed)
     , mIsDying(false)
     , mForwardSpeed(forwardSpeed)
 {
-    mDrawComponent = new AnimatorComponent(this, 96, 96);
-    mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Skeleton/Spearman/Walk.png", 7, 6.0f, true);
-    mDrawComponent->AddAnimation("attack", "../Assets/Sprites/Skeleton/Spearman/Attack_1.png", 4, 10.0f, true);
-    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Skeleton/Spearman/Dead.png", 5, 8.0f, false);
+    mDrawComponent = new AnimatorComponent(this, 128, 128);
+    mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Skeleton_Spearman/Walk.png", 7, 6.0f, true);
+    mDrawComponent->AddAnimation("attack", "../Assets/Sprites/Skeleton_Spearman/Attack_1.png", 4, 10.0f, true);
+    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Skeleton_Spearman/Dead.png", 5, 8.0f, false);
     mDrawComponent->SetAnimation("walk");
 
     mRigidBodyComponent = new RigidBodyComponent(this, 1.0f, 3.0f, true);
@@ -48,6 +48,10 @@ void SkeletonSpearman::OnUpdate(float deltaTime)
     if (mRigidBodyComponent->IsEnabled()) {
         Vector2 force(mForwardSpeed, 0.0f);
         mRigidBodyComponent->ApplyForce(force);
+
+        if (!HasGroundAhead()) {
+            TurnAround();
+        }
     }
 }
 
@@ -67,4 +71,37 @@ void SkeletonSpearman::OnHorizontalCollision(const float minOverlap, AABBCollide
 
 void SkeletonSpearman::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other)
 {
+}
+
+bool SkeletonSpearman::HasGroundAhead() const
+{
+    if (!mColliderComponent) return true;
+
+    Vector2 min = mColliderComponent->GetMin();
+    Vector2 max = mColliderComponent->GetMax();
+    float halfWidth = (max.x - min.x) * 0.5f;
+    float dir = (mForwardSpeed >= 0.0f) ? 1.0f : -1.0f;
+
+    Vector2 checkPos;
+    checkPos.x = mPosition.x + dir * (halfWidth + 6.0f);
+    checkPos.y = max.y + 4.0f;
+
+    for (auto collider : mGame->GetColliders()) {
+        if (!collider->IsEnabled() || collider->GetLayer() != ColliderLayer::Blocks) continue;
+        Vector2 cMin = collider->GetMin();
+        Vector2 cMax = collider->GetMax();
+        bool insideX = checkPos.x >= cMin.x && checkPos.x <= cMax.x;
+        bool insideY = checkPos.y >= cMin.y && checkPos.y <= cMax.y;
+        if (insideX && insideY) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void SkeletonSpearman::TurnAround()
+{
+    mForwardSpeed *= -1.0f;
+    mScale.x *= -1.0f;
 }

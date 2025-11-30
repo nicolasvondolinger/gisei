@@ -15,12 +15,12 @@ SkeletonArcher::SkeletonArcher(Game* game, float patrolDistance)
     , mIsDying(false)
     , mDyingTimer(0.5f)
 {
-    mDrawComponent = new AnimatorComponent(this, 96, 96);
-    mDrawComponent->AddAnimation("idle", "../Assets/Sprites/Skeleton/Archer/Idle.png", 7, 6.0f, true);
-    mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Skeleton/Archer/Walk.png", 8, 6.0f, true);
-    mDrawComponent->AddAnimation("shot1", "../Assets/Sprites/Skeleton/Archer/Shot_1.png", 15, 12.0f, false);
-    mDrawComponent->AddAnimation("shot2", "../Assets/Sprites/Skeleton/Archer/Shot_2.png", 15, 12.0f, false);
-    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Skeleton/Archer/Dead.png", 5, 8.0f, false);
+    mDrawComponent = new AnimatorComponent(this, 128, 128);
+    mDrawComponent->AddAnimation("idle", "../Assets/Sprites/Skeleton_Archer/Idle.png", 7, 6.0f, true);
+    mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Skeleton_Archer/Walk.png", 8, 6.0f, true);
+    mDrawComponent->AddAnimation("shot1", "../Assets/Sprites/Skeleton_Archer/Shot_1.png", 15, 12.0f, false);
+    mDrawComponent->AddAnimation("shot2", "../Assets/Sprites/Skeleton_Archer/Shot_2.png", 15, 12.0f, false);
+    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Skeleton_Archer/Dead.png", 5, 8.0f, false);
     mDrawComponent->SetAnimation("idle");
 
     mRigidBodyComponent = new RigidBodyComponent(this, 1.0f, 3.0f, true);

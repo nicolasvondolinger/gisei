@@ -10,7 +10,7 @@ Arrow::Arrow(Game* game, const Vector2& direction)
     , mDirection(direction)
 {
     mDrawComponent = new AnimatorComponent(this, 32, 32);
-    mDrawComponent->AddAnimation("fly", "../Assets/Sprites/Skeleton/Archer/Arrow.png", 1);
+    mDrawComponent->AddAnimation("fly", "../Assets/Sprites/Skeleton_Archer/Arrow.png", 1);
     mDrawComponent->SetAnimation("fly");
 
     mRigidBodyComponent = new RigidBodyComponent(this, 0.0f, 0.0f, false);
