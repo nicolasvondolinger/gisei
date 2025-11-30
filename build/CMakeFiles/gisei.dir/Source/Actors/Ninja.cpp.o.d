@@ -466,6 +466,8 @@ CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o: \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/../Renderer/Font.h \
  /usr/include/SDL2/SDL_ttf.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/Dart.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/Block.h \
+ /usr/local/include/SDL2/SDL.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/../Game.h \
  /usr/include/SDL2/SDL_mixer.h /usr/include/SDL2/SDL_stdinc.h \
  /usr/include/SDL2/SDL_rwops.h /usr/include/SDL2/SDL_audio.h \
