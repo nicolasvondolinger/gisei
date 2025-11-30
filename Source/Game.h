@@ -7,6 +7,7 @@
 #include "Math.h"
 #include "Renderer/Renderer.h"
 #include "AudioSystem.h"
+#include "LanguageManager.h"
 
 
 class Actor;
@@ -59,8 +60,11 @@ public:
     void LoadScene(GameScene scene);
     void UnloadScene();
     void DrawFade();
+    void OnLanguageChanged();
 
     Renderer* GetRenderer() { return mRenderer; }
+    LanguageManager& GetLanguage() { return mLanguage; }
+    const LanguageManager& GetLanguage() const { return mLanguage; }
     const std::vector<class AABBColliderComponent*>& GetColliders() const { return mColliders; }
     Vector2 GetCameraPos() const { return mCameraPos; }
     bool IsPaused() const { return mIsPaused; }
@@ -103,6 +107,7 @@ private:
     void InitializeActors();
     int **LoadLevel(const std::string& fileName, int& width, int& height);
     void BuildLevel(int** levelData, int width, int height, const std::string& tilesetPath, int columns);
+    void RebuildUIForLanguage();
 
     SDL_Window* mWindow;
     Renderer* mRenderer;
@@ -113,6 +118,7 @@ private:
     bool mUpdatingActors;
     bool mWaitingToQuit = false;
     GameScene mCurrentScene;
+    bool mPendingLanguageReload = false;
 
     std::vector<Actor*> mActors;
     std::vector<Actor*> mPendingActors;
@@ -128,6 +134,7 @@ private:
 
     // Audio system
     AudioSystem* mAudio;
+    LanguageManager mLanguage;
 
     Ninja* mNinja;
 

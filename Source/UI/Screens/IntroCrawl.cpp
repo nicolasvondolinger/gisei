@@ -29,11 +29,13 @@ IntroCrawl::IntroCrawl(class Game* game, const std::string& fontName)
     AddRect(mOverlayCenter, Vector2(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), 1.0f, 0.0f, 1000);
     mRects[0]->SetColor(darkOverlay);
 
-    mSubtitle = AddText("Prologue", Vector2(centerX, 120.0f), 0.75f, 0.0f, 34, 2000, 1005);
+    auto& lang = mGame->GetLanguage();
+
+    mSubtitle = AddText(lang.Get("intro.subtitle"), Vector2(centerX, 120.0f), 0.75f, 0.0f, 34, 2000, 1005);
     mSubtitle->SetTextColor(Vector3(0.7f, 0.76f, 0.7f));
     mSubtitle->SetBackgroundColor(transparent);
 
-    mTitle = AddText("GISEI - THE SHATTERED BLADE", Vector2(centerX, 170.0f), 1.2f, 0.0f, 56, 2000, 1010);
+    mTitle = AddText(lang.Get("intro.title"), Vector2(centerX, 170.0f), 1.2f, 0.0f, 56, 2000, 1010);
     mTitle->SetTextColor(textHover);
     mTitle->SetBackgroundColor(transparent);
 
@@ -44,14 +46,14 @@ IntroCrawl::IntroCrawl(class Game* game, const std::string& fontName)
     int drawOrderBase = 1020;
 
     std::vector<std::string> lines = {
-        "In the temple haze, silent monks forged a body of bamboo and steel.",
-        "Into its chest, they sealed a warrior's fragment: Kenshi, the Ara-Hitogami.",
-        "They promised him memory and glory at the Celestial Pinnacle.",
-        "They called his journey a divine trial, a sacred path of sacrifice.",
-        "But echoes of those before him whisper: no return, only offering.",
-        "Demons lurk. The spirit blight devours lands and souls.",
-        "To the order, the ninja is harvest - fuel for the forge, food for a sleeping god.",
-        "If Kenshi reaches the Pinnacle, he must choose: revolt or obedience. Today, the blade awakens."
+        lang.Get("intro.line1"),
+        lang.Get("intro.line2"),
+        lang.Get("intro.line3"),
+        lang.Get("intro.line4"),
+        lang.Get("intro.line5"),
+        lang.Get("intro.line6"),
+        lang.Get("intro.line7"),
+        lang.Get("intro.line8")
     };
 
     mLineDelays.resize(lines.size(), 0.0f);
@@ -66,7 +68,7 @@ IntroCrawl::IntroCrawl(class Game* game, const std::string& fontName)
         mLineDelays[i] = delayStep * static_cast<float>(i);
     }
 
-    mHint = AddText("Press SPACE to begin", Vector2(centerX, Game::WINDOW_HEIGHT - 70.0f), 0.65f, 0.0f, 24, 900, 1100);
+    mHint = AddText(lang.Get("intro.hint"), Vector2(centerX, Game::WINDOW_HEIGHT - 70.0f), 0.65f, 0.0f, 24, 900, 1100);
     mHint->SetTextColor(Vector3(0.5f, 0.6f, 0.52f));
     mHint->SetBackgroundColor(transparent);
 

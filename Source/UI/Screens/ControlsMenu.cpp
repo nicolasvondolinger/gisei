@@ -15,6 +15,8 @@ ControlsMenu::ControlsMenu(class Game* game, const std::string& fontName)
     float centerX = Game::WINDOW_WIDTH / 2.0f;
     float centerY = Game::WINDOW_HEIGHT / 2.0f;
 
+    auto& lang = mGame->GetLanguage();
+
     const Vector3 textMain(0.91f, 0.94f, 0.91f);      // #E8EFE8
     const Vector3 textHover(0.66f, 0.80f, 0.70f);    // #A9CDB2
     const Vector3 buttonBg(0.11f, 0.14f, 0.12f);     // #1C241F
@@ -24,7 +26,7 @@ ControlsMenu::ControlsMenu(class Game* game, const std::string& fontName)
     AddRect(Vector2(centerX, centerY), Vector2(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), 1.0f, 0.0f, 1000);
     mRects[0]->SetColor(darkOverlay);
 
-    UIText* title = AddText("CONTROLS", Vector2(centerX, 150.0f), 1.2f, 0.0f, 56, 900, 1010);
+    UIText* title = AddText(lang.Get("controls.title"), Vector2(centerX, 150.0f), 1.2f, 0.0f, 56, 900, 1010);
     title->SetTextColor(textHover);
     title->SetBackgroundColor(transparent);
 
@@ -35,13 +37,13 @@ ControlsMenu::ControlsMenu(class Game* game, const std::string& fontName)
     int drawOrderBase = 1020;
 
     std::vector<std::string> commandLines = {
-        "Move: A / D",
-        "Crouch / Block: S (while grounded)",
-        "Jump: Space",
-        "Attack: J",
-        "Dash: K",
-        "Shoot: L",
-        "Pause (in level): ESC"
+        lang.Get("controls.move"),
+        lang.Get("controls.crouch"),
+        lang.Get("controls.jump"),
+        lang.Get("controls.attack"),
+        lang.Get("controls.dash"),
+        lang.Get("controls.shoot"),
+        lang.Get("controls.pause")
     };
 
     for (size_t i = 0; i < commandLines.size(); ++i) {
@@ -51,11 +53,11 @@ ControlsMenu::ControlsMenu(class Game* game, const std::string& fontName)
         line->SetBackgroundColor(transparent);
     }
 
-    UIText* hint = AddText("Enter/Esc to go back", Vector2(centerX, Game::WINDOW_HEIGHT - 60.0f), 0.6f, 0.0f, 22, 900, 1050);
+    UIText* hint = AddText(lang.Get("controls.hint"), Vector2(centerX, Game::WINDOW_HEIGHT - 60.0f), 0.6f, 0.0f, 22, 900, 1050);
     hint->SetTextColor(Vector3(0.5f, 0.6f, 0.52f));
     hint->SetBackgroundColor(transparent);
 
-    mBackButton = AddButton("Back", [this]() {
+    mBackButton = AddButton(lang.Get("controls.back"), [this]() {
         // Reativa a tela anterior e fecha a atual
         auto& stack = mGame->GetUIStack();
         if (stack.size() >= 2) {

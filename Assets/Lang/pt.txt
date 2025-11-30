@@ -1,0 +1,60 @@
+# Intro
+intro.subtitle=Prólogo
+intro.title=GISEI - THE SHATTERED BLADE
+intro.line1=Na névoa do templo, monges silenciosos forjaram um corpo de bambu e aço.
+intro.line2=No peito, selaram um fragmento de guerreiro: Kenshi, o Ara-Hitogami.
+intro.line3=Prometeram memória e glória no Pináculo Celestial.
+intro.line4=Chamaram sua jornada de prova divina, um caminho de sacrifício sagrado.
+intro.line5=Mas ecos dos que vieram antes sussurram: sem retorno, apenas oferta.
+intro.line6=Demônios espreitam. A praga espiritual devora terras e almas.
+intro.line7=Para a ordem, o ninja é colheita - força para a forja, alimento para um deus adormecido.
+intro.line8=Se Kenshi chegar ao Pináculo, escolherá: revolta ou obediência. Hoje, a lâmina desperta.
+intro.hint=Pressione ESPAÇO para começar
+
+# Main Menu
+main.begin=Iniciar Jornada
+main.settings=Configurações
+main.controls=Comandos
+main.quit=Sair
+
+# Pause Menu
+pause.title=PAUSA
+pause.resume=Continuar
+pause.settings=Configurações
+pause.controls=Comandos
+pause.menu=Voltar ao Menu
+pause.quit=Sair
+
+# Settings Menu
+settings.title=CONFIGURAÇÕES
+settings.volume=Volume: {value}%
+settings.fullscreen=Modo Tela Cheia: {state}
+settings.fullscreen.on=Tela cheia: Ligado
+settings.fullscreen.off=Tela cheia: Desligado
+settings.difficulty=Dificuldade: {value}
+settings.difficulty.easy=Fácil
+settings.difficulty.normal=Normal
+settings.difficulty.hard=Difícil
+settings.back=Voltar
+settings.hint=Setas para Alterar | Enter para Selecionar
+settings.language=Idioma: {value}
+settings.language.en=Inglês
+settings.language.pt=Português
+
+# Controls Menu
+controls.title=COMANDOS
+controls.move=Movimentar: A / D
+controls.crouch=Abaixar / Defender: S (no chão)
+controls.jump=Pular: Espaço
+controls.attack=Atacar: J
+controls.dash=Dash: K
+controls.shoot=Atirar: L
+controls.pause=Pausar (na fase): ESC
+controls.hint=Enter/Esc para voltar
+controls.back=Voltar
+
+# Game Over
+gameover.title=Game Over
+gameover.retry=Tentar novamente
+gameover.menu=Menu Principal
+gameover.quit=Sair

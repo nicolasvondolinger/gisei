@@ -46,6 +46,7 @@ Game::Game()
         ,mSpiritOrbSound(nullptr)
         ,mBumpSound(nullptr)
         ,mStageClearSound(nullptr)
+        ,mAudio(nullptr)
 {
 }
 
@@ -84,6 +85,8 @@ bool Game::Initialize() {
 
     mRenderer = new Renderer(mWindow);
     mRenderer->Initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    mLanguage.Load("en", "../Assets/Lang");
 
     mFadeAlpha = 0.0f;
     mFadeState = FadeState::None;
@@ -334,6 +337,11 @@ void Game::ProcessInput()
 
 void Game::UpdateGame(float deltaTime) {
 
+    if (mPendingLanguageReload) {
+        RebuildUIForLanguage();
+        mPendingLanguageReload = false;
+    }
+
     if (mFadeState == FadeState::FadingOut) {
         mFadeAlpha += 2.5f * deltaTime;
         if (mFadeAlpha >= 1.0f) {
@@ -548,6 +556,34 @@ void Game::GenerateOutput()
     mRenderer->Present();
 }
 
+void Game::RebuildUIForLanguage() {
+    for (auto ui : mUIStack) {
+        delete ui;
+    }
+    mUIStack.clear();
+
+    switch (mCurrentScene) {
+        case GameScene::Intro:
+            new IntroCrawl(this, "../Assets/Fonts/Alkhemikal.ttf");
+            break;
+        case GameScene::MainMenu:
+            new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
+            break;
+        case GameScene::Level1:
+            if (mIsPaused) {
+                new PauseMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
+            }
+            break;
+        case GameScene::GameOver:
+            new GameOver(this, "../Assets/Fonts/Alkhemikal.ttf");
+            break;
+    }
+}
+
+void Game::OnLanguageChanged() {
+    mPendingLanguageReload = true;
+}
+
 void Game::Shutdown()
 {
     for (auto ui : mUIStack) {
@@ -584,6 +620,8 @@ void Game::Shutdown()
     mRenderer->Shutdown();
     delete mRenderer;
     mRenderer = nullptr;
+
+    mLanguage = LanguageManager();
 
     SDL_DestroyWindow(mWindow);
     SDL_Quit();

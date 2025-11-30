@@ -19,7 +19,9 @@ GameOver::GameOver(class Game* game, const std::string& fontName)
         AddImage("../Assets/UI/GameOverBackground.png", Vector2(centerX, centerY), 0.8f, 0.0f, 0);
         AddRect(Vector2(centerX, centerY), Vector2(width, height), 1.0f, 0.0f, 5)->SetColor(overlay);
 
-        UIText* title = AddText("Game Over", Vector2(centerX, centerY - 140.0f), 2.7f, 0.0f, 60, 900, 20);
+        auto& lang = mGame->GetLanguage();
+
+        UIText* title = AddText(lang.Get("gameover.title"), Vector2(centerX, centerY - 140.0f), 2.7f, 0.0f, 60, 900, 20);
         title->SetBackgroundColor(transparent);
         title->SetTextColor(titleColor);
 
@@ -27,15 +29,15 @@ GameOver::GameOver(class Game* game, const std::string& fontName)
         Vector2 menuPos(centerX, centerY + 90.0f);
         Vector2 quitPos(centerX, centerY + 160.0f);
 
-        AddButton("Retry", [this]() {
+        AddButton(lang.Get("gameover.retry"), [this]() {
                 this->Close(); 
                 mGame->SetScene(GameScene::Level1);
         }, retryPos, 1.0f, 0.0f, 46, 900, 30);
-        AddButton("Main Menu", [this]() {
+        AddButton(lang.Get("gameover.menu"), [this]() {
                 this->Close();
                 mGame->SetScene(GameScene::MainMenu); 
         }, menuPos, 1.0f, 0.0f, 46, 900, 31);
-        AddButton("Quit", [this]() {
+        AddButton(lang.Get("gameover.quit"), [this]() {
                 this->Close(); 
                 mGame->Quit();
         }, quitPos, 1.0f, 0.0f, 46, 900, 32);
