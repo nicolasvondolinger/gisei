@@ -94,7 +94,7 @@ public:
 
     static constexpr float WINDOW_WIDTH = 1920.0f;
     static constexpr float WINDOW_HEIGHT = 1080.0f;
-    static constexpr float LEVEL_WIDTH = 1920.0f;
+    static constexpr float LEVEL_WIDTH = 3840.0f;
     static constexpr float LEVEL_HEIGHT = 1056.0f;
     static constexpr float TILE_SIZE = 32.0f;
     static constexpr float SPAWN_DISTANCE = 500.0f;

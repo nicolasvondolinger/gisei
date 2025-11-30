@@ -201,9 +201,9 @@ void Game::InitializeActors() {
     };
     
     Layer layers[] = {
-        {"../Assets/Levels/level1-test_Tile Layer 1.csv", "../Assets/Levels/Tileset.png", 17},
-        {"../Assets/Levels/level1-test_Tile Layer 2.csv", "../Assets/Levels/Objects.png", 40},
-        {"../Assets/Levels/level1-test_Tile Layer 3.csv", "../Assets/Levels/cave_entrance.png", 6}
+        {"../Assets/Levels/level1_Blocos.csv", "../Assets/Levels/Tileset.png", 17},
+        {"../Assets/Levels/level1_Objetos.csv", "../Assets/Levels/Objects.png", 40},
+        {"../Assets/Levels/level1_Entradas.csv", "../Assets/Levels/cave_entrance.png", 6}
     };
     
     for(const auto& layer : layers) {
