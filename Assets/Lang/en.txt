@@ -1,0 +1,60 @@
+# Intro
+intro.subtitle=Prologue
+intro.title=GISEI - THE SHATTERED BLADE
+intro.line1=In the temple haze, silent monks forged a body of bamboo and steel.
+intro.line2=Into its chest, they sealed a warrior's fragment: Kenshi, the Ara-Hitogami.
+intro.line3=They promised him memory and glory at the Celestial Pinnacle.
+intro.line4=They called his journey a divine trial, a sacred path of sacrifice.
+intro.line5=But echoes of those before him whisper: no return, only offering.
+intro.line6=Demons lurk. The spirit blight devours lands and souls.
+intro.line7=To the order, the ninja is harvest - fuel for the forge, food for a sleeping god.
+intro.line8=If Kenshi reaches the Pinnacle, he must choose: revolt or obedience. Today, the blade awakens.
+intro.hint=Press SPACE to begin
+
+# Main Menu
+main.begin=Begin Journey
+main.settings=Settings
+main.controls=Controls
+main.quit=Quit
+
+# Pause Menu
+pause.title=PAUSE
+pause.resume=Continue
+pause.settings=Settings
+pause.controls=Controls
+pause.menu=Back to Menu
+pause.quit=Leave
+
+# Settings Menu
+settings.title=SETTINGS
+settings.volume=Volume: {value}%
+settings.fullscreen=Fullscreen: {state}
+settings.fullscreen.on=Fullscreen: ON
+settings.fullscreen.off=Fullscreen: OFF
+settings.difficulty=Difficulty: {value}
+settings.difficulty.easy=Easy
+settings.difficulty.normal=Normal
+settings.difficulty.hard=Hard
+settings.back=Back
+settings.hint=Arrows to Change | Enter to Select
+settings.language=Language: {value}
+settings.language.en=English
+settings.language.pt=Portuguese
+
+# Controls Menu
+controls.title=CONTROLS
+controls.move=Move: A / D
+controls.crouch=Crouch / Block: S (while grounded)
+controls.jump=Jump: Space
+controls.attack=Attack: J
+controls.dash=Dash: K
+controls.shoot=Shoot: L
+controls.pause=Pause (in level): ESC
+controls.hint=Enter/Esc to go back
+controls.back=Back
+
+# Game Over
+gameover.title=Game Over
+gameover.retry=Retry
+gameover.menu=Main Menu
+gameover.quit=Quit

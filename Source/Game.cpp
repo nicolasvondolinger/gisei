@@ -21,6 +21,7 @@
 #include "UI/Screens/MainMenu.h"
 #include "UI/Screens/PauseMenu.h"
 #include "UI/Screens/GameOver.h"
+#include "UI/Screens/IntroCrawl.h"
 #include "UI/Screens/HUD.h"
 #include "Components/Drawing/AnimatorComponent.h"
 
@@ -47,6 +48,7 @@ Game::Game()
         ,mSpiritOrbSound(nullptr)
         ,mBumpSound(nullptr)
         ,mStageClearSound(nullptr)
+        ,mAudio(nullptr)
         ,mHUD(nullptr)
         ,mIsHitStop(false)
         ,mHitStopTimer(0.0f)
@@ -88,6 +90,8 @@ bool Game::Initialize() {
 
     mRenderer = new Renderer(mWindow);
     mRenderer->Initialize(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    mLanguage.Load("en", "../Assets/Lang");
 
     mFadeAlpha = 0.0f;
     mFadeState = FadeState::None;
@@ -137,14 +141,25 @@ void Game::SetScene(GameScene nextScene)
 
 void Game::LoadScene(GameScene scene)
 {
-    mIsPaused = false;
+    // Pause gameplay updates during the intro so we can render a static preview of the level
+    mIsPaused = (scene == GameScene::Intro);
     mCurrentScene = scene;
+    // Reset any pending quit state from previous scenes
+    mWaitingToQuit = false;
+    mDeathSoundChannel = -1;
+    mStageClearSoundChannel = -1;
     UnloadScene();
 
     // Defina o fator de zoom que você quer (2.0f = 2x mais perto)
     float zoomFactor = 2.0f; 
 
     switch (scene) {
+        case GameScene::Intro:
+            mBackgroundTexture = nullptr;
+            // Build the level in a frozen state to use as intro background
+            InitializeActors();
+            new IntroCrawl(this, "../Assets/Fonts/Alkhemikal.ttf");
+            break;
         case GameScene::MainMenu:
             // MENU: Resolução original (Sem zoom)
             mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -377,6 +392,11 @@ void Game::ProcessInput()
 
 void Game::UpdateGame(float deltaTime) {
 
+    if (mPendingLanguageReload) {
+        RebuildUIForLanguage();
+        mPendingLanguageReload = false;
+    }
+    
     if (mIsHitStop) {
         mHitStopTimer -= deltaTime;
         if (mHitStopTimer <= 0.0f) {
@@ -624,6 +644,34 @@ void Game::GenerateOutput()
     mRenderer->Present();
 }
 
+void Game::RebuildUIForLanguage() {
+    for (auto ui : mUIStack) {
+        delete ui;
+    }
+    mUIStack.clear();
+
+    switch (mCurrentScene) {
+        case GameScene::Intro:
+            new IntroCrawl(this, "../Assets/Fonts/Alkhemikal.ttf");
+            break;
+        case GameScene::MainMenu:
+            new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
+            break;
+        case GameScene::Level1:
+            if (mIsPaused) {
+                new PauseMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
+            }
+            break;
+        case GameScene::GameOver:
+            new GameOver(this, "../Assets/Fonts/Alkhemikal.ttf");
+            break;
+    }
+}
+
+void Game::OnLanguageChanged() {
+    mPendingLanguageReload = true;
+}
+
 void Game::Shutdown()
 {
     for (auto ui : mUIStack) {
@@ -660,6 +708,8 @@ void Game::Shutdown()
     mRenderer->Shutdown();
     delete mRenderer;
     mRenderer = nullptr;
+
+    mLanguage = LanguageManager();
 
     SDL_DestroyWindow(mWindow);
     SDL_Quit();

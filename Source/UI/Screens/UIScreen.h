@@ -28,6 +28,7 @@ public:
 
     virtual void HandleKeyPress(int key);
 
+    virtual void OnLanguageChanged() {}
 
     void Close();
 

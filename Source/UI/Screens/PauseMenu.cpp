@@ -28,7 +28,9 @@ PauseMenu::PauseMenu(class Game* game, const std::string& fontName)
     AddRect(Vector2(centerX, centerY), Vector2(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), 1.0f, 0.0f, 900);
     mRects[0]->SetColor(darkOverlay);
 
-    UIText* title = AddText("PAUSE", Vector2(centerX, centerY - 200.0f), 1.1f, 0.0f, 60, 900, 910);
+    auto& lang = mGame->GetLanguage();
+
+    UIText* title = AddText(lang.Get("pause.title"), Vector2(centerX, centerY - 200.0f), 1.1f, 0.0f, 60, 900, 910);
     title->SetTextColor(textHover);
     title->SetBackgroundColor(transparent);
 
@@ -38,23 +40,28 @@ PauseMenu::PauseMenu(class Game* game, const std::string& fontName)
     Vector2 mainMenuPos(centerX, centerY + 180.0f);
     Vector2 quitPos(centerX, centerY + 260.0f);
 
-    mResumeButton = AddButton("Continue", [this]() {
+    mResumeButton = AddButton(lang.Get("pause.resume"), [this]() {
         mGame->ResumeGame();
         Close();
     }, resumePos, 1.0f, 0.0f, 46, 900, 920);
 
-    mSettingsButton = AddButton("Settings", [this]() {
+    mSettingsButton = AddButton(lang.Get("pause.settings"), [this]() {
         SetState(UIState::Paused);
         new SettingsMenu(mGame, "../Assets/Fonts/Alkhemikal.ttf");
     }, settingsPos, 1.0f, 0.0f, 46, 900, 921);
 
-    mMainMenuButton = AddButton("Main Menu", [this]() {
+    mControlsButton = AddButton(lang.Get("pause.controls"), [this]() {
+        SetState(UIState::Paused);
+        new ControlsMenu(mGame, "../Assets/Fonts/Alkhemikal.ttf");
+    }, controlsPos, 1.0f, 0.0f, 46, 900, 922);
+
+    mMainMenuButton = AddButton(lang.Get("pause.menu"), [this]() {
         mGame->ResumeGame();
         Close();
         mGame->SetScene(GameScene::MainMenu);
     }, mainMenuPos, 1.0f, 0.0f, 46, 900, 923);
 
-    mQuitButton = AddButton("Quit", [this]() {
+    mQuitButton = AddButton(lang.Get("pause.quit"), [this]() {
         mGame->Quit();
     }, quitPos, 1.0f, 0.0f, 46, 900, 924);
 

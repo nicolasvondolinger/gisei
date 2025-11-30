@@ -10,7 +10,8 @@ SettingsMenu::SettingsMenu(class Game *game, const std::string &fontName)
     : UIScreen(game, fontName)
     , mVolumeLevel(5)
     , mDifficultyLevel(1)
-    , mIsFullscreen(true) {
+    , mIsFullscreen(true)
+    , mLanguageIndex(0) {
     
     mIsTransparent = false;
     
@@ -26,41 +27,53 @@ SettingsMenu::SettingsMenu(class Game *game, const std::string &fontName)
     AddRect(Vector2(centerX, centerY), Vector2(Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT), 1.0f, 0.0f, 1000);
     mRects[0]->SetColor(darkOverlay);
 
-    UIText* title = AddText("SETTINGS", Vector2(centerX, 150.0f), 1.2f, 0.0f, 56, 900, 1010);
-    title->SetTextColor(textHover);
-    title->SetBackgroundColor(transparent);
+    auto& lang = mGame->GetLanguage();
 
-    mVolumeText = AddText("Volume: 50%", Vector2(centerX, centerY - 80.0f), 0.9f, 0.0f, 36, 900, 1011);
+    // Detect current language index
+    mLanguageIndex = (lang.GetCurrentLang() == "pt") ? 1 : 0;
+
+    mTitleText = AddText(lang.Get("settings.title"), Vector2(centerX, 120.0f), 1.2f, 0.0f, 56, 900, 1010);
+    mTitleText->SetTextColor(textHover);
+    mTitleText->SetBackgroundColor(transparent);
+
+    mVolumeText = AddText(lang.Get("settings.volume"), Vector2(centerX, centerY - 140.0f), 0.9f, 0.0f, 36, 900, 1011);
     mVolumeText->SetBackgroundColor(transparent);
 
-    mFullscreenText = AddText("Fullscreen: ON", Vector2(centerX, centerY), 0.9f, 0.0f, 36, 900, 1012);
+    mFullscreenText = AddText(lang.Get("settings.fullscreen"), Vector2(centerX, centerY - 60.0f), 0.9f, 0.0f, 36, 900, 1012);
     mFullscreenText->SetBackgroundColor(transparent);
 
-    mDifficultyText = AddText("Difficulty: Normal", Vector2(centerX, centerY + 80.0f), 0.9f, 0.0f, 36, 900, 1013);
+    mDifficultyText = AddText(lang.Get("settings.difficulty"), Vector2(centerX, centerY + 20.0f), 0.9f, 0.0f, 36, 900, 1013);
     mDifficultyText->SetBackgroundColor(transparent);
 
-    mBackButton = AddButton("Back", [this]() {
+    mLanguageText = AddText(lang.Get("settings.language"), Vector2(centerX, centerY + 100.0f), 0.9f, 0.0f, 36, 900, 1014);
+    mLanguageText->SetBackgroundColor(transparent);
+
+    mBackButton = AddButton(lang.Get("settings.back"), [this]() {
         if (mGame->GetUIStack().size() > 1) {
              auto prevUI = mGame->GetUIStack()[mGame->GetUIStack().size() - 2];
              prevUI->SetState(UIState::Active);
         }
         Close();
-    }, Vector2(centerX, centerY + 180.0f), 1.0f, 0.0f, 42, 900, 1014);
+    }, Vector2(centerX, centerY + 200.0f), 1.0f, 0.0f, 42, 900, 1015);
 
     mBackButton->SetTextColor(textMain);
     mBackButton->SetHoverColor(textHover);
     mBackButton->SetBackgroundColor(transparent);
 
-    UIText* hint = AddText("Arrows to Change | Enter to Select", Vector2(centerX, Game::WINDOW_HEIGHT - 50.0f), 0.6f, 0.0f, 20, 900, 1015);
-    hint->SetTextColor(Vector3(0.5f, 0.6f, 0.52f));
-    hint->SetBackgroundColor(transparent);
+    mHintText = AddText(lang.Get("settings.hint"), Vector2(centerX, Game::WINDOW_HEIGHT - 50.0f), 0.6f, 0.0f, 20, 900, 1020);
+    mHintText->SetTextColor(Vector3(0.5f, 0.6f, 0.52f));
+    mHintText->SetBackgroundColor(transparent);
 
     Uint32 flags = SDL_GetWindowFlags(mGame->GetRenderer()->GetWindow());
     mIsFullscreen = (flags & (SDL_WINDOW_FULLSCREEN | SDL_WINDOW_FULLSCREEN_DESKTOP)) != 0;
-    mFullscreenText->SetText(mIsFullscreen ? "Fullscreen: ON" : "Fullscreen: OFF");
+    mFullscreenText->SetText(mIsFullscreen ? lang.Get("settings.fullscreen.on") : lang.Get("settings.fullscreen.off"));
 
     mSelectedButtonIndex = 0; 
     UpdateSelectColor();
+    UpdateVolumeText();
+    UpdateDifficultyText();
+    UpdateFullscreenText();
+    UpdateLanguageText();
 }
 
 SettingsMenu::~SettingsMenu() {
@@ -73,35 +86,60 @@ void SettingsMenu::UpdateSelectColor() {
     mVolumeText->SetTextColor(textMain);
     mFullscreenText->SetTextColor(textMain);
     mDifficultyText->SetTextColor(textMain);
+    mLanguageText->SetTextColor(textMain);
     mBackButton->SetHighlighted(false);
 
     switch (mSelectedButtonIndex) {
         case 0: mVolumeText->SetTextColor(textHover); break;
         case 1: mFullscreenText->SetTextColor(textHover); break;
         case 2: mDifficultyText->SetTextColor(textHover); break;
-        case 3: mBackButton->SetHighlighted(true); break;
+        case 3: mLanguageText->SetTextColor(textHover); break;
+        case 4: mBackButton->SetHighlighted(true); break;
     }
 }
 
 void SettingsMenu::UpdateVolumeText() {
+    auto& lang = mGame->GetLanguage();
     int percentage = mVolumeLevel * 10;
-    mVolumeText->SetText("Volume: " + std::to_string(percentage) + "%");
+    std::string value = std::to_string(percentage);
+    std::string tmpl = lang.Get("settings.volume");
+    const std::string token = "{value}";
+    size_t pos = tmpl.find(token);
+    if (pos != std::string::npos) {
+        tmpl.replace(pos, token.size(), value);
+        mVolumeText->SetText(tmpl);
+    } else {
+        mVolumeText->SetText("Volume: " + value + "%");
+    }
     Mix_VolumeMusic((MIX_MAX_VOLUME * mVolumeLevel) / 10);
 }
 
 void SettingsMenu::UpdateDifficultyText() {
-    std::string difficulty = mDifficultyLevel == 0 ? "Easy" : (mDifficultyLevel == 1 ? "Normal" : "Hard");
-    mDifficultyText->SetText("Difficulty: " + difficulty);
+    auto& lang = mGame->GetLanguage();
+    std::string key = (mDifficultyLevel == 0) ? "settings.difficulty.easy" :
+                      (mDifficultyLevel == 1) ? "settings.difficulty.normal" : "settings.difficulty.hard";
+    std::string difficultyText = lang.Get(key);
+
+    std::string tmpl = lang.Get("settings.difficulty");
+    const std::string token = "{value}";
+    size_t pos = tmpl.find(token);
+    if (pos != std::string::npos) {
+        tmpl.replace(pos, token.size(), difficultyText);
+        mDifficultyText->SetText(tmpl);
+    } else {
+        mDifficultyText->SetText(difficultyText);
+    }
 }
 
 void SettingsMenu::UpdateFullscreenText() {
-    mFullscreenText->SetText(mIsFullscreen ? "Fullscreen: ON" : "Fullscreen: OFF");
+    auto& lang = mGame->GetLanguage();
+    mFullscreenText->SetText(mIsFullscreen ? lang.Get("settings.fullscreen.on") : lang.Get("settings.fullscreen.off"));
 
     SDL_Window* window = mGame->GetRenderer()->GetWindow();
     Uint32 targetFlag = mIsFullscreen ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0;
     if (SDL_SetWindowFullscreen(window, targetFlag) != 0) {
         mIsFullscreen = !mIsFullscreen;
-        mFullscreenText->SetText(mIsFullscreen ? "Fullscreen: ON" : "Fullscreen: OFF");
+        mFullscreenText->SetText(mIsFullscreen ? lang.Get("settings.fullscreen.on") : lang.Get("settings.fullscreen.off"));
         return;
     }
 
@@ -115,8 +153,31 @@ void SettingsMenu::UpdateFullscreenText() {
     mGame->GetRenderer()->UpdateViewportToWindow();
 }
 
+void SettingsMenu::UpdateLanguageText() {
+    auto& lang = mGame->GetLanguage();
+    std::string current = (mLanguageIndex == 0) ? lang.Get("settings.language.en") : lang.Get("settings.language.pt");
+    std::string tmpl = lang.Get("settings.language");
+    const std::string token = "{value}";
+    size_t pos = tmpl.find(token);
+    if (pos != std::string::npos) {
+        tmpl.replace(pos, token.size(), current);
+        mLanguageText->SetText(tmpl);
+    } else {
+        mLanguageText->SetText(current);
+    }
+}
+
+void SettingsMenu::RefreshStaticTexts() {
+    const std::string langCode = (mLanguageIndex == 0) ? "en" : "pt";
+    auto& lang = mGame->GetLanguage();
+    lang.Load(langCode, "../Assets/Lang");
+
+    // Disparar rebuild das UIs na próxima atualização
+    mGame->OnLanguageChanged();
+}
+
 void SettingsMenu::HandleKeyPress(int key) {
-    const int MAX_ITEMS = 3; 
+    const int MAX_ITEMS = 4; 
 
     switch (key) {
         case SDLK_DOWN:
@@ -124,7 +185,6 @@ void SettingsMenu::HandleKeyPress(int key) {
             if (mSelectedButtonIndex < MAX_ITEMS) {
                 mSelectedButtonIndex++;
                 UpdateSelectColor();
-                // PlaySound(MoveCursor); // Futuro
             }
             break;
 
@@ -140,38 +200,53 @@ void SettingsMenu::HandleKeyPress(int key) {
         case SDLK_a:
             if (mSelectedButtonIndex == 0 && mVolumeLevel > 0) {
                 mVolumeLevel--;
-                UpdateVolumeText();
             } else if (mSelectedButtonIndex == 1) {
                 mIsFullscreen = !mIsFullscreen;
-                UpdateFullscreenText();
             } else if (mSelectedButtonIndex == 2 && mDifficultyLevel > 0) {
                 mDifficultyLevel--;
-                UpdateDifficultyText();
+            } else if (mSelectedButtonIndex == 3) {
+                mLanguageIndex = (mLanguageIndex == 0) ? 1 : 0;
+                RefreshStaticTexts();
             }
+            UpdateVolumeText();
+            UpdateFullscreenText();
+            UpdateDifficultyText();
+            UpdateLanguageText();
             break;
 
         case SDLK_RIGHT:
         case SDLK_d:
             if (mSelectedButtonIndex == 0 && mVolumeLevel < 10) {
                 mVolumeLevel++;
-                UpdateVolumeText();
             } else if (mSelectedButtonIndex == 1) {
                 mIsFullscreen = !mIsFullscreen;
-                UpdateFullscreenText();
             } else if (mSelectedButtonIndex == 2 && mDifficultyLevel < 2) {
                 mDifficultyLevel++;
-                UpdateDifficultyText();
+            } else if (mSelectedButtonIndex == 3) {
+                mLanguageIndex = (mLanguageIndex == 0) ? 1 : 0;
+                RefreshStaticTexts();
             }
+            UpdateVolumeText();
+            UpdateFullscreenText();
+            UpdateDifficultyText();
+            UpdateLanguageText();
             break;
 
         case SDLK_RETURN:
         case SDLK_KP_ENTER:
         case SDLK_SPACE:
-            if (mSelectedButtonIndex == 3) {
+            if (mSelectedButtonIndex == 4) {
                 mBackButton->OnClick();
             } else if (mSelectedButtonIndex == 1) {
                 mIsFullscreen = !mIsFullscreen;
                 UpdateFullscreenText();
+            } else if (mSelectedButtonIndex == 3) {
+                mLanguageIndex = (mLanguageIndex == 0) ? 1 : 0;
+                RefreshStaticTexts();
+                UpdateVolumeText();
+                UpdateFullscreenText();
+                UpdateDifficultyText();
+                UpdateLanguageText();
             }
             break;
 

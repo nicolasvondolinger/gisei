@@ -26,16 +26,18 @@ MainMenu::MainMenu(class Game *game, const std::string &fontName)
     Vector2 controlsButtonPos(centerX, centerY + 280.0f);
     Vector2 exitButtonPos(centerX, centerY + 360.0f);
 
-    UIButton *playButton = AddButton("Begin Journey", [this]() {
+    auto& lang = mGame->GetLanguage();
+
+    UIButton *playButton = AddButton(lang.Get("main.begin"), [this]() {
         Close();
-        mGame->SetScene(GameScene::Level1);
+        mGame->SetScene(GameScene::Intro);
     }, playButtonPos, 1.0f, 0.0f, 48, 900, 200);
 
     playButton->SetTextColor(textMain);
     playButton->SetHoverColor(textHover);
     playButton->SetBackgroundColor(Vector4(buttonBg, 0.8f));
 
-    UIButton *settingsButton = AddButton("Settings", [this]() {
+    UIButton *settingsButton = AddButton(lang.Get("main.settings"), [this]() {
         SetState(UIState::Paused);
         new SettingsMenu(mGame, "../Assets/Fonts/Alkhemikal.ttf");
     }, settingsButtonPos, 1.0f, 0.0f, 48, 900, 200);
@@ -44,7 +46,7 @@ MainMenu::MainMenu(class Game *game, const std::string &fontName)
     settingsButton->SetHoverColor(textHover);
     settingsButton->SetBackgroundColor(Vector4(buttonBg, 0.8f));
 
-    UIButton *controlsButton = AddButton("Controls", [this]() {
+    UIButton *controlsButton = AddButton(lang.Get("main.controls"), [this]() {
         SetState(UIState::Paused);
         new ControlsMenu(mGame, "../Assets/Fonts/Alkhemikal.ttf");
     }, controlsButtonPos, 1.0f, 0.0f, 48, 900, 200);
@@ -53,7 +55,7 @@ MainMenu::MainMenu(class Game *game, const std::string &fontName)
     controlsButton->SetHoverColor(textHover);
     controlsButton->SetBackgroundColor(Vector4(buttonBg, 0.8f));
 
-    UIButton *exitButton = AddButton("Quit", [this]() {
+    UIButton *exitButton = AddButton(lang.Get("main.quit"), [this]() {
         mGame->Quit();
     }, exitButtonPos, 1.0f, 0.0f, 48, 900, 200);
 
