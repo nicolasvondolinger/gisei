@@ -8,12 +8,15 @@ SkeletonWarrior::SkeletonWarrior(Game* game, float forwardSpeed)
     : Actor(game)
     , mDyingTimer(0.5f)
     , mIsDying(false)
+    , mHurtTimer(0.0f)
+    , mHealth(3)
     , mForwardSpeed(forwardSpeed)
 {
     mDrawComponent = new AnimatorComponent(this, 128, 128);
     mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Skeleton_Warrior/Walk.png", 7, 6.0f, true);
     mDrawComponent->AddAnimation("attack", "../Assets/Sprites/Skeleton_Warrior/Attack_1.png", 5, 10.0f, true);
     mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Skeleton_Warrior/Dead.png", 4, 8.0f, false);
+    mDrawComponent->AddAnimation("hurt", "../Assets/Sprites/Skeleton_Warrior/Hurt.png", 2, 12.0f, false);
     mDrawComponent->SetAnimation("walk");
 
     mRigidBodyComponent = new RigidBodyComponent(this, 1.0f, 3.0f, true);
@@ -45,6 +48,15 @@ void SkeletonWarrior::OnUpdate(float deltaTime)
         return;
     }
 
+    if (mHurtTimer > 0.0f) {
+        mHurtTimer -= deltaTime;
+        mRigidBodyComponent->SetVelocity(Vector2::Zero);
+        if (mHurtTimer <= 0.0f) {
+            mDrawComponent->SetAnimation("walk");
+        }
+        return;
+    }
+
     if (mRigidBodyComponent->IsEnabled()) {
         Vector2 force(mForwardSpeed, 0.0f);
         mRigidBodyComponent->ApplyForce(force);
@@ -71,6 +83,17 @@ void SkeletonWarrior::OnHorizontalCollision(const float minOverlap, AABBCollider
 
 void SkeletonWarrior::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other)
 {
+}
+
+void SkeletonWarrior::ApplyDamage(int amount)
+{
+    if (mIsDying) return;
+    mDrawComponent->SetAnimation("hurt");
+    mHurtTimer = 0.3f;
+    mHealth -= amount;
+    if (mHealth <= 0) {
+        Kill();
+    }
 }
 
 bool SkeletonWarrior::HasGroundAhead() const

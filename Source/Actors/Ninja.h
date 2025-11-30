@@ -1,6 +1,7 @@
 #pragma once
 #include "Actor.h"
 #include <vector>
+#include <unordered_set>
 
 struct DashParticle {
     Vector2 position;
@@ -42,6 +43,7 @@ public:
 
     void TakeDamage();
     void StageClear();
+    void CheckAttackHit();
     
     bool IsDashing() const { return mIsDashing; }
     const std::vector<DashParticle>& GetDashParticles() const { return mDashParticles; }
@@ -89,6 +91,8 @@ private:
     const float mDashDuration = 0.3f;
     
     std::vector<DashParticle> mDashParticles;
+
+    std::unordered_set<class Actor*> mHitEnemiesThisAttack;
 
     
     class RigidBodyComponent* mRigidBodyComponent;

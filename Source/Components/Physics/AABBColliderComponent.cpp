@@ -86,6 +86,11 @@ float AABBColliderComponent::DetectHorizontalCollision(RigidBodyComponent *rigid
 
     for(auto collider : colliders) {
         if(!collider->IsEnabled() || collider == this) continue;
+        // Ignore Enemy <-> EnemyProjectile interactions
+        if ((mLayer == ColliderLayer::EnemyProjectile && collider->GetLayer() == ColliderLayer::Enemy) ||
+            (mLayer == ColliderLayer::Enemy && collider->GetLayer() == ColliderLayer::EnemyProjectile)) {
+            continue;
+        }
 
         if(this->Intersect(*collider)) {
             float verticalOverlap = this->GetMinVerticalOverlap(collider);
@@ -117,6 +122,11 @@ float AABBColliderComponent::DetectVerticalCollision(RigidBodyComponent *rigidBo
     
     for(auto collider : colliders) {
         if(!collider->IsEnabled() || collider == this) continue;
+        // Ignore Enemy <-> EnemyProjectile interactions
+        if ((mLayer == ColliderLayer::EnemyProjectile && collider->GetLayer() == ColliderLayer::Enemy) ||
+            (mLayer == ColliderLayer::Enemy && collider->GetLayer() == ColliderLayer::EnemyProjectile)) {
+            continue;
+        }
 
         if(this->Intersect(*collider)) {
             float verticalOverlap = this->GetMinVerticalOverlap(collider);

@@ -14,6 +14,7 @@ public:
 private:
     float mSpeed;
     Vector2 mDirection;
+    float mLifeTimer;
     
     class RigidBodyComponent* mRigidBodyComponent;
     class AABBColliderComponent* mColliderComponent;

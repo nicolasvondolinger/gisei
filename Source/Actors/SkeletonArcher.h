@@ -8,10 +8,13 @@ public:
 
     void OnUpdate(float deltaTime) override;
     void Kill() override;
+    void ApplyDamage(int amount);
 
 private:
     void ShootArrow();
     
+    int mHealth;
+    float mHurtTimer;
     float mPatrolDistance;
     float mPatrolStartX;
     float mShootTimer;

@@ -7,7 +7,8 @@ enum class ColliderLayer {
     Player,
     Enemy,
     Blocks,
-    Mushroom
+    Mushroom,
+    EnemyProjectile
 };
 
 class AABBColliderComponent : public Component {
