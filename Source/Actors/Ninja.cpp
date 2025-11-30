@@ -106,23 +106,24 @@ void Ninja::OnProcessInput(const uint8_t* state) {
     // --- LÓGICA DE AGACHAR (TECLA S) ---
     bool keyS = state[SDL_SCANCODE_S];
 
-    if (keyS && mIsOnGround) { // CORREÇÃO 1: Só agacha se estiver no chão
+    // Cancela agachamento se não estiver no chão
+    if (!mIsOnGround && (mActionState == ActionState::CrouchHolding || 
+                         mActionState == ActionState::CrouchGoingDown || 
+                         mActionState == ActionState::CrouchGoingUp)) {
+        mActionState = ActionState::None;
+        return;
+    }
+
+    if (keyS && mIsOnGround) {
         if (mActionState == ActionState::None) {
             mActionState = ActionState::CrouchGoingDown;
             mDrawComponent->SetAnimation("crouch_down");
         }
     } else {
-        // CORREÇÃO 2: Se soltou a tecla, sobe IMEDIATAMENTE.
-        // Verifica se está Segurando (Holding) OU se ainda está Descendo (GoingDown)
         if (mActionState == ActionState::CrouchHolding || mActionState == ActionState::CrouchGoingDown) {
             mActionState = ActionState::CrouchGoingUp;
             mDrawComponent->SetAnimation("crouch_up");
         }
-    }
-    
-    // CORREÇÃO EXTRA: Se cair do chão enquanto agacha, cancela o agachamento
-    if (!mIsOnGround && (mActionState == ActionState::CrouchHolding || mActionState == ActionState::CrouchGoingDown)) {
-        mActionState = ActionState::None;
     }
 
     // --- MOVIMENTAÇÃO (A / D) ---
@@ -230,7 +231,7 @@ void Ninja::OnUpdate(float deltaTime) {
         if (!mDartSpawned && currentFrame == 3) {
             mDartSpawned = true;
             Vector2 direction(mScale.x, 0.0f);
-            Vector2 spawnOffset(mScale.x * 40.0f, 30.0f);
+            Vector2 spawnOffset(mScale.x * 30.0f, 0.0f);
             Dart* dart = new Dart(mGame, direction);
             dart->SetPosition(mPosition + spawnOffset);
         }
@@ -303,7 +304,7 @@ void Ninja::OnUpdate(float deltaTime) {
         mScale.x = (velocity.x > 0.0f) ? 1.0f : -1.0f;
     }
 
-    if (mIsInvincible && !mIsDashing) {
+    if (mIsInvincible && !mIsDashing && !mGame->IsHitStop()) {
         mInvincibleTimer -= deltaTime;
         bool flicker = fmodf(mInvincibleTimer * 4.0f, 1.0f) < 0.5f;
         mDrawComponent->SetVisible(flicker);
@@ -333,11 +334,17 @@ void Ninja::OnUpdate(float deltaTime) {
     ManageAnimations();
 }
 
-void Ninja::TakeDamage() {
+void Ninja::TakeDamage(bool fromThorns) {
     if (mIsDead || mIsInvincible) return;
 
     mHealth--;
-    mGame->StartHitStop(0.3f);
+    
+    if (!fromThorns) {
+        mGame->StartHitStop(0.3f);
+        mDrawComponent->SetWhiteAura(0.8f);
+    }
+    
+    mDrawComponent->SetVisible(true);
     
     if (mHealth <= 0) {
         Kill();
@@ -348,8 +355,10 @@ void Ninja::TakeDamage() {
         mDrawComponent->SetAnimation("hurt");
 
         float knockbackDir = (mScale.x > 0.0f) ? -1.0f : 1.0f;
+        float knockbackX = fromThorns ? knockbackDir * 400.0f : knockbackDir * 1200.0f;
+        float knockbackY = fromThorns ? -500.0f : -600.0f;
 
-        Vector2 knockbackForce(knockbackDir * 800.0f, -400.0f);
+        Vector2 knockbackForce(knockbackX, knockbackY);
         
         mRigidBodyComponent->SetVelocity(knockbackForce);
         
@@ -428,7 +437,7 @@ void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent*
         if (block && block->GetType() == EBlockType::Thorns) {
             // Se estiver invencível ou defendendo, ignora (ou toma dano se defesa não proteger de espinho)
             if (!mIsInvincible) {
-                 TakeDamage();
+                 TakeDamage(true);
             }
         }
     }
@@ -459,7 +468,7 @@ void Ninja::OnVerticalCollision(const float minOverlap, AABBColliderComponent* o
         Block* block = dynamic_cast<Block*>(other->GetOwner());
         if (block && block->GetType() == EBlockType::Thorns) {
             if (!mIsInvincible) {
-                 TakeDamage();
+                 TakeDamage(true);
             }
             return; 
         }

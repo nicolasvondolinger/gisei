@@ -1,4 +1,5 @@
 #include "Arrow.h"
+#include "Ninja.h"
 #include "../Game.h"
 #include "../Components/Drawing/AnimatorComponent.h"
 #include "../Components/Physics/RigidBodyComponent.h"
@@ -9,14 +10,14 @@ Arrow::Arrow(Game* game, const Vector2& direction)
     , mSpeed(500.0f)
     , mDirection(direction)
 {
-    mDrawComponent = new AnimatorComponent(this, 32, 32);
-    mDrawComponent->AddAnimation("fly", "../Assets/Sprites/Skeleton/Archer/Arrow.png", 1);
+    mDrawComponent = new AnimatorComponent(this, 48, 48);
+    mDrawComponent->AddAnimation("fly", "../Assets/Sprites/Skeleton_Archer/Arrow.png", 1);
     mDrawComponent->SetAnimation("fly");
 
     mRigidBodyComponent = new RigidBodyComponent(this, 0.0f, 0.0f, false);
     mRigidBodyComponent->SetVelocity(mDirection * mSpeed);
 
-    mColliderComponent = new AABBColliderComponent(this, 0, 0, 24, 8, ColliderLayer::Enemy);
+    mColliderComponent = new AABBColliderComponent(this, 0, 0, 16, 16, ColliderLayer::Enemy);
 }
 
 void Arrow::OnUpdate(float deltaTime)
@@ -36,24 +37,38 @@ void Arrow::Kill()
 
 void Arrow::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other)
 {
-    if (other->GetLayer() == ColliderLayer::Player || other->GetLayer() == ColliderLayer::Blocks)
+    if (other->GetLayer() == ColliderLayer::Player)
     {
-        if (other->GetLayer() == ColliderLayer::Player)
-        {
+        auto ninja = dynamic_cast<Ninja*>(other->GetOwner());
+        if (ninja && !ninja->IsDashing()) {
             other->GetOwner()->Kill();
         }
         Kill();
+    }
+    else if (other->GetLayer() == ColliderLayer::Blocks)
+    {
+        if (other->IsEnabled())
+        {
+            Kill();
+        }
     }
 }
 
 void Arrow::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other)
 {
-    if (other->GetLayer() == ColliderLayer::Player || other->GetLayer() == ColliderLayer::Blocks)
+    if (other->GetLayer() == ColliderLayer::Player)
     {
-        if (other->GetLayer() == ColliderLayer::Player)
-        {
+        auto ninja = dynamic_cast<Ninja*>(other->GetOwner());
+        if (ninja && !ninja->IsDashing()) {
             other->GetOwner()->Kill();
         }
         Kill();
+    }
+    else if (other->GetLayer() == ColliderLayer::Blocks)
+    {
+        if (other->IsEnabled())
+        {
+            Kill();
+        }
     }
 }

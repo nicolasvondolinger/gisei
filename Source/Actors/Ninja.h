@@ -40,7 +40,7 @@ public:
 
     class AnimatorComponent* GetDrawComponent() { return mDrawComponent; }
 
-    void TakeDamage();
+    void TakeDamage(bool fromThorns = false);
     void StageClear();
     
     bool IsDashing() const { return mIsDashing; }

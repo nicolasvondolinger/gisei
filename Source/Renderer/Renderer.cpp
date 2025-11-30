@@ -89,6 +89,7 @@ void Renderer::Draw(RendererMode mode, const Matrix4 &modelMatrix, const Vector2
     mBaseShader->SetVectorUniform("uBaseColor", Vector4(color, 1.0f));
     mBaseShader->SetVectorUniform("uTexRect", textureRect);
     mBaseShader->SetVectorUniform("uCameraPos", cameraPos);
+    mBaseShader->SetFloatUniform("uWhiteAura", 0.0f);
 
     if (vertices) vertices->SetActive(); else mSpriteVerts->SetActive();
 
@@ -136,6 +137,7 @@ bool Renderer::LoadShaders() {
     mOrthoProjection = Matrix4::CreateOrtho(0.0f, mScreenWidth, mScreenHeight, 0.0f, -1.0f, 1.0f);
     mBaseShader->SetMatrixUniform("uOrthoProj", mOrthoProjection);
     mBaseShader->SetIntegerUniform("uTexture", 0);
+    mBaseShader->SetFloatUniform("uWhiteAura", 0.0f);
     return true;
 }
 

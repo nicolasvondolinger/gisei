@@ -9,14 +9,14 @@ Dart::Dart(Game* game, const Vector2& direction)
     , mSpeed(600.0f)
     , mDirection(direction)
 {
-    mDrawComponent = new AnimatorComponent(this, 18, 18);
+    mDrawComponent = new AnimatorComponent(this, 12, 12);
     mDrawComponent->AddAnimation("fly", "../Assets/Sprites/Ninja/Dart.png", 1);
     mDrawComponent->SetAnimation("fly");
 
     mRigidBodyComponent = new RigidBodyComponent(this, 0.0f, 0.0f, false);
     mRigidBodyComponent->SetVelocity(mDirection * mSpeed);
 
-    mColliderComponent = new AABBColliderComponent(this, 0, 0, 18, 18, ColliderLayer::Player);
+    mColliderComponent = new AABBColliderComponent(this, 0, 0, 12, 12, ColliderLayer::Player);
 }
 
 void Dart::OnUpdate(float deltaTime)
@@ -36,24 +36,34 @@ void Dart::Kill()
 
 void Dart::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other)
 {
-    if (other->GetLayer() == ColliderLayer::Enemy || other->GetLayer() == ColliderLayer::Blocks)
+    if (other->GetLayer() == ColliderLayer::Enemy)
     {
-        if (other->GetLayer() == ColliderLayer::Enemy)
-        {
-            other->GetOwner()->Kill();
-        }
+        other->GetOwner()->Kill();
         Kill();
+    }
+    else if (other->GetLayer() == ColliderLayer::Blocks)
+    {
+        // Só colide com blocos sólidos (que têm collider ativado)
+        if (other->IsEnabled())
+        {
+            Kill();
+        }
     }
 }
 
 void Dart::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other)
 {
-    if (other->GetLayer() == ColliderLayer::Enemy || other->GetLayer() == ColliderLayer::Blocks)
+    if (other->GetLayer() == ColliderLayer::Enemy)
     {
-        if (other->GetLayer() == ColliderLayer::Enemy)
-        {
-            other->GetOwner()->Kill();
-        }
+        other->GetOwner()->Kill();
         Kill();
+    }
+    else if (other->GetLayer() == ColliderLayer::Blocks)
+    {
+        // Só colide com blocos sólidos (que têm collider ativado)
+        if (other->IsEnabled())
+        {
+            Kill();
+        }
     }
 }

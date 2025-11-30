@@ -3,6 +3,7 @@
 #include "../../Game.h"
 #include "../../Renderer/Renderer.h"
 #include "../../Renderer/Texture.h"
+#include "../../Renderer/Shader.h"
 #include "../Physics/AABBColliderComponent.h"
 
 AnimatorComponent::AnimatorComponent(class Actor* owner, int width, int height, int drawOrder)
@@ -85,12 +86,9 @@ void AnimatorComponent::Update(float deltaTime) {
 void AnimatorComponent::Draw(Renderer* renderer) {
     if (!mIsVisible || mCurrentAnimName.empty()) return;
 
-    
     const AnimationData& anim = mAnimations[mCurrentAnimName];
-
     if (!anim.texture) return;
 
-    
     auto collider = mOwner->GetComponent<AABBColliderComponent>();
     Vector2 pos = mOwner->GetPosition();
     
@@ -106,23 +104,13 @@ void AnimatorComponent::Draw(Renderer* renderer) {
     Vector2 cameraPos = mOwner->GetGame()->GetCameraPos();
     bool flip = (mOwner->GetScale().x < 0.0f);
 
-
     int currentFrameIndex = static_cast<int>(mAnimTimer / anim.frameDuration);
-
-    
     if(currentFrameIndex >= anim.numFrames) currentFrameIndex = anim.numFrames - 1;
 
-    
     float texW = static_cast<float>(anim.texture->GetWidth());
     float texH = static_cast<float>(anim.texture->GetHeight());
-
-    
-    
     float frameW = texW / static_cast<float>(anim.numFrames);
     float frameH = texH;
-
-    
-    
     float u = (currentFrameIndex * frameW) / texW;
     float v = 0.0f; 
     float uw = frameW / texW;
@@ -130,6 +118,8 @@ void AnimatorComponent::Draw(Renderer* renderer) {
 
     Vector4 texRect(u, v, uw, vh);
 
+    renderer->GetBaseShader()->SetFloatUniform("uWhiteAura", mWhiteAura);
+    
     renderer->DrawTexture(
         pos,
         size,
@@ -141,6 +131,8 @@ void AnimatorComponent::Draw(Renderer* renderer) {
         flip,
         mTextureFactor
     );
+    
+    renderer->GetBaseShader()->SetFloatUniform("uWhiteAura", 0.0f);
 }
 
 void AnimatorComponent::SetSize(int w, int h){

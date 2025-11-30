@@ -61,4 +61,8 @@ private:
     int mHeight;
 
     float mTextureFactor;
+    float mWhiteAura = 0.0f;
+
+public:
+    void SetWhiteAura(float aura) { mWhiteAura = aura; }
 };

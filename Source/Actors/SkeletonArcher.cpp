@@ -1,5 +1,6 @@
 #include "SkeletonArcher.h"
 #include "Arrow.h"
+#include "Ninja.h"
 #include "../Game.h"
 #include "../Random.h"
 #include "../Components/Drawing/AnimatorComponent.h"
@@ -16,15 +17,15 @@ SkeletonArcher::SkeletonArcher(Game* game, float patrolDistance)
     , mDyingTimer(0.5f)
 {
     mDrawComponent = new AnimatorComponent(this, 96, 96);
-    mDrawComponent->AddAnimation("idle", "../Assets/Sprites/Skeleton/Archer/Idle.png", 7, 6.0f, true);
-    mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Skeleton/Archer/Walk.png", 8, 6.0f, true);
-    mDrawComponent->AddAnimation("shot1", "../Assets/Sprites/Skeleton/Archer/Shot_1.png", 15, 12.0f, false);
-    mDrawComponent->AddAnimation("shot2", "../Assets/Sprites/Skeleton/Archer/Shot_2.png", 15, 12.0f, false);
-    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Skeleton/Archer/Dead.png", 5, 8.0f, false);
+    mDrawComponent->AddAnimation("idle", "../Assets/Sprites/Skeleton_Archer/Idle.png", 7, 6.0f, true);
+    mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Skeleton_Archer/Walk.png", 8, 6.0f, true);
+    mDrawComponent->AddAnimation("shot1", "../Assets/Sprites/Skeleton_Archer/Shot_1.png", 15, 12.0f, false);
+    mDrawComponent->AddAnimation("shot2", "../Assets/Sprites/Skeleton_Archer/Shot_2.png", 15, 12.0f, false);
+    mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Skeleton_Archer/Dead.png", 5, 8.0f, false);
     mDrawComponent->SetAnimation("idle");
 
     mRigidBodyComponent = new RigidBodyComponent(this, 1.0f, 3.0f, true);
-    mColliderComponent = new AABBColliderComponent(this, 0, 0, 24, 56, ColliderLayer::Enemy);
+    mColliderComponent = new AABBColliderComponent(this, 0, 4, 24, 56, ColliderLayer::Enemy);
     
     mPatrolStartX = mPosition.x;
 }
@@ -44,10 +45,18 @@ void SkeletonArcher::OnUpdate(float deltaTime)
         return;
     }
 
+    auto player = mGame->GetPlayer();
+    if (player) {
+        float dx = player->GetPosition().x - mPosition.x;
+        if (Math::Abs(dx) < 600.0f) {
+            mScale.x = (dx > 0) ? 1.0f : -1.0f;
+        }
+    }
+
     mShootCooldown -= deltaTime;
     
     if (mShootCooldown <= 0.0f && mDrawComponent->GetCurrentAnimation() == "idle") {
-        mShootCooldown = 3.0f;
+        mShootCooldown = 2.5f;
         mShootTimer = 1.1f;
         mArrowSpawned = false;
         mDrawComponent->SetAnimation(Random::GetIntRange(0, 1) == 0 ? "shot1" : "shot2");

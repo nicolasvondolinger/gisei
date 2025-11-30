@@ -11,6 +11,9 @@
 #include "Actors/Spawner.h"
 #include "Actors/Ninja.h"
 #include "Actors/ParallaxBackground.h"
+#include "Actors/SkeletonSpearman.h"
+#include "Actors/SkeletonWarrior.h"
+#include "Actors/SkeletonArcher.h"
 #include <algorithm>
 #include <vector>
 #include <fstream>
@@ -208,6 +211,18 @@ void Game::InitializeActors() {
     
     mNinja = new Ninja(this);
     mNinja->SetPosition(Vector2(64.0f, 640.0f));
+    
+    // Spawn enemies (mesma altura do ninja - chão)
+    const float groundY = 704.0f; // Altura do chão
+    
+    auto spearman = new SkeletonSpearman(this, 80.0f);
+    spearman->SetPosition(Vector2(400.0f, groundY));
+    
+    auto warrior = new SkeletonWarrior(this, 80.0f);
+    warrior->SetPosition(Vector2(700.0f, groundY));
+    
+    auto archer = new SkeletonArcher(this);
+    archer->SetPosition(Vector2(1000.0f, groundY));
 }
 
 int **Game::LoadLevel(const std::string& fileName, int& width, int& height) {
@@ -381,7 +396,11 @@ void Game::UpdateGame(float deltaTime) {
         mHitStopTimer -= deltaTime;
         if (mHitStopTimer <= 0.0f) {
             mIsHitStop = false;
-        } else return;
+            if (mNinja) mNinja->GetDrawComponent()->SetWhiteAura(0.0f);
+        } else {
+            if (mNinja) mNinja->Update(deltaTime);
+            return;
+        }
     }
 
     if (mFadeState == FadeState::FadingOut) {
@@ -602,19 +621,7 @@ void Game::GenerateOutput()
     }
 
     
-    if (mIsHitStop) {
-        mRenderer->DrawHitStopOverlay(0.5f);
-        
-        if (mNinja) {
-            // Limpa configurações do shader para garantir desenho limpo
-            mRenderer->GetBaseShader()->SetActive();
-            mRenderer->GetBaseShader()->SetVectorUniform("uBaseColor", Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-            mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
-            
-            // Aqui ele brilha sobre a escuridão
-            mNinja->GetDrawComponent()->Draw(mRenderer);
-        }
-    }
+
     
     mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
     mRenderer->Draw(); 

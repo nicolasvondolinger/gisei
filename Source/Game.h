@@ -137,6 +137,9 @@ private:
     bool mIsHitStop;
     float mHitStopTimer;
 
+public:
+    bool IsHitStop() const { return mIsHitStop; }
+
     int** mLevelData;
     int mLevelDataWidth;
     int mLevelDataHeight;

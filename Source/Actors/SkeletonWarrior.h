@@ -15,6 +15,8 @@ private:
     bool mIsDying;
     float mForwardSpeed;
     float mDyingTimer;
+    float mChaseDelay;
+    bool mIsChasing;
 
     class RigidBodyComponent* mRigidBodyComponent;
     class AABBColliderComponent* mColliderComponent;
