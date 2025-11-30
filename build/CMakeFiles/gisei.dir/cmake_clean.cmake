@@ -27,6 +27,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o.d"
   "CMakeFiles/gisei.dir/Source/Components/Drawing/RectComponent.cpp.o"
   "CMakeFiles/gisei.dir/Source/Components/Drawing/RectComponent.cpp.o.d"
+  "CMakeFiles/gisei.dir/Source/Components/Drawing/SpriteComponent.cpp.o"
+  "CMakeFiles/gisei.dir/Source/Components/Drawing/SpriteComponent.cpp.o.d"
   "CMakeFiles/gisei.dir/Source/Components/ParticleSystemComponent.cpp.o"
   "CMakeFiles/gisei.dir/Source/Components/ParticleSystemComponent.cpp.o.d"
   "CMakeFiles/gisei.dir/Source/Components/Physics/AABBColliderComponent.cpp.o"

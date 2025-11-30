@@ -22,6 +22,7 @@
 #include "UI/Screens/PauseMenu.h"
 #include "UI/Screens/GameOver.h"
 #include "UI/Screens/HUD.h"
+#include "Components/Drawing/AnimatorComponent.h"
 
 Game::Game()
         :mWindow(nullptr)
@@ -47,6 +48,8 @@ Game::Game()
         ,mBumpSound(nullptr)
         ,mStageClearSound(nullptr)
         ,mHUD(nullptr)
+        ,mIsHitStop(false)
+        ,mHitStopTimer(0.0f)
 {
 }
 
@@ -247,10 +250,14 @@ int **Game::LoadLevel(const std::string& fileName, int& width, int& height) {
 }
 
 void Game::BuildLevel(int** levelData, int width, int height, const std::string& tilesetPath, int columns) {
-    std::set<int> hazardIds = { 182, 183, 184, 185, 199, 200, 201, 202 };
+    // Apenas os espinhos causam dano agora
+    std::set<int> thornIds = { 285, 325 };
+
     Texture* tilesetTexture = mRenderer->GetTexture(tilesetPath);
     const int TILE_SIZE_PX = 32;
-    bool hasCollision = (tilesetPath.find("Tileset.png") != std::string::npos);
+    
+    // Verifica se é a camada de colisão principal (Tileset.png)
+    bool isCollisionLayer = (tilesetPath.find("Tileset.png") != std::string::npos);
 
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
@@ -261,19 +268,47 @@ void Game::BuildLevel(int** levelData, int width, int height, const std::string&
             pos.y = (i * TILE_SIZE) + (TILE_SIZE / 2.0f);
             pos.x = (j * TILE_SIZE) + (TILE_SIZE / 2.0f);
 
-            if(pos.y < 96.0f && hasCollision) continue;
+            // Pula o "céu" apenas na camada de colisão
+            if(pos.y < 96.0f && isCollisionLayer) continue;
 
+            // --- LÓGICA DOS ESPINHOS (285, 325) ---
+            if (thornIds.count(id)) {
+                std::string thornPath;
+                if (id == 285) thornPath = "../Assets/Sprites/Blocks/thorns_top.png";
+                else if (id == 325) thornPath = "../Assets/Sprites/Blocks/thorns_bottom.png";
+                
+                Texture* thornTex = mRenderer->GetTexture(thornPath);
+                
+                SDL_Rect thornRect;
+                thornRect.x = 0; thornRect.y = 0;
+                thornRect.w = thornTex->GetWidth();
+                thornRect.h = thornTex->GetHeight();
+
+                // Cria o bloco de espinho
+                Block* block = new Block(this, thornTex, thornRect, EBlockType::Thorns);
+                block->SetPosition(pos);
+                
+                // IMPORTANTE: Não desativamos o collider aqui. 
+                // O Block já nasce com collider ativado, então ele vai funcionar
+                // mesmo estando na camada "Objects".
+                
+                continue; // Pula a lógica padrão e vai para o próximo bloco
+            }
+            // -------------------------------------
+
+            // --- LÓGICA PADRÃO (Outros blocos) ---
             SDL_Rect srcRect;
             srcRect.w = TILE_SIZE_PX;
             srcRect.h = TILE_SIZE_PX;
             srcRect.x = (id % columns) * TILE_SIZE_PX;
             srcRect.y = (id / columns) * TILE_SIZE_PX;
 
-            EBlockType type = hazardIds.count(id) ? EBlockType::Hazard : EBlockType::Normal;
-            Block* block = new Block(this, tilesetTexture, srcRect, type);
+            // Todos os outros blocos são normais
+            Block* block = new Block(this, tilesetTexture, srcRect, EBlockType::Normal);
             block->SetPosition(pos);
             
-            if(!hasCollision) {
+            // Se NÃO for a camada de colisão (ex: Objects.png), desativa a física
+            if(!isCollisionLayer) {
                 auto collider = block->GetComponent<AABBColliderComponent>();
                 if(collider) collider->SetEnabled(false);
             }
@@ -341,6 +376,13 @@ void Game::ProcessInput()
 }
 
 void Game::UpdateGame(float deltaTime) {
+
+    if (mIsHitStop) {
+        mHitStopTimer -= deltaTime;
+        if (mHitStopTimer <= 0.0f) {
+            mIsHitStop = false;
+        } else return;
+    }
 
     if (mFadeState == FadeState::FadingOut) {
         mFadeAlpha += 2.5f * deltaTime;
@@ -518,29 +560,20 @@ void Game::GenerateOutput()
 {
     mRenderer->Clear();
 
-    // ---------------------------------------------------------
-    // FASE 1: DESENHO DO MUNDO (COM ZOOM)
-    // ---------------------------------------------------------
     float zoomFactor = 2.0f; 
 
     if (mCurrentScene == GameScene::Level1) {
-        // Aplica o zoom para a fase
         mRenderer->SetView(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
     } else {
-        // Menu usa resolução normal
         mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
-    // Ativa shader para objetos do jogo (uIsUI = 0)
     mRenderer->GetBaseShader()->SetActive();
     mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
 
-    // 1. Background (Se existir)
     if(mBackgroundTexture){
          Vector2 quadPos = mCameraPos + Vector2(WINDOW_WIDTH / (2.0f * zoomFactor), WINDOW_HEIGHT / (2.0f * zoomFactor));
          Vector2 quadSize(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
-         
-         // Lógica do Parallax simples para o fundo
          Vector2 parallaxCam = mCameraPos * mBackgroundScrollSpeed;
          float texWidth = static_cast<float>(mBackgroundTexture->GetWidth());
          float texHeight = static_cast<float>(mBackgroundTexture->GetHeight());
@@ -548,48 +581,44 @@ void Game::GenerateOutput()
          float uScale = static_cast<float>(WINDOW_WIDTH / zoomFactor) / texWidth;
          float vScale = static_cast<float>(WINDOW_HEIGHT / zoomFactor) / texHeight;
          Vector4 texRect(uOffset, 0.0f, uScale, vScale);
-
          mRenderer->DrawTexture(quadPos, quadSize, 0.0f, Vector3::One, mBackgroundTexture, texRect, mCameraPos);
     }
 
-    // 2. Atores Especiais (Parallax)
     for (auto actor : mActors) {
         auto parallax = actor->GetComponent<ParallaxComponent>();
-        if (parallax && parallax->IsEnabled()) {
-            parallax->Draw(mRenderer);
-        }
+        if (parallax && parallax->IsEnabled()) parallax->Draw(mRenderer);
     }
 
-    // 3. Objetos do Jogo (Inimigos, Ninja, Blocos)
     for (auto drawable : mDrawables) {
         drawable->Draw(mRenderer);
         if(mIsDebugging) {
-             for (auto comp : drawable->GetOwner()->GetComponents()) {
-                comp->DebugDraw(mRenderer);
-             }
+             for (auto comp : drawable->GetOwner()->GetComponents()) comp->DebugDraw(mRenderer);
         }
     }
     
-    // 4. Partículas/Fumaça
     for (auto actor : mActors) {
         auto smoke = actor->GetComponent<DashSmokeComponent>();
-        if (smoke && smoke->IsEnabled()) {
-            smoke->Draw(mRenderer);
+        if (smoke && smoke->IsEnabled()) smoke->Draw(mRenderer);
+    }
+
+    
+    if (mIsHitStop) {
+        mRenderer->DrawHitStopOverlay(0.5f);
+        
+        if (mNinja) {
+            // Limpa configurações do shader para garantir desenho limpo
+            mRenderer->GetBaseShader()->SetActive();
+            mRenderer->GetBaseShader()->SetVectorUniform("uBaseColor", Vector4(1.0f, 1.0f, 1.0f, 1.0f));
+            mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
+            
+            // Aqui ele brilha sobre a escuridão
+            mNinja->GetDrawComponent()->Draw(mRenderer);
         }
     }
     
-    // ---------------------------------------------------------
-    // FASE 2: DESENHO DA UI (SEM ZOOM)
-    // ---------------------------------------------------------
-    
-    // Reseta a visão para o tamanho original da janela (1024x768)
     mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-    // CORREÇÃO: Apenas chamamos o Draw do renderer. 
-    // Ele já sabe desenhar todos os botões/textos ativos.
     mRenderer->Draw(); 
     
-    // Desenha o Fade por cima de tudo (também sem zoom)
     DrawFade();
     
     mRenderer->Present();
@@ -659,6 +688,11 @@ int Game::PlaySound(Mix_Chunk* sound) {
     }
 
     return channel;
+}
+
+void Game::StartHitStop(float duration) {
+    mIsHitStop = true;
+    mHitStopTimer = duration;
 }
 
 Mix_Chunk* Game::GetJumpSound(){

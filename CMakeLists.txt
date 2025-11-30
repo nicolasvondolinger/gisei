@@ -50,6 +50,8 @@ add_executable(${PROJECT_NAME}
         Source/Components/Drawing/AnimatorComponent.h
         Source/Components/Drawing/RectComponent.cpp
         Source/Components/Drawing/RectComponent.h
+        Source/Components/Drawing/SpriteComponent.h
+        Source/Components/Drawing/SpriteComponent.cpp
         Source/UI/UIButton.cpp
         Source/UI/UIButton.h
         Source/UI/UIElement.cpp

@@ -1,5 +1,6 @@
 #include "Ninja.h"
 #include "Dart.h"
+#include "Block.h"
 #include "../Game.h"
 #include "../Components/Drawing/AnimatorComponent.h"
 #include "../Components/Drawing/DashAfterimageComponent.h"
@@ -336,6 +337,7 @@ void Ninja::TakeDamage() {
     if (mIsDead || mIsInvincible) return;
 
     mHealth--;
+    mGame->StartHitStop(0.3f);
     
     if (mHealth <= 0) {
         Kill();
@@ -344,6 +346,14 @@ void Ninja::TakeDamage() {
         mInvincibleTimer = 1.5f; 
         mGame->PlaySound(mGame->GetBumpSound());
         mDrawComponent->SetAnimation("hurt");
+
+        float knockbackDir = (mScale.x > 0.0f) ? -1.0f : 1.0f;
+
+        Vector2 knockbackForce(knockbackDir * 800.0f, -400.0f);
+        
+        mRigidBodyComponent->SetVelocity(knockbackForce);
+        
+        mIsDashing = false;
     }
 }
 
@@ -410,6 +420,17 @@ void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent*
                 TakeDamage(); 
             }
         }
+    } else if (other->GetLayer() == ColliderLayer::Blocks) {
+        // Tenta converter o ator para um Bloco
+        Block* block = dynamic_cast<Block*>(other->GetOwner());
+        
+        // Se for um bloco E for do tipo Thorns (Espinho)
+        if (block && block->GetType() == EBlockType::Thorns) {
+            // Se estiver invencível ou defendendo, ignora (ou toma dano se defesa não proteger de espinho)
+            if (!mIsInvincible) {
+                 TakeDamage();
+            }
+        }
     }
 }
 
@@ -419,14 +440,12 @@ void Ninja::OnVerticalCollision(const float minOverlap, AABBColliderComponent* o
     if(other->GetLayer() == ColliderLayer::Enemy){
         float velocityY = mRigidBodyComponent->GetVelocity().y;
         
-        // Se estiver caindo em cima do inimigo, mata ele
         if(velocityY > 0.0f){
             other->GetOwner()->Kill();
             Vector2 vel = mRigidBodyComponent->GetVelocity();
             vel.y = -350.0f;
             mRigidBodyComponent->SetVelocity(vel);
         } else {
-            // Se bateu por baixo ou de lado no ar
             bool isShielding = (mActionState == ActionState::ShieldStart || 
                                 mActionState == ActionState::ShieldHolding || 
                                 mActionState == ActionState::ShieldEnd);
@@ -435,8 +454,16 @@ void Ninja::OnVerticalCollision(const float minOverlap, AABBColliderComponent* o
                 TakeDamage();
              }
         }
-    }
-    else if(other->GetLayer() == ColliderLayer::Blocks){
+    } else if(other->GetLayer() == ColliderLayer::Blocks){
+        
+        Block* block = dynamic_cast<Block*>(other->GetOwner());
+        if (block && block->GetType() == EBlockType::Thorns) {
+            if (!mIsInvincible) {
+                 TakeDamage();
+            }
+            return; 
+        }
+
         if (mRigidBodyComponent->GetVelocity().y < 0.0f) {
             Vector2 vel = mRigidBodyComponent->GetVelocity();
             vel.y = 0.0f;

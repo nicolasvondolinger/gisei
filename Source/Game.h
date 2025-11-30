@@ -68,6 +68,8 @@ public:
 
     Ninja* GetPlayer() const { return mNinja; }
 
+    void StartHitStop(float duration);
+
     int PlaySound(Mix_Chunk* sound);
     Mix_Chunk* GetJumpSound();
     Mix_Chunk* GetJumpSuperSound();
@@ -131,6 +133,9 @@ private:
     AudioSystem* mAudio;
 
     Ninja* mNinja;
+
+    bool mIsHitStop;
+    float mHitStopTimer;
 
     int** mLevelData;
     int mLevelDataWidth;

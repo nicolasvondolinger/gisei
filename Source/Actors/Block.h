@@ -4,8 +4,8 @@
 
 enum class EBlockType
 {
-    Normal, // Chão solido comum
-    Hazard  // Espinhos, lava, etc (Dá dano)
+    Normal,
+    Thorns  
 };
 
 class Block : public Actor

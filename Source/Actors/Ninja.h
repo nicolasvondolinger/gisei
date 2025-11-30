@@ -38,6 +38,8 @@ public:
     float GetDashCooldown() const { return mDashCooldown; }
     float GetDashCooldownTime() const { return mDashCooldownTime; }
 
+    class AnimatorComponent* GetDrawComponent() { return mDrawComponent; }
+
     void TakeDamage();
     void StageClear();
     
