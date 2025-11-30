@@ -16,6 +16,7 @@ private:
 
     UIButton* mResumeButton;
     UIButton* mSettingsButton;
+    UIButton* mControlsButton;
     UIButton* mMainMenuButton;
     UIButton* mQuitButton;
 };

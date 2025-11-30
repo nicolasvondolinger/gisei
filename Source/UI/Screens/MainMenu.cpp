@@ -1,5 +1,6 @@
 #include "MainMenu.h"
 #include "SettingsMenu.h"
+#include "ControlsMenu.h"
 #include "../../Game.h"
 #include "../UIButton.h"
 #include "../../Renderer/Renderer.h"
@@ -22,7 +23,8 @@ MainMenu::MainMenu(class Game *game, const std::string &fontName)
 
     Vector2 playButtonPos(centerX, centerY + 120.0f);
     Vector2 settingsButtonPos(centerX, centerY + 200.0f);
-    Vector2 exitButtonPos(centerX, centerY + 280.0f);
+    Vector2 controlsButtonPos(centerX, centerY + 280.0f);
+    Vector2 exitButtonPos(centerX, centerY + 360.0f);
 
     UIButton *playButton = AddButton("Begin Journey", [this]() {
         Close();
@@ -41,6 +43,15 @@ MainMenu::MainMenu(class Game *game, const std::string &fontName)
     settingsButton->SetTextColor(textMain);
     settingsButton->SetHoverColor(textHover);
     settingsButton->SetBackgroundColor(Vector4(buttonBg, 0.8f));
+
+    UIButton *controlsButton = AddButton("Controls", [this]() {
+        SetState(UIState::Paused);
+        new ControlsMenu(mGame, "../Assets/Fonts/Alkhemikal.ttf");
+    }, controlsButtonPos, 1.0f, 0.0f, 48, 900, 200);
+
+    controlsButton->SetTextColor(textMain);
+    controlsButton->SetHoverColor(textHover);
+    controlsButton->SetBackgroundColor(Vector4(buttonBg, 0.8f));
 
     UIButton *exitButton = AddButton("Quit", [this]() {
         mGame->Quit();
