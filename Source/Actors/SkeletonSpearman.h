@@ -18,6 +18,8 @@ private:
 
     bool mIsDying;
     float mHurtTimer;
+    bool mIsAggro;
+    float mBaseSpeed;
     int mHealth;
     float mForwardSpeed;
     float mDyingTimer;

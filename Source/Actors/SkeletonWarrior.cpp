@@ -1,14 +1,18 @@
 #include "SkeletonWarrior.h"
 #include "../Game.h"
+#include "Ninja.h"
 #include "../Components/Drawing/AnimatorComponent.h"
 #include "../Components/Physics/RigidBodyComponent.h"
 #include "../Components/Physics/AABBColliderComponent.h"
+#include <cmath>
 
 SkeletonWarrior::SkeletonWarrior(Game* game, float forwardSpeed)
     : Actor(game)
     , mDyingTimer(0.5f)
     , mIsDying(false)
     , mHurtTimer(0.0f)
+    , mIsAggro(false)
+    , mBaseSpeed(forwardSpeed)
     , mHealth(3)
     , mForwardSpeed(forwardSpeed)
 {
@@ -20,7 +24,7 @@ SkeletonWarrior::SkeletonWarrior(Game* game, float forwardSpeed)
     mDrawComponent->SetAnimation("walk");
 
     mRigidBodyComponent = new RigidBodyComponent(this, 1.0f, 3.0f, true);
-    mColliderComponent = new AABBColliderComponent(this, 0, 0, 24, 56, ColliderLayer::Enemy);
+    mColliderComponent = new AABBColliderComponent(this, 0, 0, 80, 56, ColliderLayer::Enemy);
 }
 
 void SkeletonWarrior::Kill()
@@ -58,6 +62,33 @@ void SkeletonWarrior::OnUpdate(float deltaTime)
     }
 
     if (mRigidBodyComponent->IsEnabled()) {
+        const float detectionRange = 400.0f;
+        const float attackRange = 100.0f;
+        const float aggroSpeed = 180.0f;
+        const float verticalTolerance = 80.0f;
+
+        Vector2 targetPos = mPosition;
+        if (mGame->GetPlayer()) {
+            targetPos = mGame->GetPlayer()->GetPosition();
+            float dx = targetPos.x - mPosition.x;
+            float dy = std::abs(targetPos.y - mPosition.y);
+            mIsAggro = (std::abs(dx) <= detectionRange && dy <= verticalTolerance);
+
+            if (mIsAggro) {
+                float dir = (dx >= 0.0f) ? 1.0f : -1.0f;
+                mForwardSpeed = dir * aggroSpeed;
+                mScale.x = dir;
+            } else {
+                mForwardSpeed = mBaseSpeed;
+            }
+
+            if (mIsAggro && std::abs(dx) <= attackRange) {
+                mDrawComponent->SetAnimation("attack");
+            } else if (mHurtTimer <= 0.0f) {
+                mDrawComponent->SetAnimation("walk");
+            }
+        }
+
         Vector2 force(mForwardSpeed, 0.0f);
         mRigidBodyComponent->ApplyForce(force);
 
@@ -74,7 +105,9 @@ void SkeletonWarrior::OnHorizontalCollision(const float minOverlap, AABBCollider
     ColliderLayer otherLayer = other->GetLayer();
 
     if (otherLayer == ColliderLayer::Player) {
-        other->GetOwner()->Kill();
+        if (auto ninja = dynamic_cast<Ninja*>(other->GetOwner())) {
+            ninja->TakeDamage();
+        }
     } else if (otherLayer == ColliderLayer::Blocks || otherLayer == ColliderLayer::Enemy) {
         mForwardSpeed *= -1;
         mScale.x *= -1;
