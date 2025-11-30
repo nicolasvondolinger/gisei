@@ -478,4 +478,5 @@ CMakeFiles/gisei.dir/Source/UI/Screens/UIScreen.cpp.o: \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../Renderer/Font.h \
  /usr/include/SDL2/SDL_ttf.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../AudioSystem.h \
- /usr/local/include/SDL2/SDL_stdinc.h
+ /usr/local/include/SDL2/SDL_stdinc.h \
+ /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../LanguageManager.h

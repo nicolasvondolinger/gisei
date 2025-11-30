@@ -22,8 +22,8 @@ pause.title=PAUSE
 pause.resume=Continue
 pause.settings=Settings
 pause.controls=Controls
-pause.menu=Back to Menu
-pause.quit=Leave
+pause.menu=Back to Main Menu
+pause.quit=Quit
 
 # Settings Menu
 settings.title=SETTINGS

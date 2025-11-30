@@ -469,6 +469,7 @@ CMakeFiles/gisei.dir/Source/Components/Physics/RigidBodyComponent.cpp.o: \
  /usr/include/SDL2/SDL_rwops.h /usr/include/SDL2/SDL_audio.h \
  /usr/include/SDL2/SDL_endian.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/Physics/../../AudioSystem.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Components/Physics/../../LanguageManager.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/Physics/RigidBodyComponent.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/Physics/../Component.h \
  /home/nicolasvondolinger/codes/gisei/Source/Components/Physics/AABBColliderComponent.h

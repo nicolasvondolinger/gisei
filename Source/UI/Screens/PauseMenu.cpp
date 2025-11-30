@@ -116,3 +116,26 @@ void PauseMenu::HandleKeyPress(int key) {
             break;
     }
 }
+
+void PauseMenu::OnLanguageChanged() {
+    auto& lang = mGame->GetLanguage();
+    
+    // Atualiza Título
+    if (mTitle) {
+        mTitle->SetText(lang.Get("pause.title")); // Ex: "PAUSE"
+    }
+    
+    // Atualiza Botões (supondo que mButtons[0] é Resume, [1] Options, [2] Quit)
+    // Se você tiver ponteiros nomeados (ex: mResumeButton), use-os.
+    // Caso contrário, acesse pelo índice ou recrie os botões (mais trabalhoso).
+    
+    // Exemplo com ponteiros nomeados (se você tiver):
+    // mResumeText->SetText(lang.Get("pause.resume"));
+    
+    // Exemplo genérico acessando os botões da lista mButtons:
+    if (mButtons.size() >= 3) {
+        mButtons[0]->SetText(lang.Get("pause.resume"));
+        mButtons[1]->SetText(lang.Get("pause.settings")); // ou "Options"
+        mButtons[2]->SetText(lang.Get("pause.quit"));
+    }
+}

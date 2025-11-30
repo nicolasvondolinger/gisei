@@ -462,4 +462,5 @@ CMakeFiles/gisei.dir/Source/UI/UIImage.cpp.o: \
  /usr/local/include/SDL2/SDL_stdinc.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/../Game.h \
  /usr/include/SDL2/SDL_mixer.h \
- /home/nicolasvondolinger/codes/gisei/Source/UI/../AudioSystem.h
+ /home/nicolasvondolinger/codes/gisei/Source/UI/../AudioSystem.h \
+ /home/nicolasvondolinger/codes/gisei/Source/UI/../LanguageManager.h

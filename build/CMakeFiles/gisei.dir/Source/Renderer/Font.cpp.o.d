@@ -282,4 +282,5 @@ CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o: \
  /usr/include/c++/12/map /usr/include/c++/12/bits/stl_tree.h \
  /usr/include/c++/12/bits/stl_map.h \
  /usr/include/c++/12/bits/stl_multimap.h \
- /usr/local/include/SDL2/SDL_stdinc.h
+ /usr/local/include/SDL2/SDL_stdinc.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Renderer/../LanguageManager.h

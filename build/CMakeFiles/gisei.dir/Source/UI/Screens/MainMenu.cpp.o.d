@@ -469,6 +469,7 @@ CMakeFiles/gisei.dir/Source/UI/Screens/MainMenu.cpp.o: \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../UIButton.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../UIRect.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/SettingsMenu.h \
+ /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/ControlsMenu.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../Game.h \
  /usr/local/include/SDL2/SDL.h /usr/include/SDL2/SDL_mixer.h \
  /usr/include/SDL2/SDL_stdinc.h /usr/include/SDL2/SDL_rwops.h \
@@ -480,4 +481,5 @@ CMakeFiles/gisei.dir/Source/UI/Screens/MainMenu.cpp.o: \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../Renderer/Font.h \
  /usr/include/SDL2/SDL_ttf.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../AudioSystem.h \
- /usr/local/include/SDL2/SDL_stdinc.h
+ /usr/local/include/SDL2/SDL_stdinc.h \
+ /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../LanguageManager.h

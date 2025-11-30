@@ -489,10 +489,52 @@ CMakeFiles/gisei.dir/Source/UI/Screens/PauseMenu.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/UI/Screens/PauseMenu.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/PauseMenu.cpp -o CMakeFiles/gisei.dir/Source/UI/Screens/PauseMenu.cpp.s
 
+CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o: CMakeFiles/gisei.dir/flags.make
+CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/IntroCrawl.cpp
+CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o -MF CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o.d -o CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/IntroCrawl.cpp
+
+CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/IntroCrawl.cpp > CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.i
+
+CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/IntroCrawl.cpp -o CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.s
+
+CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o: CMakeFiles/gisei.dir/flags.make
+CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/ControlsMenu.cpp
+CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o -MF CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o.d -o CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/ControlsMenu.cpp
+
+CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/ControlsMenu.cpp > CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.i
+
+CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/ControlsMenu.cpp -o CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.s
+
+CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o: CMakeFiles/gisei.dir/flags.make
+CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/LanguageManager.cpp
+CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o -MF CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o.d -o CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/LanguageManager.cpp
+
+CMakeFiles/gisei.dir/Source/LanguageManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gisei.dir/Source/LanguageManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolasvondolinger/codes/gisei/Source/LanguageManager.cpp > CMakeFiles/gisei.dir/Source/LanguageManager.cpp.i
+
+CMakeFiles/gisei.dir/Source/LanguageManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/LanguageManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/LanguageManager.cpp -o CMakeFiles/gisei.dir/Source/LanguageManager.cpp.s
+
 CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Renderer/Font.cpp
 CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o -MF CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o.d -o CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Renderer/Font.cpp
 
 CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.i: cmake_force
@@ -506,7 +548,7 @@ CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.s: cmake_force
 CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/Yokai.cpp
 CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/Yokai.cpp
 
 CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.i: cmake_force
@@ -520,7 +562,7 @@ CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.s: cmake_force
 CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/SettingsMenu.cpp
 CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o -MF CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o.d -o CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/SettingsMenu.cpp
 
 CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.i: cmake_force
@@ -534,7 +576,7 @@ CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.s: cmake_force
 CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/ParallaxBackground.cpp
 CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/ParallaxBackground.cpp
 
 CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.i: cmake_force
@@ -548,7 +590,7 @@ CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.s: cmake_force
 CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/ParallaxComponent.cpp
 CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o -MF CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o.d -o CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/ParallaxComponent.cpp
 
 CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.i: cmake_force
@@ -562,7 +604,7 @@ CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.s: cmake_fo
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/DashAfterimageComponent.cpp
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o -MF CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o.d -o CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/DashAfterimageComponent.cpp
 
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.i: cmake_force
@@ -576,7 +618,7 @@ CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.s: cm
 CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/Ninja.cpp
 CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/Ninja.cpp
 
 CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.i: cmake_force
@@ -590,7 +632,7 @@ CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.s: cmake_force
 CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/Dart.cpp
 CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/Dart.cpp
 
 CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.i: cmake_force
@@ -604,7 +646,7 @@ CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.s: cmake_force
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/DashSmokeComponent.cpp
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o -MF CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o.d -o CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/DashSmokeComponent.cpp
 
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.i: cmake_force
@@ -647,6 +689,9 @@ gisei_OBJECTS = \
 "CMakeFiles/gisei.dir/Source/UI/Screens/MainMenu.cpp.o" \
 "CMakeFiles/gisei.dir/Source/UI/Screens/GameOver.cpp.o" \
 "CMakeFiles/gisei.dir/Source/UI/Screens/PauseMenu.cpp.o" \
+"CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o" \
+"CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o" \
+"CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o" \
 "CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o" \
 "CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o" \
 "CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o" \
@@ -690,6 +735,9 @@ gisei: CMakeFiles/gisei.dir/Source/UI/UIRect.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/UI/Screens/MainMenu.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/UI/Screens/GameOver.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/UI/Screens/PauseMenu.cpp.o
+gisei: CMakeFiles/gisei.dir/Source/UI/Screens/IntroCrawl.cpp.o
+gisei: CMakeFiles/gisei.dir/Source/UI/Screens/ControlsMenu.cpp.o
+gisei: CMakeFiles/gisei.dir/Source/LanguageManager.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/Renderer/Font.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/UI/Screens/SettingsMenu.cpp.o
@@ -708,7 +756,7 @@ gisei: /usr/lib/x86_64-linux-gnu/libSDL2_ttf.so
 gisei: /usr/lib/x86_64-linux-gnu/libGLX.so
 gisei: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 gisei: CMakeFiles/gisei.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Linking CXX executable gisei"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Linking CXX executable gisei"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gisei.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
