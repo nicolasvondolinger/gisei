@@ -89,19 +89,22 @@ add_executable(${PROJECT_NAME}
         Source/Actors/Ninja.cpp
         Source/Actors/Dart.cpp
         Source/Components/Drawing/DashSmokeComponent.cpp
-        Source/Actors/SkeletonArcher.cpp
-        Source/Actors/SkeletonArcher.h
         Source/Actors/SkeletonWarrior.cpp
         Source/Actors/SkeletonWarrior.h
         Source/Actors/SkeletonSpearman.cpp
         Source/Actors/SkeletonSpearman.h
+        Source/Actors/SkeletonArcher.cpp
+        Source/Actors/SkeletonArcher.h
         Source/Actors/Arrow.cpp
         Source/Actors/Arrow.h
+        Source/Actors/KarasuTengu.cpp
+        Source/Actors/KarasuTengu.h
 )
 
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
-    GLEW::GLEW 
+    GLEW::GLEW
+        SDL2::SDL2main
     SDL2::SDL2 
     SDL2_image::SDL2_image 
     SDL2_mixer::SDL2_mixer 
