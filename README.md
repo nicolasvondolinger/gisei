@@ -53,6 +53,8 @@ A cada passo, Kenshi percebe que sua jornada não é uma ascensão, mas uma prep
 
 - **Bernardo do Nascimento Nunes** — intro (crawl, partículas/vento, narração PT/EN com seleção de idioma), sistema de idiomas (strings dinâmicas e rebuild de UI), sons de UI (hover/confirm/back) e organização de áudio, ajustes de fluxos de menu/pause/intro/level, revisão e documentação (README e instruções de playtest).
 
+- **Lucas Cassio Costa** — Estruturação da arquitetura base do projeto, implementação das classes fundamentais (core) e integração e gerenciamento dos recursos (assets) iniciais.
+
 ---
 
 # SEÇÕES ADICIONAIS DO PROJETO
