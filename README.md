@@ -53,9 +53,9 @@ A cada passo, Kenshi percebe que sua jornada não é uma ascensão, mas uma prep
 
 - **Bernardo do Nascimento Nunes** — intro (crawl, partículas/vento, narração PT/EN com seleção de idioma), sistema de idiomas (strings dinâmicas e rebuild de UI), sons de UI (hover/confirm/back) e organização de áudio, ajustes de fluxos de menu/pause/intro/level, revisão e documentação (README e instruções de playtest).
 
-- **Lucas Cassio Costa** — Estruturação da arquitetura base do projeto, implementação das classes fundamentais (core) e integração e gerenciamento dos recursos (assets) iniciais, criação do nível 1, definição dos assets, criação de UI base (menu de início e pause).
+- **Lucas Cassio Costa** — Estruturação da arquitetura base do projeto, implementação das classes fundamentais (core) e integração e gerenciamento dos recursos (assets) iniciais, ajuda criação do nível 1, definição dos assets, criação de UI base (menu de início e pause).
 
-- **Nicolas Von Dolinger** — criação do repositório, estruturação base do README, criação da base do nível 1, definição de assets base, fix de animações do personagem principal(dash, agachar, defender), criação das barras de vida e energia, fix na UI, criação do menu de morte.
+- **Nicolas Von Dolinger** — criação do repositório, estruturação base do README, ajuda na criação do nível 1, definição de assets base, fix de animações do personagem principal(dash, agachar, defender), criação das barras de vida e energia, fix na UI, criação do menu de morte.
 
 ---
 
