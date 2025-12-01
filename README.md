@@ -1,83 +1,112 @@
-# Gisei: O Caminho da Lâmina Despedaçada
+# 1. Screenshots
 
-## História
+---
 
-#### O Protagonista: O "Ara-Hitogami"
+# 2. Título
+**Gisei: The Shattered Blade**
 
-    (Gisei, 犠牲, significa "sacrifício" em japonês)
+---
 
-    Jogue como Kenshi, uma alma que despertou em um corpo artificial, meticulosamente construído com bambu, aço e cordas sagradas, animado por um fragmento de um espírito guerreiro. Ele não tem memórias de sua vida passada, apenas um nome e um único propósito que lhe foi incutido: peregrinar até o "Pináculo Celestial".
+# 3. Descrição
+**Gisei** é um action-platformer 2D sombrio que acompanha **Kenshi**, um guerreiro artificial forjado em bambu e aço e animado por um fragmento de alma. Criado por monges devotos que o enviam ao **Pináculo Celestial** com a promessa de ascensão divina, ele acredita estar cumprindo uma prova sagrada para recuperar suas memórias e alcançar sua verdadeira forma. No entanto, fragmentos de ecos espirituais e visões de peregrinos anteriores sugerem que há algo profundamente errado com essa jornada — ninguém que trilhou esse caminho antes retornou.
 
-    Seus criadores, uma ordem de monges do Templo do Silêncio, lhe disseram que ele é um "Ara-Hitogami" – um receptáculo destinado a se tornar um deus vivo. Eles o convenceram de que a jornada até o Pináculo Celestial é um teste sagrado. Ao chegar lá e oferecer sua obediência aos deuses, ele finalmente transcenderá sua forma imperfeita e se tornará um ser completo, recuperando sua alma, suas memórias e alcançando a verdadeira honra.
+No gameplay, o jogador atravessa uma fase construída via CSV com **plataformas, parallax, zoom 2x**, inimigos e espinhos, combinando **travessia precisa**, **combate**, **tiros sincronizados**, **defesa**, e principalmente **dashes curtos com invencibilidade e teleporte lateral**. As mecânicas se integram a um fluxo contínuo de jogo que começa com uma **intro narrativa** em PT/EN (com narração, vento e partículas), seguida por menus completos — Main, Pause, Settings, Controls — todos com **troca dinâmica de idioma**, efeitos sonoros de UI e ajustes de volume, fullscreen e dificuldade. Morrer por dano letal ou queda leva ao **Game Over**, enquanto alcançar o fim da fase aciona o **Stage Clear**.
 
-    Kenshi é ingênuo, ele acredita que seu destino é glorioso e anseia pela plenitude que lhe foi prometida. Sua existência atual é vazia, e o Pináculo é sua única esperança.
+A cada passo, Kenshi percebe que sua jornada não é uma ascensão, mas uma preparação. Os sussurros revelam que os “Ara-Hitogami” como ele são apenas **colheitas**, recipientes criados para amadurecer a alma até que esteja pronta para ser sacrificada a um deus adormecido. A ambientação, a intro e o design da fase reforçam esse tom trágico, conduzindo o jogador por uma narrativa de descoberta e ruptura, onde Kenshi deve decidir entre aceitar seu destino ou quebrar o ciclo que o forjou.
 
-### A Jornada: O Caminho do Peregrino
+---
 
-    O caminho para o Pináculo Celestial é árduo e o mundo está corrompido por uma praga espiritual que enlouquece tanto homens quanto feras. Kenshi deve cruzar florestas assombradas por Yōkai (espíritos), escalar montanhas guardadas por monges guerreiros e atravessar vilarejos devastados pela guerra e pela praga.
+# 4. Funcionalidades a serem testadas
 
-    Kenshi começa sua jornada com habilidades básicas de samurai, mas ao derrotar guardiões poderosos, ele absorveria parte de sua essência e recupera a sua memória, desbloqueando novas habilidades:
+- **Menus:**  
+  Navegação completa e sons de UI (hover/confirm/back) em Main, Pause, Settings, Controls, Game Over. Verificar troca de idioma PT/EN funcionando após rebuild das telas.
 
-* **O Salto do Tengu:** Derrotar um demônio corvo Tengu lhe concede um pulo duplo ou um planar.
-* **A Fúria do Oni:** Vencer um Oni enraivecido lhe dá uma habilidade de ataque devastadora que quebra certas paredes.
-* **O Passo do Kitsune:** Dominar um espírito de raposa lhe permite um teletransporte curto (dash) para atravessar barreiras ou inimigos.
+- **Intro:**  
+  Texto em rolagem, vento/partículas, narração PT/EN de acordo com o idioma escolhido. Testar salto da intro com **SPACE** sem cortes abruptos.
 
-    Durante sua jornada, Kenshi encontra sussurros e fragmentos do passado – ecos de almas que tentaram a mesma peregrinação. Ele tem visões de outros guerreiros como ele, sendo enviados na mesma jornada pelos mesmos monges, mas nunca ouviu falar de nenhum que tenha retornado. Personagens misteriosos o alertam com frases enigmáticas: "A forja dos deuses exige o melhor metal", "Nenhuma alma retorna do céu".
+- **Gameplay:**  
+  - Movimento lateral (A/D)  
+  - Pulo (Space)  
+  - Ataque (J)  
+  - Dash (K) com invencibilidade e teleporte curto (~200 px)  
+  - Tiro (L) sincronizado com a animação  
+  - Defesa/agachar (S), reduzindo velocidade e bloqueando dano  
+  - Colisões com espinhos e inimigos  
+  - Câmera com zoom e parallax
 
-### A Verdade: O Destino da "Colheita"
+- **Fluxos gerais:**  
+  Pausar e retornar ao jogo; Stage Clear; Game Over; carregamento correto do Level1 após a intro.
 
-    Ao chegar ao Pináculo Celestial, Kenshi não encontra um paraíso de deuses benevolentes, mas sim uma gigantesca forja celestial, alimentada por uma energia espiritual sombria.
+- **Áudio:**  
+  Trilha do Level1, SFX de ataque/pulo/morte, narração PT/EN, sons de UI. Verificar se respeitam os ajustes de volume no menu.
 
-    O líder da ordem dos monges o recebe e revela a verdade devastadora, análoga ao que acontece na vinícola:
+- **Performance/estabilidade:**  
+  Troca de idioma sem travamentos; menus abrindo e fechando sem bugs; carregamento suave da fase.
 
-    O "Pináculo Celestial" não é um lugar de ascensão, mas de sacrifício. A "praga espiritual" que assola a terra é, na verdade, um antigo deus caído que está despertando. Os monges, em sua devoção distorcida, acreditam que a única forma de apaziguar essa entidade é alimentá-la com as almas mais puras e fortes.
-
-    Os "Ara-Hitogami", como Kenshi, são a "colheita". São guerreiros lendários, ressuscitados em corpos artificiais e enviados nesta jornada para se fortalecerem. A peregrinação não é um teste de valor, mas um processo para "amadurecer" a alma, tornando-a um sacrifício mais potente. O destino deles sempre foi serem consumidos, esmagados como uvas, para "alimentar" o deus adormecido e evitar que ele desperte em fúria total.
-
-    Neste momento, Kenshi vê os restos de outros guerreiros de casca de bambu e aço, seus corpos descartados ao redor da forja, suas almas já consumidas.
-
-### **Os Dois Finais**
-
-    Após a batalha final contra o monge líder ou o guardião da forja, Kenshi, agora ciente da terrível verdade, encara seu destino.
-
-**Final 1: A Revolta (A Lâmina Quebrada se Volta Contra os Deuses)**
-
-Kenshi rejeita seu papel como sacrifício. Ele percebe que sua honra não está em obedecer a um destino imposto, mas em forjar seu próprio caminho. Ele canaliza toda a sua força, não para se tornar um deus, mas para destruir a forja e, se necessário, o próprio deus adormecido.
-
-* **Gameplay:** Uma batalha épica contra o deus parcialmente desperto.
-* **Conclusão:** Ao destruir a fonte de poder, Kenshi quebra o ciclo. No entanto, sua própria força vital estava ligada à magia da forja. Com sua destruição, seu corpo começa a se desintegrar. Em seus momentos finais, ele não alcança a divindade, mas encontra algo mais valioso: a liberdade. Ele morre como um guerreiro sem nome que salvou o mundo, encontrando a verdadeira honra em seu ato final de desafio. A praga recua, e o mundo tem uma chance de se curar.
-
-**Final 2: Aceita o Destino (A Honra no Sacrifício)**
-
-Desolado pela verdade, Kenshi sente o peso do seu propósito. Ele entende que foi criado para este momento e que sua resistência pode significar a destruição total do mundo pela fúria do deus. Talvez a honra, para um ser como ele, seja cumprir o dever para o qual foi forjado, por mais terrível que seja.
-
-* **Gameplay:** Uma sequência mais cinematográfica. Kenshi se aproxima do altar da forja, embainha sua espada e aceita seu destino.
-* **Conclusão:** Kenshi é consumido em uma explosão de energia espiritual. O deus é apaziguado, e a praga espiritual recua, salvando a terra... por enquanto. A ordem dos monges começa a construção de um novo receptáculo, preparando a próxima "colheita" para quando o deus despertar novamente. O ciclo continua. O mundo é salvo, mas ao custo de uma mentira e da alma de um herói que nunca soube quem foi. O final é trágico, mostrando que a história de Kenshi, embora heroica, será esquecida e repetida.
+- **Menu de Pause (ESC):**  
+  Verificar abertura e fechamento corretos ao apertar **ESC**, navegação entre as opções do menu de pause, funcionamento dos botões (Resume, Settings, Controls, Quit), aplicação de sons de UI (hover/confirm/back) e retorno ao jogo mantendo o estado anterior sem bugs.
 
 
-## Assets
+---
 
-### Artes
+# 5. Créditos
 
-    OpenGameArt.org: https://opengameart.org/
+- **Bernardo do Nascimento Nunes** — intro (crawl, partículas/vento, narração PT/EN com seleção de idioma), sistema de idiomas (strings dinâmicas e rebuild de UI), sons de UI (hover/confirm/back) e organização de áudio, ajustes de fluxos de menu/pause/intro/level, revisão e documentação (README e instruções de playtest).
 
-    Exemplos:
+---
 
-        https://opengameart.org/content/a-blocky-dungeon
-        https://opengameart.org/content/dungeon-tileset
-        https://opengameart.org/content/a-platformer-in-the-forest
+# SEÇÕES ADICIONAIS DO PROJETO
 
-    Liberated Pixel Cup: https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/
+# História
 
-### Músicas
+## O Protagonista: O "Ara-Hitogami"
 
+(Gisei, 犠牲, significa "sacrifício" em japonês)
 
-    https://opengameart.org/art-search-advanced?keys=&field_art_type_tid%5B%5D=12&sort_by=count&sort_order=DESC
+Kenshi é uma alma despertada em um corpo artificial de bambu, aço e cordas sagradas, animado por um fragmento espiritual. Sem memória de sua vida passada, acredita que deve peregrinar até o **Pináculo Celestial** para se tornar um deus vivo. Convencido pelos monges do Templo do Silêncio, ele vê essa jornada como sua única esperança de plenitude.
 
-    https://freemusicarchive.org/home
+## A Jornada: O Caminho do Peregrino
 
-    https://incompetech.com/music/royalty-free/music.html
+O mundo está corrompido por uma praga espiritual que enlouquece homens e feras. Kenshi atravessa florestas assombradas por Yōkai, montanhas guardadas por monges guerreiros e vilarejos devastados.  
+Ao derrotar grandes guardiões, ele recupera memórias e habilidades:
 
-### Efeitos Sonoros
+- **O Salto do Tengu:** salto duplo/planar  
+- **A Fúria do Oni:** ataque destrutivo que quebra paredes  
+- **O Passo do Kitsune:** teletransporte curto (dash especial)
 
-    https://opengameart.org/art-search-advanced?keys=&field_art_type_tid%5B%5D=13&sort_by=count&sort_order=DESC
+Rumores ecoam pelo caminho: “Nenhuma alma retorna do céu”.
+
+## A Verdade: O Destino da "Colheita"
+
+O Pináculo Celestial revela-se uma forja divina alimentada por almas. Os “Ara-Hitogami” são guerreiros ressuscitados criados apenas para amadurecer sua alma e serem sacrificados a um deus adormecido. Kenshi descobre os restos de outros receptáculos destruídos.
+
+## Os Finais
+
+### **Final 1: Revolta — A Lâmina Quebrada se Volta Contra os Deuses**
+Kenshi destrói a forja e o deus, mas se sacrifica no processo. A praga cessa, o mundo renasce, mas seu nome se perde.
+
+### **Final 2: Aceitação — A Honra no Sacrifício**
+Ele se entrega à forja. O deus é apaziguado, a praga cessa… até que desperte novamente. O ciclo continua. Kenshi é esquecido.
+
+---
+
+# Assets
+
+## Artes
+- https://opengameart.org/  
+- Exemplos:  
+  - https://opengameart.org/content/a-blocky-dungeon  
+  - https://opengameart.org/content/dungeon-tileset  
+  - https://opengameart.org/content/a-platformer-in-the-forest  
+- Gerador de personagens:  
+  https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/
+
+## Músicas
+- https://opengameart.org/art-search-advanced?keys=&field_art_type_tid%5B%5D=12  
+- https://freemusicarchive.org/home  
+- https://incompetech.com/music/royalty-free/music.html
+
+## Efeitos Sonoros
+- https://opengameart.org/art-search-advanced?keys=&field_art_type_tid%5B%5D=13
+
+---

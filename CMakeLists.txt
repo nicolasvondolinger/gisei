@@ -89,6 +89,14 @@ add_executable(${PROJECT_NAME}
         Source/Actors/Ninja.cpp
         Source/Actors/Dart.cpp
         Source/Components/Drawing/DashSmokeComponent.cpp
+        Source/Actors/SkeletonArcher.cpp
+        Source/Actors/SkeletonArcher.h
+        Source/Actors/SkeletonWarrior.cpp
+        Source/Actors/SkeletonWarrior.h
+        Source/Actors/SkeletonSpearman.cpp
+        Source/Actors/SkeletonSpearman.h
+        Source/Actors/Arrow.cpp
+        Source/Actors/Arrow.h
 )
 
 
