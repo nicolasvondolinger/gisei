@@ -9,6 +9,10 @@
 #include "SkeletonWarrior.h"
 #include "SkeletonSpearman.h"
 #include "SkeletonArcher.h"
+#include "KarasuTengu.h"
+#include "SkeletonWarrior.h"
+#include "SkeletonSpearman.h"
+#include "SkeletonArcher.h"
 
 Ninja::Ninja(Game *game, const float accelerationForce, const float jumpSpeed)
     : Actor(game)
@@ -538,6 +542,8 @@ void Ninja::CheckAttackHit()
                 spear->ApplyDamage(1);
             } else if (auto archer = dynamic_cast<SkeletonArcher*>(owner)) {
                 archer->ApplyDamage(1);
+            } else if (auto boss = dynamic_cast<KarasuTengu*>(owner)) {
+                boss->ApplyDamage(1);
             } else {
                 owner->Kill();
             }
