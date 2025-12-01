@@ -53,7 +53,6 @@ public:
     void PushUI(UIScreen* screen);
     std::vector<UIScreen*>& GetUIStack() { return mUIStack; }
 
-    // Audio
     AudioSystem* GetAudio() { return mAudio; }
 
     void SetScene(GameScene scene);
@@ -109,6 +108,7 @@ private:
     void GenerateOutput();
     void UpdateActors(float deltaTime);
     void UpdateCamera();
+    void CheckExitReached();
     class HUD* mHUD;
 
     void InitializeActors();
@@ -134,9 +134,11 @@ private:
     std::vector<UIScreen*> mUIStack;
 
     Vector2 mCameraPos;
+    std::vector<Vector2> mExitTiles;
+    std::string mMapPrefix;
 
     FadeState mFadeState;
-    float mFadeAlpha;     // 0.0f (transparente) a 1.0f (preto)
+    float mFadeAlpha;
     GameScene mNextScene;
 
     // Audio system

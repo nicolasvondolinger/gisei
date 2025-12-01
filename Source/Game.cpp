@@ -13,6 +13,7 @@
 #include "Actors/SkeletonWarrior.h"
 #include "Actors/SkeletonSpearman.h"
 #include "Actors/SkeletonArcher.h"
+#include "Actors/KarasuTengu.h"
 #include "Actors/ParallaxBackground.h"
 #include <algorithm>
 #include <vector>
@@ -42,6 +43,7 @@ Game::Game()
         , mLevelData(nullptr)
         , mLevelDataWidth(0)
         , mLevelDataHeight(0)
+        , mMapPrefix("level1")
         ,mBackgroundTexture(nullptr)
         ,mBackgroundScrollSpeed(0.25f)
         ,mBackgroundMusic(nullptr)
@@ -159,18 +161,15 @@ void Game::LoadScene(GameScene scene)
     mStageClearSoundChannel = -1;
     UnloadScene();
 
-    // Defina o fator de zoom que você quer (2.0f = 2x mais perto)
     float zoomFactor = 2.0f; 
 
     switch (scene) {
         case GameScene::Intro:
             mBackgroundTexture = nullptr;
-            // Build the level in a frozen state to use as intro background
             InitializeActors();
             new IntroCrawl(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
         case GameScene::MainMenu:
-            // MENU: Resolução original (Sem zoom)
             mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
             
             mBackgroundTexture = nullptr;
@@ -185,13 +184,11 @@ void Game::LoadScene(GameScene scene)
                 Mix_PlayMusic(mBackgroundMusic, -1);
             }
             InitializeActors();
-            
-            // ADICIONE ISTO:
+
             mHUD = new HUD(this, "../Assets/Fonts/Alkhemikal.ttf");
             break;
 
         case GameScene::GameOver:
-            // GAME OVER: Resolução original (Sem zoom)
             mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
 
             mBackgroundTexture = nullptr;
@@ -202,19 +199,23 @@ void Game::LoadScene(GameScene scene)
 
 void Game::InitializeActors() {
     new ParallaxBackground(this);
-    
+    mCameraPos = Vector2::Zero;
+    mExitTiles.clear();
+    std::string basePath = "../Assets/Levels/" + mMapPrefix;
+    Vector2 spawnPos(200.0f, 640.0f);
+
     struct Layer {
         std::string csvPath;
         std::string texturePath;
         int columns;
     };
-    
+
     Layer layers[] = {
-        {"../Assets/Levels/level1_Blocos.csv", "../Assets/Levels/Tileset.png", 17},
-        {"../Assets/Levels/level1_Objetos.csv", "../Assets/Levels/Objects.png", 40},
-        {"../Assets/Levels/level1_Entradas.csv", "../Assets/Levels/cave_entrance.png", 6}
+        {basePath + "_Blocos.csv", "../Assets/Levels/Tileset.png", 17},
+        {basePath + "_Objetos.csv", "../Assets/Levels/Objects.png", 40},
+        {basePath + "_Entradas.csv", "../Assets/Levels/cave_entrance.png", 6}
     };
-    
+
     for(const auto& layer : layers) {
         int width, height;
         int** data = LoadLevel(layer.csvPath, width, height);
@@ -222,55 +223,80 @@ void Game::InitializeActors() {
             SDL_Log("Falha ao carregar layer: %s", layer.csvPath.c_str());
             continue;
         }
+
+        if (layer.csvPath.find("_Entradas") != std::string::npos) {
+            static const std::unordered_set<int> exitIds{0,1,2,6,7,8,12,13,14,18,19,20};
+            for (int i = 0; i < height; ++i) {
+                for (int j = 0; j < width; ++j) {
+                    if (exitIds.count(data[i][j])) {
+                        Vector2 pos((j + 0.5f) * TILE_SIZE, (i + 0.5f) * TILE_SIZE);
+                        mExitTiles.push_back(pos);
+                    }
+                }
+            }
+        }
+
         BuildLevel(data, width, height, layer.texturePath, layer.columns);
-        
+
         for(int i = 0; i < height; i++) {
             delete[] data[i];
         }
         delete[] data;
     }
-    
+
     mNinja = new Ninja(this);
-    mNinja->SetPosition(Vector2(64.0f, 640.0f));
+    // Spawn fixo no canto esquerdo (64, 640) para todos os mapas, inclusive o boss
+    mNinja->SetPosition(spawnPos);
+    UpdateCamera();
 
-    // Enemies from CSV
-    int enemiesW = 0, enemiesH = 0;
-    int** enemies = LoadLevel("../Assets/Levels/level1_Inimigos.csv", enemiesW, enemiesH);
-    if (enemies) {
-        for (int i = 0; i < enemiesH; ++i) {
-            for (int j = 0; j < enemiesW; ++j) {
-                int id = enemies[i][j];
-                if (id < 0) continue;
+    // Spawn boss only on boss map
+    if (mMapPrefix == "boss1") {
+        Vector2 bossPos(3200.0f, 640.0f);
+        auto boss = new KarasuTengu(this);
+        boss->SetPosition(bossPos);
+    }
 
-                Vector2 pos((j + 0.5f) * TILE_SIZE, (i + 0.5f) * TILE_SIZE);
-                switch (id) {
-                    case 0: { // warrior
-                        auto e = new SkeletonWarrior(this, -90.0f);
-                        e->SetPosition(pos);
-                        e->SetScale(Vector2(-1.0f, 1.0f));
-                        break;
+    const std::string enemiesPath = basePath + "_Inimigos.csv";
+    std::ifstream enemiesFile(enemiesPath);
+    if (enemiesFile.good()) {
+        int enemiesW = 0, enemiesH = 0;
+        int** enemies = LoadLevel(enemiesPath, enemiesW, enemiesH);
+        if (enemies) {
+            for (int i = 0; i < enemiesH; ++i) {
+                for (int j = 0; j < enemiesW; ++j) {
+                    int id = enemies[i][j];
+                    if (id < 0) continue;
+
+                    Vector2 pos((j + 0.5f) * TILE_SIZE, (i + 0.5f) * TILE_SIZE);
+                    switch (id) {
+                        case 0: { // warrior
+                            auto e = new SkeletonWarrior(this, -90.0f);
+                            e->SetPosition(pos);
+                            e->SetScale(Vector2(-1.0f, 1.0f));
+                            break;
+                        }
+                        case 1: { // spearman
+                            auto e = new SkeletonSpearman(this, 90.0f);
+                            e->SetPosition(pos);
+                            break;
+                        }
+                        case 2: { // archer
+                            auto e = new SkeletonArcher(this, 180.0f);
+                            e->SetPosition(pos);
+                            e->SetScale(Vector2(-1.0f, 1.0f));
+                            break;
+                        }
+                        default:
+                            break;
                     }
-                    case 1: { // spearman
-                        auto e = new SkeletonSpearman(this, 90.0f);
-                        e->SetPosition(pos);
-                        break;
-                    }
-                    case 2: { // archer
-                        auto e = new SkeletonArcher(this, 180.0f);
-                        e->SetPosition(pos);
-                        e->SetScale(Vector2(-1.0f, 1.0f));
-                        break;
-                    }
-                    default:
-                        break;
                 }
             }
-        }
 
-        for (int i = 0; i < enemiesH; ++i) {
-            delete[] enemies[i];
+            for (int i = 0; i < enemiesH; ++i) {
+                delete[] enemies[i];
+            }
+            delete[] enemies;
         }
-        delete[] enemies;
     }
 }
 
@@ -314,13 +340,11 @@ int **Game::LoadLevel(const std::string& fileName, int& width, int& height) {
 }
 
 void Game::BuildLevel(int** levelData, int width, int height, const std::string& tilesetPath, int columns) {
-    // Apenas os espinhos causam dano agora
     std::set<int> thornIds = { 285, 325 };
 
     Texture* tilesetTexture = mRenderer->GetTexture(tilesetPath);
     const int TILE_SIZE_PX = 32;
-    
-    // Verifica se é a camada de colisão principal (Tileset.png)
+
     bool isCollisionLayer = (tilesetPath.find("Tileset.png") != std::string::npos);
 
     for(int i = 0; i < height; i++){
@@ -332,10 +356,8 @@ void Game::BuildLevel(int** levelData, int width, int height, const std::string&
             pos.y = (i * TILE_SIZE) + (TILE_SIZE / 2.0f);
             pos.x = (j * TILE_SIZE) + (TILE_SIZE / 2.0f);
 
-            // Pula o "céu" apenas na camada de colisão
             if(pos.y < 96.0f && isCollisionLayer) continue;
 
-            // --- LÓGICA DOS ESPINHOS (285, 325) ---
             if (thornIds.count(id)) {
                 std::string thornPath;
                 if (id == 285) thornPath = "../Assets/Sprites/Blocks/thorns_top.png";
@@ -348,30 +370,21 @@ void Game::BuildLevel(int** levelData, int width, int height, const std::string&
                 thornRect.w = thornTex->GetWidth();
                 thornRect.h = thornTex->GetHeight();
 
-                // Cria o bloco de espinho
                 Block* block = new Block(this, thornTex, thornRect, EBlockType::Thorns);
                 block->SetPosition(pos);
                 
-                // IMPORTANTE: Não desativamos o collider aqui. 
-                // O Block já nasce com collider ativado, então ele vai funcionar
-                // mesmo estando na camada "Objects".
-                
-                continue; // Pula a lógica padrão e vai para o próximo bloco
+                continue;
             }
-            // -------------------------------------
 
-            // --- LÓGICA PADRÃO (Outros blocos) ---
             SDL_Rect srcRect;
             srcRect.w = TILE_SIZE_PX;
             srcRect.h = TILE_SIZE_PX;
             srcRect.x = (id % columns) * TILE_SIZE_PX;
             srcRect.y = (id / columns) * TILE_SIZE_PX;
 
-            // Todos os outros blocos são normais
             Block* block = new Block(this, tilesetTexture, srcRect, EBlockType::Normal);
             block->SetPosition(pos);
-            
-            // Se NÃO for a camada de colisão (ex: Objects.png), desativa a física
+
             if(!isCollisionLayer) {
                 auto collider = block->GetComponent<AABBColliderComponent>();
                 if(collider) collider->SetEnabled(false);
@@ -501,6 +514,10 @@ void Game::UpdateGame(float deltaTime) {
             ++iter;
         }
     }
+
+    if (mCurrentScene == GameScene::Level1 && !mIsPaused && mFadeState == FadeState::None) {
+        CheckExitReached();
+    }
 }
 
 void Game::UpdateActors(float deltaTime)
@@ -536,33 +553,39 @@ void Game::UpdateActors(float deltaTime)
 void Game::UpdateCamera() {
     if(mNinja == nullptr) return;
 
-    // --- Configuração do Zoom ---
-    // Mantenha igual ao valor usado no LoadScene
     float zoomFactor = 2.0f; 
-    
-    // Calcula o tamanho real da "lente" da câmera
+
     float logicalWidth = WINDOW_WIDTH / zoomFactor;
     float logicalHeight = WINDOW_HEIGHT / zoomFactor;
 
-    // --- EIXO X (Horizontal) ---
     float targetX = mNinja->GetPosition().x - (logicalWidth / 2.0f);
     float maxCameraX = (LEVEL_WIDTH * TILE_SIZE) - logicalWidth;
-    
-    // Usa std::clamp para manter dentro dos limites (requer <algorithm>)
-    // Se não tiver <algorithm>, use std::max e std::min como antes
+
     mCameraPos.x = std::clamp(targetX, 0.0f, maxCameraX);
 
-    // --- EIXO Y (Vertical) ---
-    // Centraliza o Ninja verticalmente
     float targetY = mNinja->GetPosition().y - (logicalHeight / 2.0f);
 
-    // Define o limite vertical da câmera
-    // Assumindo que a altura da fase é igual à altura original da janela (768px)
     float levelHeight = (float)WINDOW_HEIGHT; 
     float maxCameraY = levelHeight - logicalHeight;
 
-    // Trava a câmera para não mostrar além do teto ou abaixo do chão
     mCameraPos.y = std::clamp(targetY, 0.0f, maxCameraY);
+}
+
+void Game::CheckExitReached()
+{
+    if (!mNinja || mExitTiles.empty()) return;
+
+    Vector2 pos = mNinja->GetPosition();
+    float halfTile = TILE_SIZE * 0.5f;
+
+    for (const auto& tilePos : mExitTiles) {
+        if (Math::Abs(pos.x - tilePos.x) <= halfTile &&
+            Math::Abs(pos.y - tilePos.y) <= halfTile) {
+            mMapPrefix = "boss1";
+            SetScene(GameScene::Level1);
+            return;
+        }
+    }
 }
 
 void Game::AddActor(Actor* actor) {
@@ -675,12 +698,10 @@ void Game::GenerateOutput()
         mRenderer->DrawHitStopOverlay(0.5f);
         
         if (mNinja) {
-            // Limpa configurações do shader para garantir desenho limpo
             mRenderer->GetBaseShader()->SetActive();
             mRenderer->GetBaseShader()->SetVectorUniform("uBaseColor", Vector4(1.0f, 1.0f, 1.0f, 1.0f));
             mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
-            
-            // Aqui ele brilha sobre a escuridão
+
             mNinja->GetDrawComponent()->Draw(mRenderer);
         }
     }
