@@ -57,6 +57,8 @@ A cada passo, Kenshi percebe que sua jornada não é uma ascensão, mas uma prep
 
 - **Nicolas Von Dolinger** — criação do repositório, estruturação base do README, ajuda na criação do nível 1, definição de assets base, fix de animações do personagem principal(dash, agachar, defender), criação das barras de vida e energia, fix na UI, criação do menu de morte.
 
+- **Igor Eduardo Martins Braga** - Criação dos mapas usando Tiled, criação dos inimigos e lógica de dano e ataque jogador/inimigo, estruturação do menu de pause e página de game over, criação e estruturação do primeiro boss do jogo, adição de transição entre o primeiro mapa e mapa do primeiro boss, implementação da IA dos inimigos do jogo, correção da lógica de fullscreen do jogo e câmera do jogador.
+
 ---
 
 # SEÇÕES ADICIONAIS DO PROJETO
