@@ -6,6 +6,9 @@
 #include "../Components/Drawing/DashAfterimageComponent.h"
 #include "../Components/Physics/RigidBodyComponent.h"
 #include "../Components/Physics/AABBColliderComponent.h"
+#include "SkeletonWarrior.h"
+#include "SkeletonSpearman.h"
+#include "SkeletonArcher.h"
 
 Ninja::Ninja(Game *game, const float accelerationForce, const float jumpSpeed)
     : Actor(game)
@@ -159,6 +162,7 @@ void Ninja::OnProcessInput(const uint8_t* state) {
             mIsAttacking = true;
             mAttackTimer = 0.33f;
             mRigidBodyComponent->SetVelocity(Vector2::Zero);
+            mHitEnemiesThisAttack.clear();
         }
 
         // DASH (K)
@@ -196,8 +200,10 @@ void Ninja::OnUpdate(float deltaTime) {
         mAttackTimer -= deltaTime;
         if (mAttackTimer <= 0.0f) {
             mIsAttacking = false;
+            mHitEnemiesThisAttack.clear();
         }
         mRigidBodyComponent->SetVelocity(Vector2::Zero);
+        CheckAttackHit();
     }
 
     if (mIsDashing) {
@@ -501,4 +507,41 @@ void Ninja::StageClear() {
     int channel = mGame->PlaySound(mGame->GetStageClearSound());
     mGame->SetStageClearSoundChannel(channel);
     mGame->SetWaitingToQuit(true);
+}
+
+void Ninja::CheckAttackHit()
+{
+    // Simple sword hitbox in front of the ninja while attacking
+    const float halfW = 30.0f;
+    const float halfH = 25.0f;
+    Vector2 center = mPosition + Vector2(mScale.x * (halfW + 10.0f), -5.0f);
+
+    Vector2 atkMin(center.x - halfW, center.y - halfH);
+    Vector2 atkMax(center.x + halfW, center.y + halfH);
+
+    for (auto col : mGame->GetColliders()) {
+        if (!col->IsEnabled() || col->GetLayer() != ColliderLayer::Enemy) continue;
+        auto owner = col->GetOwner();
+        if (!owner || owner->GetState() != ActorState::Active) continue;
+
+        Vector2 cMin = col->GetMin();
+        Vector2 cMax = col->GetMax();
+
+        bool overlap = (atkMin.x <= cMax.x && atkMax.x >= cMin.x &&
+                        atkMin.y <= cMax.y && atkMax.y >= cMin.y);
+        if (overlap) {
+            if (mHitEnemiesThisAttack.find(owner) != mHitEnemiesThisAttack.end()) continue;
+
+            if (auto warrior = dynamic_cast<SkeletonWarrior*>(owner)) {
+                warrior->ApplyDamage(1);
+            } else if (auto spear = dynamic_cast<SkeletonSpearman*>(owner)) {
+                spear->ApplyDamage(1);
+            } else if (auto archer = dynamic_cast<SkeletonArcher*>(owner)) {
+                archer->ApplyDamage(1);
+            } else {
+                owner->Kill();
+            }
+            mHitEnemiesThisAttack.insert(owner);
+        }
+    }
 }

@@ -10,6 +10,9 @@
 #include "Actors/Block.h"
 #include "Actors/Spawner.h"
 #include "Actors/Ninja.h"
+#include "Actors/SkeletonWarrior.h"
+#include "Actors/SkeletonSpearman.h"
+#include "Actors/SkeletonArcher.h"
 #include "Actors/ParallaxBackground.h"
 #include <algorithm>
 #include <vector>
@@ -207,9 +210,9 @@ void Game::InitializeActors() {
     };
     
     Layer layers[] = {
-        {"../Assets/Levels/level1-test_Tile Layer 1.csv", "../Assets/Levels/Tileset.png", 17},
-        {"../Assets/Levels/level1-test_Tile Layer 2.csv", "../Assets/Levels/Objects.png", 40},
-        {"../Assets/Levels/level1-test_Tile Layer 3.csv", "../Assets/Levels/cave_entrance.png", 6}
+        {"../Assets/Levels/level1_Blocos.csv", "../Assets/Levels/Tileset.png", 17},
+        {"../Assets/Levels/level1_Objetos.csv", "../Assets/Levels/Objects.png", 40},
+        {"../Assets/Levels/level1_Entradas.csv", "../Assets/Levels/cave_entrance.png", 6}
     };
     
     for(const auto& layer : layers) {
@@ -229,6 +232,46 @@ void Game::InitializeActors() {
     
     mNinja = new Ninja(this);
     mNinja->SetPosition(Vector2(64.0f, 640.0f));
+
+    // Enemies from CSV
+    int enemiesW = 0, enemiesH = 0;
+    int** enemies = LoadLevel("../Assets/Levels/level1_Inimigos.csv", enemiesW, enemiesH);
+    if (enemies) {
+        for (int i = 0; i < enemiesH; ++i) {
+            for (int j = 0; j < enemiesW; ++j) {
+                int id = enemies[i][j];
+                if (id < 0) continue;
+
+                Vector2 pos((j + 0.5f) * TILE_SIZE, (i + 0.5f) * TILE_SIZE);
+                switch (id) {
+                    case 0: { // warrior
+                        auto e = new SkeletonWarrior(this, -90.0f);
+                        e->SetPosition(pos);
+                        e->SetScale(Vector2(-1.0f, 1.0f));
+                        break;
+                    }
+                    case 1: { // spearman
+                        auto e = new SkeletonSpearman(this, 90.0f);
+                        e->SetPosition(pos);
+                        break;
+                    }
+                    case 2: { // archer
+                        auto e = new SkeletonArcher(this, 180.0f);
+                        e->SetPosition(pos);
+                        e->SetScale(Vector2(-1.0f, 1.0f));
+                        break;
+                    }
+                    default:
+                        break;
+                }
+            }
+        }
+
+        for (int i = 0; i < enemiesH; ++i) {
+            delete[] enemies[i];
+        }
+        delete[] enemies;
+    }
 }
 
 int **Game::LoadLevel(const std::string& fileName, int& width, int& height) {
