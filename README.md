@@ -55,6 +55,8 @@ A cada passo, Kenshi percebe que sua jornada não é uma ascensão, mas uma prep
 
 - **Lucas Cassio Costa** — Estruturação da arquitetura base do projeto, implementação das classes fundamentais (core) e integração e gerenciamento dos recursos (assets) iniciais.
 
+- **Nicolas Von Dolinger** — criação do repositório, estruturação base do README, criação da base do nível 1, definição de assets base, fix de animações do personagem principal(dash, agachar, defender), criação das barras de vida e energia, fix na UI, criação do menu de morte.
+
 ---
 
 # SEÇÕES ADICIONAIS DO PROJETO
