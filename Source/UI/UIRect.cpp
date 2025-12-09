@@ -11,6 +11,8 @@ UIRect::~UIRect() {
 }
 
 void UIRect::Draw(class Shader *shader) {
+    if (!mIsVisible) return;
+
     Matrix4 scaleMat = Matrix4::CreateScale(mSize.x * mScale, mSize.y * mScale, 1.0f);
 
     Matrix4 rotMat = Matrix4::CreateRotationZ(mAngle);

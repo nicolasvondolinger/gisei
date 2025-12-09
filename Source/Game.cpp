@@ -60,6 +60,7 @@ Game::Game()
         ,mUIBackSound(nullptr)
         ,mIsHitStop(false)
         ,mHitStopTimer(0.0f)
+        ,mBoss(nullptr)
 {
 }
 
@@ -126,6 +127,7 @@ void Game::UnloadScene()
     }
     mUIStack.clear();
     mHUD = nullptr;
+    mBoss = nullptr;
 
     if (mLevelData) {
         for (int i = 0; i < mLevelDataHeight; ++i) {
@@ -495,7 +497,7 @@ void Game::UpdateGame(float deltaTime) {
         UpdateCamera();
 
         if (mCurrentScene == GameScene::Level1 && mNinja && mHUD) {
-            mHUD->UpdateHUD(mNinja);
+            mHUD->UpdateHUD(mNinja, mBoss);
         }
     }
 
@@ -639,6 +641,18 @@ void Game::RemoveCollider(AABBColliderComponent* collider)
     if (iter != mColliders.end())
     {
         mColliders.erase(iter);
+    }
+}
+
+void Game::RegisterBoss(KarasuTengu* boss)
+{
+    mBoss = boss;
+}
+
+void Game::ClearBoss(KarasuTengu* boss)
+{
+    if (mBoss == boss) {
+        mBoss = nullptr;
     }
 }
 

@@ -1,11 +1,16 @@
 #include "HUD.h"
 #include "../../Game.h"
 #include "../../Actors/Ninja.h"
+#include "../../Actors/KarasuTengu.h"
+#include <algorithm>
 
 HUD::HUD(class Game* game, const std::string& fontName)
     :UIScreen(game, fontName)
 {
     mIsTransparent = true; 
+
+    mBossBarCenterX = Game::WINDOW_WIDTH / 2.0f;
+    mBossBarLeft = mBossBarCenterX - (mBossBarWidth / 2.0f);
 
     // --- POSICIONAMENTO ---
     // Como o retângulo é desenhado pelo centro, a posição X não é a borda esquerda.
@@ -31,9 +36,24 @@ HUD::HUD(class Game* game, const std::string& fontName)
     // Frente
     mEnergyBarFG = AddRect(Vector2(energyCenterX, 60.0f), Vector2(mEnergyMaxWidth, mBarHeight));
     mEnergyBarFG->SetColor(Vector4(0.0f, 0.5f, 1.0f, 1.0f)); 
+
+    // --- BARRA DO BOSS (Centro da tela) ---
+    mBossBarBG = AddRect(Vector2(mBossBarCenterX, mBossBarY), Vector2(mBossBarWidth, mBossBarHeight));
+    mBossBarBG->SetColor(Vector4(0.08f, 0.08f, 0.08f, 0.9f));
+    mBossBarFG = AddRect(Vector2(mBossBarCenterX, mBossBarY), Vector2(mBossBarWidth, mBossBarHeight));
+    mBossBarFG->SetColor(Vector4(0.75f, 0.12f, 0.12f, 1.0f));
+
+    mBossNameText = AddText("", Vector2(mBossBarCenterX, mBossNameY), 1.0f, 0.0f, 32);
+    mBossNameText->SetTextColor(Vector3(0.95f, 0.86f, 0.70f));
+    mBossNameText->SetBackgroundColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+
+    // Oculta a barra do boss por padrão até existir um.
+    mBossBarBG->SetIsVisible(false);
+    mBossBarFG->SetIsVisible(false);
+    mBossNameText->SetIsVisible(false);
 }
 
-void HUD::UpdateHUD(Ninja* ninja) {
+void HUD::UpdateHUD(Ninja* ninja, KarasuTengu* boss) {
     if (!ninja) return;
 
     // ---------------- VIDA ----------------
@@ -67,4 +87,30 @@ void HUD::UpdateHUD(Ninja* ninja) {
     // TRUQUE DE ANCORAGEM
     float newEnergyX = mLeftMargin + (currentEnergyWidth / 2.0f);
     mEnergyBarFG->SetPosition(Vector2(newEnergyX, 60.0f));
+
+
+    // ---------------- BOSS ----------------
+    bool bossActive = boss != nullptr;
+    if (!bossActive) {
+        mBossBarBG->SetIsVisible(false);
+        mBossBarFG->SetIsVisible(false);
+        mBossNameText->SetIsVisible(false);
+        return;
+    }
+
+    mBossBarBG->SetIsVisible(true);
+    mBossBarFG->SetIsVisible(true);
+    mBossNameText->SetIsVisible(true);
+    const std::string& bossName = boss->GetName();
+    if (mCurrentBossName != bossName) {
+        mCurrentBossName = bossName;
+        mBossNameText->SetText(mCurrentBossName);
+    }
+
+    float bossPercent = static_cast<float>(boss->GetHealth()) / static_cast<float>(boss->GetMaxHealth());
+    bossPercent = std::clamp(bossPercent, 0.0f, 1.0f);
+    float currentBossWidth = mBossBarWidth * bossPercent;
+    mBossBarFG->SetSize(Vector2(currentBossWidth, mBossBarHeight));
+    float bossX = mBossBarLeft + (currentBossWidth / 2.0f);
+    mBossBarFG->SetPosition(Vector2(bossX, mBossBarY));
 }
