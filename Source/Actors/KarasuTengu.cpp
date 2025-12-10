@@ -1,5 +1,6 @@
 #include "KarasuTengu.h"
 #include "Ninja.h"
+#include "Key.h"
 #include "../Game.h"
 #include "../Components/Drawing/AnimatorComponent.h"
 #include "../Components/Physics/RigidBodyComponent.h"
@@ -142,6 +143,10 @@ void KarasuTengu::Kill()
     mDrawComponent->SetAnimation("dead");
     mRigidBodyComponent->SetEnabled(false);
     mColliderComponent->SetEnabled(false);
+
+    // Drop de chave ao morrer
+    Key* key = new Key(mGame);
+    key->SetPosition(mPosition + Vector2(0.0f, -20.0f));
 }
 
 void KarasuTengu::ApplyDamage(int amount)

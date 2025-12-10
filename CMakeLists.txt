@@ -99,6 +99,8 @@ add_executable(${PROJECT_NAME}
         Source/Actors/Arrow.h
         Source/Actors/KarasuTengu.cpp
         Source/Actors/KarasuTengu.h
+        Source/Actors/Key.cpp
+        Source/Actors/Key.h
 )
 
 
