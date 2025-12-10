@@ -516,7 +516,7 @@ void Ninja::StageClear() {
 void Ninja::CheckAttackHit()
 {
     // Simple sword hitbox in front of the ninja while attacking
-    const float halfW = 30.0f;
+    const float halfW = 18.0f;
     const float halfH = 25.0f;
     Vector2 center = mPosition + Vector2(mScale.x * (halfW + 10.0f), -5.0f);
 
