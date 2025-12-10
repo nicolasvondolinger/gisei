@@ -17,9 +17,13 @@
 # 2. Título
 **Gisei: The Shattered Blade**
 
+# 3. Gameplay
+
+https://youtu.be/fY2IInu7Utc
+
 ---
 
-# 3. Descrição
+# 4. Descrição
 **Gisei** é um action-platformer 2D sombrio que acompanha **Kenshi**, um guerreiro artificial forjado em bambu e aço e animado por um fragmento de alma. Criado por monges devotos que o enviam ao **Pináculo Celestial** com a promessa de ascensão divina, ele acredita estar cumprindo uma prova sagrada para recuperar suas memórias e alcançar sua verdadeira forma. No entanto, fragmentos de ecos espirituais e visões de peregrinos anteriores sugerem que há algo profundamente errado com essa jornada — ninguém que trilhou esse caminho antes retornou.
 
 No gameplay, o jogador atravessa uma fase construída via CSV com **plataformas, parallax, zoom 2x**, inimigos e espinhos, combinando **travessia precisa**, **combate**, **tiros sincronizados**, **defesa**, e principalmente **dashes curtos com invencibilidade e teleporte lateral**. As mecânicas se integram a um fluxo contínuo de jogo que começa com uma **intro narrativa** em PT/EN (com narração, vento e partículas), seguida por menus completos — Main, Pause, Settings, Controls — todos com **troca dinâmica de idioma**, efeitos sonoros de UI e ajustes de volume, fullscreen e dificuldade. Morrer por dano letal ou queda leva ao **Game Over**, enquanto alcançar o fim da fase aciona o **Stage Clear**.
@@ -28,7 +32,7 @@ A cada passo, Kenshi percebe que sua jornada não é uma ascensão, mas uma prep
 
 ---
 
-# 4. Funcionalidades a serem testadas
+# 5. Funcionalidades a serem testadas
 
 - **Menus:**  
   Navegação completa e sons de UI (hover/confirm/back) em Main, Pause, Settings, Controls, Game Over. Verificar troca de idioma PT/EN funcionando após rebuild das telas.
@@ -61,7 +65,7 @@ A cada passo, Kenshi percebe que sua jornada não é uma ascensão, mas uma prep
 
 ---
 
-# 5. Créditos
+# 6. Créditos
 
 - **Bernardo do Nascimento Nunes** — intro (crawl, partículas/vento, narração PT/EN com seleção de idioma), sistema de idiomas (strings dinâmicas e rebuild de UI), sons de UI (hover/confirm/back) e organização de áudio, ajustes de fluxos de menu/pause/intro/level, revisão e documentação (README e instruções de playtest).
 
