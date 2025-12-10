@@ -112,12 +112,15 @@ void SkeletonWarrior::OnUpdate(float deltaTime)
             }
         }
 
-        Vector2 force(mForwardSpeed, 0.0f);
-        mRigidBodyComponent->ApplyForce(force);
-
         if (!HasGroundAhead()) {
             TurnAround();
+            Vector2 vel = mRigidBodyComponent->GetVelocity();
+            vel.x = mForwardSpeed;
+            mRigidBodyComponent->SetVelocity(vel);
         }
+
+        Vector2 force(mForwardSpeed, 0.0f);
+        mRigidBodyComponent->ApplyForce(force);
     }
 }
 
