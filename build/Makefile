@@ -249,6 +249,30 @@ Source/Actors/KarasuTengu.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.s
 .PHONY : Source/Actors/KarasuTengu.cpp.s
 
+Source/Actors/Key.o: Source/Actors/Key.cpp.o
+.PHONY : Source/Actors/Key.o
+
+# target to build an object file
+Source/Actors/Key.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Key.cpp.o
+.PHONY : Source/Actors/Key.cpp.o
+
+Source/Actors/Key.i: Source/Actors/Key.cpp.i
+.PHONY : Source/Actors/Key.i
+
+# target to preprocess a source file
+Source/Actors/Key.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Key.cpp.i
+.PHONY : Source/Actors/Key.cpp.i
+
+Source/Actors/Key.s: Source/Actors/Key.cpp.s
+.PHONY : Source/Actors/Key.s
+
+# target to generate assembly for a file
+Source/Actors/Key.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Key.cpp.s
+.PHONY : Source/Actors/Key.cpp.s
+
 Source/Actors/Ninja.o: Source/Actors/Ninja.cpp.o
 .PHONY : Source/Actors/Ninja.o
 
@@ -1281,6 +1305,9 @@ help:
 	@echo "... Source/Actors/KarasuTengu.o"
 	@echo "... Source/Actors/KarasuTengu.i"
 	@echo "... Source/Actors/KarasuTengu.s"
+	@echo "... Source/Actors/Key.o"
+	@echo "... Source/Actors/Key.i"
+	@echo "... Source/Actors/Key.s"
 	@echo "... Source/Actors/Ninja.o"
 	@echo "... Source/Actors/Ninja.i"
 	@echo "... Source/Actors/Ninja.s"

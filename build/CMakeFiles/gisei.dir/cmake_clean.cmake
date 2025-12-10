@@ -9,6 +9,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o.d"
   "CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o"
   "CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o.d"
+  "CMakeFiles/gisei.dir/Source/Actors/Key.cpp.o"
+  "CMakeFiles/gisei.dir/Source/Actors/Key.cpp.o.d"
   "CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o"
   "CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o.d"
   "CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o"
