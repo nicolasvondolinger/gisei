@@ -3,11 +3,11 @@
 #include "Actor.h"
 #include "BossEnemy.h"
 
-class KarasuTengu : public Actor, public BossEnemy
+class YamabushiTengu : public Actor, public BossEnemy
 {
 public:
-    explicit KarasuTengu(class Game* game);
-    ~KarasuTengu() override;
+    explicit YamabushiTengu(class Game* game);
+    ~YamabushiTengu() override;
 
     void OnUpdate(float deltaTime) override;
     void OnHorizontalCollision(const float minOverlap, class AABBColliderComponent* other) override;
@@ -15,23 +15,28 @@ public:
     void Kill() override;
     void ApplyDamage(int amount);
 
-    int GetHealth() const { return mHealth; }
-    int GetMaxHealth() const { return mMaxHealth; }
-    bool IsDying() const { return mIsDying; }
-    const std::string& GetName() const { return mName; }
+    int GetHealth() const override { return mHealth; }
+    int GetMaxHealth() const override { return mMaxHealth; }
+    bool IsDying() const override { return mIsDying; }
+    const std::string& GetName() const override { return mName; }
 
 private:
     void EnterAttack();
+    void EnterLeap();
     void ResetAttackState();
 
     int mMaxHealth;
     int mHealth;
     bool mIsDying;
     bool mIsAttacking;
+    bool mIsLeaping;
     bool mAttackHitApplied;
     float mHurtTimer;
     float mAttackTimer;
+    float mAttackDuration;
+    float mAttackWindup;
     float mAttackCooldown;
+    float mLeapCooldown;
     float mBaseSpeed;
     float mAttackRange;
     std::string mName;

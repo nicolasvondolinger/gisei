@@ -27,16 +27,18 @@ GameOver::GameOver(class Game* game, const std::string& fontName)
 
         Vector2 retryPos(centerX, centerY + 20.0f);
         Vector2 menuPos(centerX, centerY + 90.0f);
-        Vector2 quitPos(centerX, centerY + 160.0f);
+    Vector2 quitPos(centerX, centerY + 160.0f);
 
-        AddButton(lang.Get("gameover.retry"), [this]() {
-                this->Close(); 
-                mGame->SetScene(GameScene::Level1);
-        }, retryPos, 1.0f, 0.0f, 46, 900, 30);
-        AddButton(lang.Get("gameover.menu"), [this]() {
-                this->Close();
-                mGame->SetScene(GameScene::MainMenu); 
-        }, menuPos, 1.0f, 0.0f, 46, 900, 31);
+    AddButton(lang.Get("gameover.retry"), [this]() {
+            this->Close(); 
+            mGame->SetMapPrefix("level1");
+            mGame->SetScene(GameScene::Level1);
+    }, retryPos, 1.0f, 0.0f, 46, 900, 30);
+    AddButton(lang.Get("gameover.menu"), [this]() {
+            this->Close();
+            mGame->SetMapPrefix("level1");
+            mGame->SetScene(GameScene::MainMenu); 
+    }, menuPos, 1.0f, 0.0f, 46, 900, 31);
         AddButton(lang.Get("gameover.quit"), [this]() {
                 this->Close(); 
                 mGame->Quit();

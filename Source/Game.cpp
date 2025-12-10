@@ -14,6 +14,7 @@
 #include "Actors/SkeletonSpearman.h"
 #include "Actors/SkeletonArcher.h"
 #include "Actors/KarasuTengu.h"
+#include "Actors/YamabushiTengu.h"
 #include "Actors/ParallaxBackground.h"
 #include <algorithm>
 #include <vector>
@@ -173,6 +174,7 @@ void Game::LoadScene(GameScene scene)
             break;
         case GameScene::MainMenu:
             mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+            mMapPrefix = "level1";
             
             mBackgroundTexture = nullptr;
             new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");
@@ -251,10 +253,14 @@ void Game::InitializeActors() {
     mNinja->SetPosition(spawnPos);
     UpdateCamera();
 
-    // Spawn boss only on boss map
+    // Spawn boss depending on map
     if (mMapPrefix == "boss1") {
         Vector2 bossPos(3200.0f, 640.0f);
         auto boss = new KarasuTengu(this);
+        boss->SetPosition(bossPos);
+    } else if (mMapPrefix == "boss2") {
+        Vector2 bossPos(3500.0f, 640.0f);
+        auto boss = new YamabushiTengu(this);
         boss->SetPosition(bossPos);
     }
 
@@ -583,7 +589,11 @@ void Game::CheckExitReached()
     for (const auto& tilePos : mExitTiles) {
         if (Math::Abs(pos.x - tilePos.x) <= halfTile &&
             Math::Abs(pos.y - tilePos.y) <= halfTile) {
-            mMapPrefix = "boss1";
+            if (mMapPrefix == "level2") {
+                mMapPrefix = "boss2";
+            } else {
+                mMapPrefix = "boss1";
+            }
             SetScene(GameScene::Level1);
             return;
         }
@@ -644,12 +654,12 @@ void Game::RemoveCollider(AABBColliderComponent* collider)
     }
 }
 
-void Game::RegisterBoss(KarasuTengu* boss)
+void Game::RegisterBoss(BossEnemy* boss)
 {
     mBoss = boss;
 }
 
-void Game::ClearBoss(KarasuTengu* boss)
+void Game::ClearBoss(BossEnemy* boss)
 {
     if (mBoss == boss) {
         mBoss = nullptr;

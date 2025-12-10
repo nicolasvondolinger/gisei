@@ -10,6 +10,7 @@
 #include "SkeletonSpearman.h"
 #include "SkeletonArcher.h"
 #include "KarasuTengu.h"
+#include "YamabushiTengu.h"
 #include "SkeletonWarrior.h"
 #include "SkeletonSpearman.h"
 #include "SkeletonArcher.h"
@@ -447,11 +448,25 @@ void Ninja::Kill() {
 void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
 
+    // Coleta chave (layer reaproveitado: Mushroom)
+    if (other->GetLayer() == ColliderLayer::Mushroom) {
+        mGame->SetMapPrefix("level2");
+        mGame->SetScene(GameScene::Level1);
+        other->GetOwner()->SetState(ActorState::Destroy);
+        return;
+    }
+
     // Colisão com Inimigos
     if(other->GetLayer() == ColliderLayer::Enemy) {
         if(mIsAttacking || mIsDashing) {
-            // Nota: O ideal seria chamar ApplyDamage aqui ao invés de Kill direto
-            other->GetOwner()->Kill();
+            auto owner = other->GetOwner();
+            if (auto boss1 = dynamic_cast<KarasuTengu*>(owner)) {
+                boss1->ApplyDamage(1);
+            } else if (auto boss2 = dynamic_cast<YamabushiTengu*>(owner)) {
+                boss2->ApplyDamage(1);
+            } else {
+                owner->Kill();
+            }
         } 
     } 
     // Colisão com Espinhos (Mantida)
@@ -467,6 +482,13 @@ void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent*
 
 void Ninja::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
+
+    if(other->GetLayer() == ColliderLayer::Mushroom){
+        mGame->SetMapPrefix("level2");
+        mGame->SetScene(GameScene::Level1);
+        other->GetOwner()->SetState(ActorState::Destroy);
+        return;
+    }
 
     if(other->GetLayer() == ColliderLayer::Blocks){
         
@@ -550,6 +572,8 @@ void Ninja::CheckAttackHit()
                 archer->ApplyDamage(1);
             } else if (auto boss = dynamic_cast<KarasuTengu*>(owner)) {
                 boss->ApplyDamage(1);
+            } else if (auto boss2 = dynamic_cast<YamabushiTengu*>(owner)) {
+                boss2->ApplyDamage(1);
             } else {
                 owner->Kill();
             }
