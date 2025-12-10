@@ -416,6 +416,8 @@ void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent*
     if(mIsDead) return;
 
     if (other->GetLayer() == ColliderLayer::Mushroom) {
+        mGame->SetMapPrefix("level2");
+        mGame->SetScene(GameScene::Level1);
         other->GetOwner()->SetState(ActorState::Destroy);
         return;
     }
@@ -453,6 +455,8 @@ void Ninja::OnVerticalCollision(const float minOverlap, AABBColliderComponent* o
     if(mIsDead) return;
 
     if(other->GetLayer() == ColliderLayer::Mushroom){
+        mGame->SetMapPrefix("level2");
+        mGame->SetScene(GameScene::Level1);
         other->GetOwner()->SetState(ActorState::Destroy);
         return;
     }

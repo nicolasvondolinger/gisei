@@ -75,6 +75,7 @@ public:
     KarasuTengu* GetBoss() const { return mBoss; }
     void RegisterBoss(KarasuTengu* boss);
     void ClearBoss(KarasuTengu* boss);
+    void SetMapPrefix(const std::string& prefix) { mMapPrefix = prefix; }
 
     void StartHitStop(float duration);
 
