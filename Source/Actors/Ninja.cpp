@@ -447,6 +447,14 @@ void Ninja::Kill() {
 void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
 
+    // Coleta chave (layer reaproveitado: Mushroom)
+    if (other->GetLayer() == ColliderLayer::Mushroom) {
+        mGame->SetMapPrefix("level2");
+        mGame->SetScene(GameScene::Level1);
+        other->GetOwner()->SetState(ActorState::Destroy);
+        return;
+    }
+
     // Colisão com Inimigos
     if(other->GetLayer() == ColliderLayer::Enemy) {
         if(mIsAttacking || mIsDashing) {
@@ -467,6 +475,13 @@ void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent*
 
 void Ninja::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
+
+    if(other->GetLayer() == ColliderLayer::Mushroom){
+        mGame->SetMapPrefix("level2");
+        mGame->SetScene(GameScene::Level1);
+        other->GetOwner()->SetState(ActorState::Destroy);
+        return;
+    }
 
     if(other->GetLayer() == ColliderLayer::Blocks){
         

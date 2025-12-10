@@ -173,6 +173,7 @@ void Game::LoadScene(GameScene scene)
             break;
         case GameScene::MainMenu:
             mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
+            mMapPrefix = "level1";
             
             mBackgroundTexture = nullptr;
             new MainMenu(this, "../Assets/Fonts/Alkhemikal.ttf");

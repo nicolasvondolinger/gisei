@@ -58,6 +58,7 @@ PauseMenu::PauseMenu(class Game* game, const std::string& fontName)
     mMainMenuButton = AddButton(lang.Get("pause.menu"), [this]() {
         mGame->ResumeGame();
         Close();
+        mGame->SetMapPrefix("level1");
         mGame->SetScene(GameScene::MainMenu);
     }, mainMenuPos, 1.0f, 0.0f, 46, 900, 923);
 
