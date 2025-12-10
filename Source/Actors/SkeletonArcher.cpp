@@ -2,6 +2,8 @@
 #include "Arrow.h"
 #include "../Game.h"
 #include "../Random.h"
+#include "../Math.h"
+#include "Ninja.h"
 #include "../Components/Drawing/AnimatorComponent.h"
 #include "../Components/Physics/RigidBodyComponent.h"
 #include "../Components/Physics/AABBColliderComponent.h"
@@ -54,6 +56,13 @@ void SkeletonArcher::OnUpdate(float deltaTime)
             mDrawComponent->SetAnimation("idle");
         }
         return;
+    }
+
+    if (auto ninja = mGame->GetPlayer()) {
+        float dx = ninja->GetPosition().x - mPosition.x;
+        if (Math::Abs(dx) > 4.0f) {
+            mScale.x = (dx >= 0.0f) ? 1.0f : -1.0f;
+        }
     }
 
     mShootCooldown -= deltaTime;

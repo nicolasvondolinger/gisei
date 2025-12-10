@@ -13,6 +13,7 @@
 class Actor;
 class Renderer;
 class Ninja;
+class KarasuTengu;
 class DrawComponent;
 class AABBColliderComponent;
 class UIScreen;
@@ -71,6 +72,9 @@ public:
 
 
     Ninja* GetPlayer() const { return mNinja; }
+    KarasuTengu* GetBoss() const { return mBoss; }
+    void RegisterBoss(KarasuTengu* boss);
+    void ClearBoss(KarasuTengu* boss);
 
     void StartHitStop(float duration);
 
@@ -157,6 +161,8 @@ private:
     int mLevelDataHeight;
     class Texture* mBackgroundTexture;
     float mBackgroundScrollSpeed;
+
+    KarasuTengu* mBoss;
 
     Mix_Music* mBackgroundMusic;
     Mix_Chunk* mJumpSound;

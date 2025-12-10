@@ -1,5 +1,6 @@
 #include "KarasuTengu.h"
 #include "Ninja.h"
+#include "Key.h"
 #include "../Game.h"
 #include "../Components/Drawing/AnimatorComponent.h"
 #include "../Components/Physics/RigidBodyComponent.h"
@@ -7,7 +8,8 @@
 
 KarasuTengu::KarasuTengu(Game* game)
     : Actor(game)
-    , mHealth(10)
+    , mMaxHealth(10)
+    , mHealth(mMaxHealth)
     , mIsDying(false)
     , mIsAttacking(false)
     , mAttackHitApplied(false)
@@ -16,6 +18,7 @@ KarasuTengu::KarasuTengu(Game* game)
     , mAttackCooldown(1.2f)
     , mBaseSpeed(140.0f)
     , mAttackRange(110.0f)
+    , mName("Karasu Tengu")
 {
     mDrawComponent = new AnimatorComponent(this, 128, 128);
     mDrawComponent->AddAnimation("idle", "../Assets/Sprites/Karasu_tengu/Idle.png", 6, 6.0f, true);
@@ -30,6 +33,15 @@ KarasuTengu::KarasuTengu(Game* game)
 
     mRigidBodyComponent = new RigidBodyComponent(this, 1.0f, 3.0f, true);
     mColliderComponent = new AABBColliderComponent(this, 0, 0, 40, 64, ColliderLayer::Enemy);
+
+    mGame->RegisterBoss(this);
+}
+
+KarasuTengu::~KarasuTengu()
+{
+    if (mGame) {
+        mGame->ClearBoss(this);
+    }
 }
 
 void KarasuTengu::OnUpdate(float deltaTime)
@@ -136,6 +148,10 @@ void KarasuTengu::Kill()
     mDrawComponent->SetAnimation("dead");
     mRigidBodyComponent->SetEnabled(false);
     mColliderComponent->SetEnabled(false);
+
+    // Drop de chave ao morrer
+    Key* key = new Key(mGame);
+    key->SetPosition(mPosition + Vector2(0.0f, -20.0f));
 }
 
 void KarasuTengu::ApplyDamage(int amount)
