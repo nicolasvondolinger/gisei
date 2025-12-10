@@ -8,6 +8,7 @@ SpriteComponent::SpriteComponent(Actor* owner, int drawOrder)
     ,mTexture(nullptr)
     ,mTexWidth(0)
     ,mTexHeight(0)
+    ,mColor(1.0f, 1.0f, 1.0f) // Inicializa Branco
 {
 }
 
@@ -15,17 +16,14 @@ void SpriteComponent::Draw(Renderer* renderer)
 {
     if (mTexture)
     {
-        // CORREÇÃO: Adicionado mOwner->GetGame()->GetCameraPos() no final
-        // Sem isso, ele desenha relativo à tela (0,0), causando o bug de "mexer junto"
-        
         renderer->DrawTexture(
             mOwner->GetPosition(),
             mOwner->GetScale() * Vector2(static_cast<float>(mTexWidth), static_cast<float>(mTexHeight)),
             mOwner->GetRotation(),
-            Vector3(1.0f, 1.0f, 1.0f), 
+            mColor, 
             mTexture,
             mTexRect,
-            mOwner->GetGame()->GetCameraPos() 
+            mOwner->GetGame()->GetCameraPos()
         );
     }
 }

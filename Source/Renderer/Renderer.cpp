@@ -8,11 +8,22 @@
 #include <SDL2/SDL.h>
 
 Renderer::Renderer(SDL_Window *window)
-    : mBaseShader(nullptr), mContext(nullptr), mWindow(window), mSpriteVerts(nullptr)
-    , mOrthoProjection(Matrix4::Identity), mScreenWidth(1024.0f), mScreenHeight(768.0f) {}
+    : mBaseShader(nullptr)
+    , mContext(nullptr)
+    , mWindow(window)
+    , mSpriteVerts(nullptr)
+    , mCircleVerts(nullptr)
+    , mOrthoProjection(Matrix4::Identity)
+    , mScreenWidth(1024.0f)
+    , mScreenHeight(768.0f) {
+}
 
 Renderer::~Renderer() {
-    delete mSpriteVerts; mSpriteVerts = nullptr;
+    delete mSpriteVerts;
+    mSpriteVerts = nullptr;
+    
+    delete mCircleVerts;
+    mCircleVerts = nullptr;
 }
 
 bool Renderer::Initialize(float width, float height) {
@@ -31,12 +42,48 @@ bool Renderer::Initialize(float width, float height) {
     if (!LoadShaders()) return false;
 
     CreateSpriteVerts();
+    CreateCircleVerts();
+
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDisable(GL_DEPTH_TEST);
     UpdateViewportToWindow();
     return true;
+}
+
+void Renderer::CreateCircleVerts() {
+    const int segments = 24; // Quanto maior, mais redondo
+    const float radius = 0.5f; // Raio base (será escalado depois)
+    
+    // Array para (X, Y, Z, U, V)
+    // +1 para o centro, +1 para fechar o loop
+    std::vector<float> vertices;
+    
+    // Vértice Central (0,0)
+    vertices.push_back(0.0f); vertices.push_back(0.0f); vertices.push_back(0.0f);
+    vertices.push_back(0.5f); vertices.push_back(0.5f); // UV centro
+
+    for (int i = 0; i <= segments; i++) {
+        float angle = (static_cast<float>(i) / segments) * Math::TwoPi;
+        float x = Math::Cos(angle) * radius;
+        float y = Math::Sin(angle) * radius;
+        
+        vertices.push_back(x);
+        vertices.push_back(y);
+        vertices.push_back(0.0f);
+        vertices.push_back(0.0f); vertices.push_back(0.0f); // UV (não usado pra cor solida)
+    }
+
+    // Índices (Fan de Triângulos)
+    std::vector<unsigned int> indices;
+    for (int i = 1; i <= segments; i++) {
+        indices.push_back(0);     // Centro
+        indices.push_back(i);     // Atual
+        indices.push_back(i + 1); // Próximo
+    }
+
+    mCircleVerts = new VertexArray(vertices.data(), vertices.size() / 5, indices.data(), indices.size());
 }
 
 void Renderer::AddUIElement(UIElement *comp) {
@@ -189,58 +236,30 @@ void Renderer::DrawFade(float alpha) {
     mBaseShader->SetIntegerUniform("uIsUI", 0);
 }
 
-void Renderer::DrawDarkOverlay(float alpha) {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    mBaseShader->SetActive();
-    mSpriteVerts->SetActive();
-    
-    mBaseShader->SetIntegerUniform("uIsUI", 1);
-
-    Matrix4 scaleMat = Matrix4::CreateScale(Vector3(mScreenWidth, mScreenHeight, 1.0f));
-    Matrix4 transMat = Matrix4::CreateTranslation(Vector3(mScreenWidth / 2.0f, mScreenHeight / 2.0f, 0.0f));
-    Matrix4 world = scaleMat * transMat;
-
-    mBaseShader->SetMatrixUniform("uWorldTransform", world);
-    mBaseShader->SetFloatUniform("uTextureFactor", 0.0f);
-    mBaseShader->SetVectorUniform("uBaseColor", Vector4(0.0f, 0.0f, 0.0f, alpha));
-    mBaseShader->SetVectorUniform("uCameraPos", Vector2::Zero);
-
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-    
-    mBaseShader->SetIntegerUniform("uIsUI", 0);
-}
-
 void Renderer::SetView(float width, float height) {
     mOrthoProjection = Matrix4::CreateOrtho(0.0f, width, height, 0.0f, -1.0f, 1.0f);
     mBaseShader->SetActive();
     mBaseShader->SetMatrixUniform("uOrthoProj", mOrthoProjection);
 }
 
-void Renderer::DrawHitStopOverlay(float alpha) {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+void Renderer::DrawSolidCircle(const Vector2& pos, float radius, const Vector3& color, const Vector2& cameraPos) {
+    // Calcula escala (raio * 2 porque o mesh base tem tamanho 0.5 de raio)
+    float scale = radius * 2.0f;
+    Matrix4 model = Matrix4::CreateScale(Vector3(scale, scale, 1.0f)) *
+                    Matrix4::CreateTranslation(Vector3(pos.x, pos.y, 0.0f));
 
-    mBaseShader->SetActive();
-    mSpriteVerts->SetActive();
+    // Usa alpha 0.4f para parecer luz translúcida
+    Vector4 colorWithAlpha(color.x, color.y, color.z, 0.4f);
 
-    // 1. ATIVA MODO UI (Ignora Câmera e Zoom, cobre 100% da janela)
-    mBaseShader->SetIntegerUniform("uIsUI", 1);
+    // Reutiliza o método Draw genérico
+    // Passamos mCircleVerts e textureFactor 0.0 (cor sólida)
+    mBaseShader->SetMatrixUniform("uWorldTransform", model);
+    mBaseShader->SetVectorUniform("uBaseColor", colorWithAlpha);
+    mBaseShader->SetVectorUniform("uTexRect", Vector4::UnitRect);
+    mBaseShader->SetVectorUniform("uCameraPos", cameraPos);
 
-    // 2. Cria matriz para cobrir a tela inteira (1024x768)
-    Matrix4 scaleMat = Matrix4::CreateScale(Vector3(mScreenWidth, mScreenHeight, 1.0f));
-    Matrix4 transMat = Matrix4::CreateTranslation(Vector3(mScreenWidth / 2.0f, mScreenHeight / 2.0f, 0.0f));
-    Matrix4 world = scaleMat * transMat;
+    mCircleVerts->SetActive(); // Ativa a geometria do círculo
+    mBaseShader->SetFloatUniform("uTextureFactor", 0.0f); // Desativa textura
 
-    mBaseShader->SetMatrixUniform("uWorldTransform", world);
-    
-    // 3. Define cor preta com transparência
-    mBaseShader->SetFloatUniform("uTextureFactor", 0.0f);
-    mBaseShader->SetVectorUniform("uBaseColor", Vector4(0.0f, 0.0f, 0.0f, alpha));
-    mBaseShader->SetVectorUniform("uCameraPos", Vector2::Zero);
-
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-    
-    // 4. DESATIVA MODO UI (CRUCIAL para o Ninja ser desenhado depois)
-    mBaseShader->SetIntegerUniform("uIsUI", 0);
+    glDrawElements(GL_TRIANGLES, mCircleVerts->GetNumIndices(), GL_UNSIGNED_INT, nullptr);
 }

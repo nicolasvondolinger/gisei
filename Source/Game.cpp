@@ -668,6 +668,7 @@ void Game::GenerateOutput()
 
     float zoomFactor = 2.0f; 
 
+    // 1. Configura Zoom da Câmera
     if (mCurrentScene == GameScene::Level1) {
         mRenderer->SetView(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
     } else {
@@ -677,6 +678,7 @@ void Game::GenerateOutput()
     mRenderer->GetBaseShader()->SetActive();
     mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
 
+    // 2. Desenha Cenário (Fundo)
     if(mBackgroundTexture){
          Vector2 quadPos = mCameraPos + Vector2(WINDOW_WIDTH / (2.0f * zoomFactor), WINDOW_HEIGHT / (2.0f * zoomFactor));
          Vector2 quadSize(WINDOW_WIDTH / zoomFactor, WINDOW_HEIGHT / zoomFactor);
@@ -690,6 +692,24 @@ void Game::GenerateOutput()
          mRenderer->DrawTexture(quadPos, quadSize, 0.0f, Vector3::One, mBackgroundTexture, texRect, mCameraPos);
     }
 
+    if (mIsHitStop && mNinja) {
+        // A. Ativa mistura Aditiva (Cores se somam, criando branco/brilho)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+
+        // B. Aumenta a escala temporariamente para criar a borda
+        Vector2 originalScale = mNinja->GetScale();
+        mNinja->SetScale(originalScale * 1.2f); // 20% maior que o original
+        
+        // C. Desenha a Aura
+        // O Additive Blending vai fazer a textura do Ninja brilhar contra o fundo
+        mNinja->GetDrawComponent()->Draw(mRenderer);
+
+        // D. Restaura o estado original imediatamente
+        mNinja->SetScale(originalScale);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Volta ao normal
+    }
+
+    // 4. Desenha Atores, Parallax e Inimigos
     for (auto actor : mActors) {
         auto parallax = actor->GetComponent<ParallaxComponent>();
         if (parallax && parallax->IsEnabled()) parallax->Draw(mRenderer);
@@ -706,23 +726,12 @@ void Game::GenerateOutput()
         auto smoke = actor->GetComponent<DashSmokeComponent>();
         if (smoke && smoke->IsEnabled()) smoke->Draw(mRenderer);
     }
-
     
-    if (mIsHitStop) {
-        mRenderer->DrawHitStopOverlay(0.5f);
-        
-        if (mNinja) {
-            mRenderer->GetBaseShader()->SetActive();
-            mRenderer->GetBaseShader()->SetVectorUniform("uBaseColor", Vector4(1.0f, 1.0f, 1.0f, 1.0f));
-            mRenderer->GetBaseShader()->SetIntegerUniform("uIsUI", 0);
-
-            mNinja->GetDrawComponent()->Draw(mRenderer);
-        }
-    }
-    
+    // 5. Configura UI e Desenha
     mRenderer->SetView(WINDOW_WIDTH, WINDOW_HEIGHT);
     mRenderer->Draw(); 
     
+    // 6. Fade de Transição de Fase
     DrawFade();
     
     mRenderer->Present();

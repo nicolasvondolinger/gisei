@@ -14,6 +14,35 @@
 #include "SkeletonSpearman.h"
 #include "SkeletonArcher.h"
 
+class EnergyLance : public Actor {
+public:
+    EnergyLance(Game* game, Vector2 pos, float dir) : Actor(game) {
+        // CORREÇÃO: Tamanho Quadrado (64x64) para manter proporção do frame 32x32 (escala 2x)
+        // Se quiser o tamanho original exato, coloque 32, 32.
+        auto* anim = new AnimatorComponent(this, 64, 64);
+        
+        // CORREÇÃO: 8 Frames conforme sua imagem
+        anim->AddAnimation("cast", "../Assets/Sprites/Magic/3.png", 8, 24.0f, false);
+        anim->SetAnimation("cast");
+
+        // CORREÇÃO: Posição mais próxima
+        // 40.0f coloca logo a frente do Ninja (antes era 80.0f)
+        SetPosition(pos + Vector2(dir * 40.0f, 0.0f));
+        mScale.x = dir;
+
+        mLifeTime = 0.33f; // Sincronizado com o tempo de ataque
+    }
+
+    void OnUpdate(float deltaTime) override {
+        mLifeTime -= deltaTime;
+        if (mLifeTime <= 0.0f) {
+            SetState(ActorState::Destroy);
+        }
+    }
+private:
+    float mLifeTime;
+};
+
 Ninja::Ninja(Game *game, const float accelerationForce, const float jumpSpeed)
     : Actor(game)
       , mIsRunning(false)
@@ -162,11 +191,13 @@ void Ninja::OnProcessInput(const uint8_t* state) {
         }
 
         // ATAQUE (J)
-        if(state[SDL_SCANCODE_J] && mIsOnGround && !mIsAttacking) {
+        if(state[SDL_SCANCODE_J] && !mIsAttacking) {
             mIsAttacking = true;
             mAttackTimer = 0.33f;
             mRigidBodyComponent->SetVelocity(Vector2::Zero);
             mHitEnemiesThisAttack.clear();
+
+            new EnergyLance(GetGame(), mPosition, mScale.x);
         }
 
         // DASH (K)
@@ -343,11 +374,11 @@ void Ninja::OnUpdate(float deltaTime) {
     ManageAnimations();
 }
 
-void Ninja::TakeDamage() {
+void Ninja::TakeDamage(const Vector2& damageSource) {
     if (mIsDead || mIsInvincible) return;
 
     mHealth--;
-    mGame->StartHitStop(0.3f);
+    mGame->StartHitStop(0.15f); 
     
     if (mHealth <= 0) {
         Kill();
@@ -357,8 +388,9 @@ void Ninja::TakeDamage() {
         mGame->PlaySound(mGame->GetBumpSound());
         mDrawComponent->SetAnimation("hurt");
 
-        float knockbackDir = (mScale.x > 0.0f) ? -1.0f : 1.0f;
+        float knockbackDir = (mPosition.x - damageSource.x) > 0.0f ? 1.0f : -1.0f;
 
+        // Aplica força (X = Direção calculada, Y = Pulo para cima)
         Vector2 knockbackForce(knockbackDir * 800.0f, -400.0f);
         
         mRigidBodyComponent->SetVelocity(knockbackForce);
@@ -415,35 +447,19 @@ void Ninja::Kill() {
 void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
 
-    if (other->GetLayer() == ColliderLayer::Mushroom) {
-        other->GetOwner()->SetState(ActorState::Destroy);
-        return;
-    }
-
+    // Colisão com Inimigos
     if(other->GetLayer() == ColliderLayer::Enemy) {
         if(mIsAttacking || mIsDashing) {
+            // Nota: O ideal seria chamar ApplyDamage aqui ao invés de Kill direto
             other->GetOwner()->Kill();
-        } else if(!mIsInvincible) {
-            
-            // Verifica se está usando o escudo (em qualquer uma das 3 fases)
-            bool isShielding = (mActionState == ActionState::ShieldStart || 
-                                mActionState == ActionState::ShieldHolding || 
-                                mActionState == ActionState::ShieldEnd);
-
-            // Só toma dano se NÃO estiver invencível e NÃO estiver com escudo
-            if (!isShielding) {
-                TakeDamage(); 
-            }
-        }
-    } else if (other->GetLayer() == ColliderLayer::Blocks) {
-        // Tenta converter o ator para um Bloco
+        } 
+    } 
+    // Colisão com Espinhos (Mantida)
+    else if (other->GetLayer() == ColliderLayer::Blocks) {
         Block* block = dynamic_cast<Block*>(other->GetOwner());
-        
-        // Se for um bloco E for do tipo Thorns (Espinho)
         if (block && block->GetType() == EBlockType::Thorns) {
-            // Se estiver invencível ou defendendo, ignora (ou toma dano se defesa não proteger de espinho)
             if (!mIsInvincible) {
-                 TakeDamage();
+                 TakeDamage(block->GetPosition());
             }
         }
     }
@@ -452,37 +468,15 @@ void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent*
 void Ninja::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
 
-    if(other->GetLayer() == ColliderLayer::Mushroom){
-        other->GetOwner()->SetState(ActorState::Destroy);
-        return;
-    }
-
-    if(other->GetLayer() == ColliderLayer::Enemy){
-        float velocityY = mRigidBodyComponent->GetVelocity().y;
-        bool isShielding = (mActionState == ActionState::ShieldStart || 
-                            mActionState == ActionState::ShieldHolding || 
-                            mActionState == ActionState::ShieldEnd);
-
-        if(!mIsInvincible && !isShielding) {
-            TakeDamage();
-        }
-
-        // Pequeno ressalto para separar o jogador do inimigo
-        if (velocityY > 0.0f) {
-            Vector2 vel = mRigidBodyComponent->GetVelocity();
-            vel.y = -200.0f;
-            mRigidBodyComponent->SetVelocity(vel);
-        }
-    } else if(other->GetLayer() == ColliderLayer::Blocks){
+    if(other->GetLayer() == ColliderLayer::Blocks){
         
         Block* block = dynamic_cast<Block*>(other->GetOwner());
         if (block && block->GetType() == EBlockType::Thorns) {
-            if (!mIsInvincible) {
-                 TakeDamage();
-            }
+            if (!mIsInvincible) TakeDamage(block->GetPosition());
             return; 
         }
 
+        // Lógica de pisar no chão
         if (mRigidBodyComponent->GetVelocity().y < 0.0f) {
             Vector2 vel = mRigidBodyComponent->GetVelocity();
             vel.y = 0.0f;
@@ -524,10 +518,13 @@ void Ninja::StageClear() {
 
 void Ninja::CheckAttackHit()
 {
-    // Simple sword hitbox in front of the ninja while attacking
-    const float halfW = 18.0f;
-    const float halfH = 25.0f;
-    Vector2 center = mPosition + Vector2(mScale.x * (halfW + 10.0f), -5.0f);
+    // --- HITBOX AJUSTADA ---
+    // halfW = 45.0f (Total 90 de largura) -> Maior que a espada normal (60), mas menor que antes (140)
+    const float halfW = 45.0f;
+    const float halfH = 30.0f; 
+
+    // Centro ajustado para frente (50.0f) para alinhar com a nova animação
+    Vector2 center = mPosition + Vector2(mScale.x * 50.0f, -5.0f);
 
     Vector2 atkMin(center.x - halfW, center.y - halfH);
     Vector2 atkMax(center.x + halfW, center.y + halfH);

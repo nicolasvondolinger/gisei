@@ -9,10 +9,15 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/nicolasvondolinger/codes/gisei/Source/Actors/Actor.cpp" "CMakeFiles/gisei.dir/Source/Actors/Actor.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/Actor.cpp.o.d"
+  "/home/nicolasvondolinger/codes/gisei/Source/Actors/Arrow.cpp" "CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o.d"
   "/home/nicolasvondolinger/codes/gisei/Source/Actors/Block.cpp" "CMakeFiles/gisei.dir/Source/Actors/Block.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/Block.cpp.o.d"
   "/home/nicolasvondolinger/codes/gisei/Source/Actors/Dart.cpp" "CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o.d"
+  "/home/nicolasvondolinger/codes/gisei/Source/Actors/KarasuTengu.cpp" "CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o.d"
   "/home/nicolasvondolinger/codes/gisei/Source/Actors/Ninja.cpp" "CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o.d"
   "/home/nicolasvondolinger/codes/gisei/Source/Actors/ParallaxBackground.cpp" "CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o.d"
+  "/home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonArcher.cpp" "CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o.d"
+  "/home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonSpearman.cpp" "CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o.d"
+  "/home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonWarrior.cpp" "CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o.d"
   "/home/nicolasvondolinger/codes/gisei/Source/Actors/Spawner.cpp" "CMakeFiles/gisei.dir/Source/Actors/Spawner.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/Spawner.cpp.o.d"
   "/home/nicolasvondolinger/codes/gisei/Source/Actors/Yokai.cpp" "CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Actors/Yokai.cpp.o.d"
   "/home/nicolasvondolinger/codes/gisei/Source/Components/Component.cpp" "CMakeFiles/gisei.dir/Source/Components/Component.cpp.o" "gcc" "CMakeFiles/gisei.dir/Source/Components/Component.cpp.o.d"

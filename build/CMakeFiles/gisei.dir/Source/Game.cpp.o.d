@@ -487,6 +487,10 @@ CMakeFiles/gisei.dir/Source/Game.cpp.o: \
  /usr/local/include/SDL2/SDL.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/Spawner.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/Ninja.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonWarrior.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonSpearman.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonArcher.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/KarasuTengu.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/ParallaxBackground.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/UIScreen.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../UIText.h \

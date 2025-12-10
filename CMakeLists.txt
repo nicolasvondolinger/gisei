@@ -87,6 +87,10 @@ add_executable(${PROJECT_NAME}
         Source/Components/Drawing/ParallaxComponent.cpp
         Source/Components/Drawing/DashAfterimageComponent.cpp
         Source/Actors/Ninja.cpp
+        Source/Actors/KarasuTengu.cpp
+        Source/Actors/SkeletonWarrior.cpp
+        Source/Actors/SkeletonSpearman.cpp
+        Source/Actors/SkeletonArcher.cpp
         Source/Actors/Dart.cpp
         Source/Components/Drawing/DashSmokeComponent.cpp
         Source/Actors/SkeletonWarrior.cpp
