@@ -484,4 +484,5 @@ CMakeFiles/gisei.dir/Source/UI/Screens/HUD.cpp.o: \
  /usr/local/include/SDL2/SDL_stdinc.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../LanguageManager.h \
  /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../Actors/Ninja.h \
- /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../Actors/Actor.h
+ /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../Actors/Actor.h \
+ /home/nicolasvondolinger/codes/gisei/Source/UI/Screens/../../Actors/KarasuTengu.h
