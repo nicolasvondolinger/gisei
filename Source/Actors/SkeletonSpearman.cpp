@@ -15,9 +15,11 @@ SkeletonSpearman::SkeletonSpearman(Game* game, float forwardSpeed)
     , mBaseSpeed(forwardSpeed)
     , mHealth(5)
     , mForwardSpeed(forwardSpeed)
+    , mAttackHitApplied(false) // Inicializa falso
 {
     mDrawComponent = new AnimatorComponent(this, 128, 128);
     mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Skeleton_Spearman/Walk.png", 7, 6.0f, true);
+    // Ataque tem 4 frames
     mDrawComponent->AddAnimation("attack", "../Assets/Sprites/Skeleton_Spearman/Attack_1.png", 4, 10.0f, true);
     mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Skeleton_Spearman/Dead.png", 5, 8.0f, false);
     mDrawComponent->AddAnimation("hurt", "../Assets/Sprites/Skeleton_Spearman/Hurt.png", 3, 12.0f, false);
@@ -82,10 +84,29 @@ void SkeletonSpearman::OnUpdate(float deltaTime)
                 mForwardSpeed = mBaseSpeed;
             }
 
+            // --- LÓGICA DE ATAQUE ---
             if (mIsAggro && std::abs(dx) <= attackRange) {
-                mDrawComponent->SetAnimation("attack");
+                if (mDrawComponent->GetCurrentAnimation() != "attack") {
+                    mDrawComponent->SetAnimation("attack");
+                    mAttackHitApplied = false;
+                }
+                
+                // Verifica frame 2 (lança esticada)
+                int currentFrame = mDrawComponent->GetCurrentFrame();
+                if (currentFrame == 2 && !mAttackHitApplied) {
+                    mAttackHitApplied = true;
+                    // Passa posição para Knockback correto
+                    mGame->GetPlayer()->TakeDamage(mPosition);
+                }
+                
+                // Reseta no loop (frame 0)
+                if (currentFrame == 0) {
+                    mAttackHitApplied = false;
+                }
+
             } else if (mHurtTimer <= 0.0f) {
                 mDrawComponent->SetAnimation("walk");
+                mAttackHitApplied = false;
             }
         }
 
@@ -105,9 +126,8 @@ void SkeletonSpearman::OnHorizontalCollision(const float minOverlap, AABBCollide
     ColliderLayer otherLayer = other->GetLayer();
 
     if (otherLayer == ColliderLayer::Player) {
-        if (auto ninja = dynamic_cast<Ninja*>(other->GetOwner())) {
-            ninja->TakeDamage();
-        }
+        // --- REMOVIDO: TakeDamage() por contato ---
+        // O jogador só toma dano se for acertado pela lança (OnUpdate)
     } else if (otherLayer == ColliderLayer::Blocks || otherLayer == ColliderLayer::Enemy) {
         mForwardSpeed *= -1;
         mScale.x *= -1;
@@ -116,6 +136,7 @@ void SkeletonSpearman::OnHorizontalCollision(const float minOverlap, AABBCollide
 
 void SkeletonSpearman::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other)
 {
+    // Vazio
 }
 
 void SkeletonSpearman::ApplyDamage(int amount)

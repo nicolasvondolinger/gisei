@@ -56,15 +56,21 @@ void KarasuTengu::OnUpdate(float deltaTime)
         mAttackTimer -= deltaTime;
         mRigidBodyComponent->SetVelocity(Vector2::Zero);
 
-        // Apply hit once during attack window
+        // Aplica o dano UMA VEZ durante o ataque
         if (!mAttackHitApplied) {
             if (auto ninja = mGame->GetPlayer()) {
                 Vector2 pos = mPosition;
                 Vector2 target = ninja->GetPosition();
+                // Verifica hitbox simples do ataque
                 if (Math::Abs(pos.x - target.x) <= mAttackRange &&
                     Math::Abs(pos.y - target.y) <= 80.0f) {
+                    
                     mAttackHitApplied = true;
-                    ninja->TakeDamage();
+                    
+                    // --- CORREÇÃO AQUI ---
+                    // Passamos a posição do Tengu (mPosition) como origem do dano
+                    // para calcular o knockback corretamente.
+                    ninja->TakeDamage(mPosition); 
                 }
             }
         }
@@ -75,7 +81,7 @@ void KarasuTengu::OnUpdate(float deltaTime)
         return;
     }
 
-    // Default behavior: chase player on ground
+    // Comportamento padrão: perseguir jogador
     Vector2 velocity = mRigidBodyComponent->GetVelocity();
     velocity.x = 0.0f;
 
@@ -109,7 +115,6 @@ void KarasuTengu::EnterAttack()
     mAttackTimer = 0.6f;
     mAttackCooldown = 1.5f;
 
-    // Alternate attacks for variety
     static int attackIndex = 0;
     const char* attackNames[] = { "attack1", "attack2", "attack3" };
     mDrawComponent->SetAnimation(attackNames[attackIndex % 3]);
@@ -152,12 +157,8 @@ void KarasuTengu::OnHorizontalCollision(const float minOverlap, AABBColliderComp
 {
     if (mIsDying) return;
 
-    if (other->GetLayer() == ColliderLayer::Player) {
-        if (auto ninja = dynamic_cast<Ninja*>(other->GetOwner())) {
-            ninja->TakeDamage();
-        }
-    } else if (other->GetLayer() == ColliderLayer::Blocks) {
-        // simple bounce
+    if (other->GetLayer() == ColliderLayer::Blocks) {
+        // bate e volta na parede
         mScale.x *= -1.0f;
         mBaseSpeed *= -1.0f;
     }
@@ -167,9 +168,4 @@ void KarasuTengu::OnVerticalCollision(const float minOverlap, AABBColliderCompon
 {
     if (mIsDying) return;
 
-    if (other->GetLayer() == ColliderLayer::Player) {
-        if (auto ninja = dynamic_cast<Ninja*>(other->GetOwner())) {
-            ninja->TakeDamage();
-        }
-    }
 }

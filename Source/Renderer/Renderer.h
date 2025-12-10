@@ -54,10 +54,10 @@ public:
     void UpdateViewportToWindow();
     
     void DrawFade(float alpha);
-    void DrawDarkOverlay(float alpha);
-    void DrawHitStopOverlay(float alpha);
     void SetView(float width, float height);
 
+    void DrawSolidCircle(const Vector2& pos, float radius, const Vector3& color, const Vector2& cameraPos);
+    
 private:
     void Draw(RendererMode mode, const Matrix4 &modelMatrix, const Vector2 &cameraPos, VertexArray *vertices,
               const Vector3 &color, Texture *texture = nullptr, const Vector4 &textureRect = Vector4::UnitRect,
@@ -81,4 +81,7 @@ private:
 
     float mScreenWidth;
     float mScreenHeight;
+
+    void CreateCircleVerts();
+    class VertexArray* mCircleVerts;
 };

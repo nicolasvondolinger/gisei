@@ -1,6 +1,9 @@
 #pragma once
 #include "Actor.h"
 
+// Forward declaration da classe local (ou use DrawComponent genérico)
+class AuraComponent; 
+
 class Arrow : public Actor
 {
 public:
@@ -19,4 +22,8 @@ private:
     class RigidBodyComponent* mRigidBodyComponent;
     class AABBColliderComponent* mColliderComponent;
     class AnimatorComponent* mDrawComponent;
+
+    // Mudamos de SpriteComponent para nossa classe customizada ou DrawComponent genérico
+    class AuraComponent* mAura; 
+    class SpriteComponent* mAuraSprite; // (Mantido apenas se quiser compatibilidade, mas não usado)
 };
