@@ -13,7 +13,9 @@
 class Actor;
 class Renderer;
 class Ninja;
+class BossEnemy;
 class KarasuTengu;
+class YamabushiTengu;
 class DrawComponent;
 class AABBColliderComponent;
 class UIScreen;
@@ -72,9 +74,9 @@ public:
 
 
     Ninja* GetPlayer() const { return mNinja; }
-    KarasuTengu* GetBoss() const { return mBoss; }
-    void RegisterBoss(KarasuTengu* boss);
-    void ClearBoss(KarasuTengu* boss);
+    BossEnemy* GetBoss() const { return mBoss; }
+    void RegisterBoss(BossEnemy* boss);
+    void ClearBoss(BossEnemy* boss);
     void SetMapPrefix(const std::string& prefix) { mMapPrefix = prefix; }
 
     void StartHitStop(float duration);
@@ -163,7 +165,7 @@ private:
     class Texture* mBackgroundTexture;
     float mBackgroundScrollSpeed;
 
-    KarasuTengu* mBoss;
+    BossEnemy* mBoss;
 
     Mix_Music* mBackgroundMusic;
     Mix_Chunk* mJumpSound;

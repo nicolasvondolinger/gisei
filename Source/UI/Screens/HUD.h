@@ -3,13 +3,13 @@
 #include "UIScreen.h"
 #include "../UIRect.h"
 
-class KarasuTengu;
+class BossEnemy;
 
 class HUD : public UIScreen {
 public:
     HUD(class Game *game, const std::string &fontName);
 
-    void UpdateHUD(class Ninja* ninja, class KarasuTengu* boss);
+    void UpdateHUD(class Ninja* ninja, class BossEnemy* boss);
 
 private:
     UIRect* mHealthBarBG;

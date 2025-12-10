@@ -1,7 +1,7 @@
 #include "HUD.h"
 #include "../../Game.h"
 #include "../../Actors/Ninja.h"
-#include "../../Actors/KarasuTengu.h"
+#include "../../Actors/BossEnemy.h"
 #include <algorithm>
 
 HUD::HUD(class Game* game, const std::string& fontName)
@@ -53,7 +53,7 @@ HUD::HUD(class Game* game, const std::string& fontName)
     mBossNameText->SetIsVisible(false);
 }
 
-void HUD::UpdateHUD(Ninja* ninja, KarasuTengu* boss) {
+void HUD::UpdateHUD(Ninja* ninja, BossEnemy* boss) {
     if (!ninja) return;
 
     // ---------------- VIDA ----------------

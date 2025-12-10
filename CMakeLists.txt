@@ -83,6 +83,7 @@ add_executable(${PROJECT_NAME}
         Source/Renderer/Font.cpp
         Source/Actors/Yokai.cpp
         Source/UI/Screens/SettingsMenu.cpp
+        Source/UI/Screens/YouWin.cpp
         Source/Actors/ParallaxBackground.cpp
         Source/Components/Drawing/ParallaxComponent.cpp
         Source/Components/Drawing/DashAfterimageComponent.cpp
@@ -103,6 +104,9 @@ add_executable(${PROJECT_NAME}
         Source/Actors/Arrow.h
         Source/Actors/KarasuTengu.cpp
         Source/Actors/KarasuTengu.h
+        Source/Actors/YamabushiTengu.cpp
+        Source/Actors/YamabushiTengu.h
+        Source/Actors/BossEnemy.h
         Source/Actors/Key.cpp
         Source/Actors/Key.h
 )
