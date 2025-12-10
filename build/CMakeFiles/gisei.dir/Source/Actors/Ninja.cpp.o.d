@@ -479,4 +479,8 @@ CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o: \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/../Components/Drawing/../Component.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/../Components/Drawing/DashAfterimageComponent.h \
  /home/nicolasvondolinger/codes/gisei/Source/Actors/../Components/Physics/RigidBodyComponent.h \
- /home/nicolasvondolinger/codes/gisei/Source/Actors/../Components/Physics/AABBColliderComponent.h
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/../Components/Physics/AABBColliderComponent.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonWarrior.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonSpearman.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonArcher.h \
+ /home/nicolasvondolinger/codes/gisei/Source/Actors/KarasuTengu.h

@@ -629,10 +629,66 @@ CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/Actors/Ninja.cpp -o CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.s
 
+CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o: CMakeFiles/gisei.dir/flags.make
+CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/KarasuTengu.cpp
+CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/KarasuTengu.cpp
+
+CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolasvondolinger/codes/gisei/Source/Actors/KarasuTengu.cpp > CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.i
+
+CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/Actors/KarasuTengu.cpp -o CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.s
+
+CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o: CMakeFiles/gisei.dir/flags.make
+CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonWarrior.cpp
+CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonWarrior.cpp
+
+CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonWarrior.cpp > CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.i
+
+CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonWarrior.cpp -o CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.s
+
+CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o: CMakeFiles/gisei.dir/flags.make
+CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonSpearman.cpp
+CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonSpearman.cpp
+
+CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonSpearman.cpp > CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.i
+
+CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonSpearman.cpp -o CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.s
+
+CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o: CMakeFiles/gisei.dir/flags.make
+CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonArcher.cpp
+CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonArcher.cpp
+
+CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonArcher.cpp > CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.i
+
+CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/Actors/SkeletonArcher.cpp -o CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.s
+
 CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/Dart.cpp
 CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/Dart.cpp
 
 CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.i: cmake_force
@@ -646,7 +702,7 @@ CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.s: cmake_force
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o: CMakeFiles/gisei.dir/flags.make
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/DashSmokeComponent.cpp
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o -MF CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o.d -o CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/DashSmokeComponent.cpp
 
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.i: cmake_force
@@ -656,6 +712,20 @@ CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.i: cmake_f
 CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/Components/Drawing/DashSmokeComponent.cpp -o CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.s
+
+CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o: CMakeFiles/gisei.dir/flags.make
+CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o: /home/nicolasvondolinger/codes/gisei/Source/Actors/Arrow.cpp
+CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o: CMakeFiles/gisei.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o -MF CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o.d -o CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o -c /home/nicolasvondolinger/codes/gisei/Source/Actors/Arrow.cpp
+
+CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/nicolasvondolinger/codes/gisei/Source/Actors/Arrow.cpp > CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.i
+
+CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/nicolasvondolinger/codes/gisei/Source/Actors/Arrow.cpp -o CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.s
 
 # Object files for target gisei
 gisei_OBJECTS = \
@@ -699,8 +769,13 @@ gisei_OBJECTS = \
 "CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o" \
 "CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o" \
 "CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o" \
+"CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o" \
+"CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o" \
+"CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o" \
+"CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o" \
 "CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o" \
-"CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o"
+"CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o" \
+"CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o"
 
 # External object files for target gisei
 gisei_EXTERNAL_OBJECTS =
@@ -745,10 +820,16 @@ gisei: CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/Components/Drawing/ParallaxComponent.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/Components/Drawing/DashAfterimageComponent.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/Actors/Ninja.cpp.o
+gisei: CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o
+gisei: CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o
+gisei: CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o
+gisei: CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.o
 gisei: CMakeFiles/gisei.dir/Source/Components/Drawing/DashSmokeComponent.cpp.o
+gisei: CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o
 gisei: CMakeFiles/gisei.dir/build.make
 gisei: /usr/lib/x86_64-linux-gnu/libGLEW.so
+gisei: /usr/local/lib/libSDL2main.a
 gisei: /usr/local/lib/libSDL2-2.0.so.0.3200.2
 gisei: /usr/lib/x86_64-linux-gnu/libSDL2_image.so
 gisei: /usr/lib/x86_64-linux-gnu/libSDL2_mixer.so
@@ -756,7 +837,7 @@ gisei: /usr/lib/x86_64-linux-gnu/libSDL2_ttf.so
 gisei: /usr/lib/x86_64-linux-gnu/libGLX.so
 gisei: /usr/lib/x86_64-linux-gnu/libOpenGL.so
 gisei: CMakeFiles/gisei.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Linking CXX executable gisei"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/nicolasvondolinger/codes/gisei/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Linking CXX executable gisei"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/gisei.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -107,6 +107,8 @@ public:
     static constexpr float SPAWN_DISTANCE = 500.0f;
     static constexpr int FPS = 60;
 
+    Uint32 GetTicksCount() const { return mTicksCount; }
+
 private:
     void ProcessInput();
     void UpdateGame(float deltaTime);

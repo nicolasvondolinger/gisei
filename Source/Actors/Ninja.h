@@ -41,7 +41,7 @@ public:
 
     class AnimatorComponent* GetDrawComponent() { return mDrawComponent; }
 
-    void TakeDamage();
+    void TakeDamage(const Vector2& damageSource);
     void StageClear();
     void CheckAttackHit();
     

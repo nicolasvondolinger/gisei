@@ -153,6 +153,30 @@ Source/Actors/Actor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Actor.cpp.s
 .PHONY : Source/Actors/Actor.cpp.s
 
+Source/Actors/Arrow.o: Source/Actors/Arrow.cpp.o
+.PHONY : Source/Actors/Arrow.o
+
+# target to build an object file
+Source/Actors/Arrow.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.o
+.PHONY : Source/Actors/Arrow.cpp.o
+
+Source/Actors/Arrow.i: Source/Actors/Arrow.cpp.i
+.PHONY : Source/Actors/Arrow.i
+
+# target to preprocess a source file
+Source/Actors/Arrow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.i
+.PHONY : Source/Actors/Arrow.cpp.i
+
+Source/Actors/Arrow.s: Source/Actors/Arrow.cpp.s
+.PHONY : Source/Actors/Arrow.s
+
+# target to generate assembly for a file
+Source/Actors/Arrow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Arrow.cpp.s
+.PHONY : Source/Actors/Arrow.cpp.s
+
 Source/Actors/Block.o: Source/Actors/Block.cpp.o
 .PHONY : Source/Actors/Block.o
 
@@ -201,6 +225,30 @@ Source/Actors/Dart.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/Dart.cpp.s
 .PHONY : Source/Actors/Dart.cpp.s
 
+Source/Actors/KarasuTengu.o: Source/Actors/KarasuTengu.cpp.o
+.PHONY : Source/Actors/KarasuTengu.o
+
+# target to build an object file
+Source/Actors/KarasuTengu.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.o
+.PHONY : Source/Actors/KarasuTengu.cpp.o
+
+Source/Actors/KarasuTengu.i: Source/Actors/KarasuTengu.cpp.i
+.PHONY : Source/Actors/KarasuTengu.i
+
+# target to preprocess a source file
+Source/Actors/KarasuTengu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.i
+.PHONY : Source/Actors/KarasuTengu.cpp.i
+
+Source/Actors/KarasuTengu.s: Source/Actors/KarasuTengu.cpp.s
+.PHONY : Source/Actors/KarasuTengu.s
+
+# target to generate assembly for a file
+Source/Actors/KarasuTengu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/KarasuTengu.cpp.s
+.PHONY : Source/Actors/KarasuTengu.cpp.s
+
 Source/Actors/Ninja.o: Source/Actors/Ninja.cpp.o
 .PHONY : Source/Actors/Ninja.o
 
@@ -248,6 +296,78 @@ Source/Actors/ParallaxBackground.s: Source/Actors/ParallaxBackground.cpp.s
 Source/Actors/ParallaxBackground.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/ParallaxBackground.cpp.s
 .PHONY : Source/Actors/ParallaxBackground.cpp.s
+
+Source/Actors/SkeletonArcher.o: Source/Actors/SkeletonArcher.cpp.o
+.PHONY : Source/Actors/SkeletonArcher.o
+
+# target to build an object file
+Source/Actors/SkeletonArcher.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.o
+.PHONY : Source/Actors/SkeletonArcher.cpp.o
+
+Source/Actors/SkeletonArcher.i: Source/Actors/SkeletonArcher.cpp.i
+.PHONY : Source/Actors/SkeletonArcher.i
+
+# target to preprocess a source file
+Source/Actors/SkeletonArcher.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.i
+.PHONY : Source/Actors/SkeletonArcher.cpp.i
+
+Source/Actors/SkeletonArcher.s: Source/Actors/SkeletonArcher.cpp.s
+.PHONY : Source/Actors/SkeletonArcher.s
+
+# target to generate assembly for a file
+Source/Actors/SkeletonArcher.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/SkeletonArcher.cpp.s
+.PHONY : Source/Actors/SkeletonArcher.cpp.s
+
+Source/Actors/SkeletonSpearman.o: Source/Actors/SkeletonSpearman.cpp.o
+.PHONY : Source/Actors/SkeletonSpearman.o
+
+# target to build an object file
+Source/Actors/SkeletonSpearman.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.o
+.PHONY : Source/Actors/SkeletonSpearman.cpp.o
+
+Source/Actors/SkeletonSpearman.i: Source/Actors/SkeletonSpearman.cpp.i
+.PHONY : Source/Actors/SkeletonSpearman.i
+
+# target to preprocess a source file
+Source/Actors/SkeletonSpearman.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.i
+.PHONY : Source/Actors/SkeletonSpearman.cpp.i
+
+Source/Actors/SkeletonSpearman.s: Source/Actors/SkeletonSpearman.cpp.s
+.PHONY : Source/Actors/SkeletonSpearman.s
+
+# target to generate assembly for a file
+Source/Actors/SkeletonSpearman.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/SkeletonSpearman.cpp.s
+.PHONY : Source/Actors/SkeletonSpearman.cpp.s
+
+Source/Actors/SkeletonWarrior.o: Source/Actors/SkeletonWarrior.cpp.o
+.PHONY : Source/Actors/SkeletonWarrior.o
+
+# target to build an object file
+Source/Actors/SkeletonWarrior.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.o
+.PHONY : Source/Actors/SkeletonWarrior.cpp.o
+
+Source/Actors/SkeletonWarrior.i: Source/Actors/SkeletonWarrior.cpp.i
+.PHONY : Source/Actors/SkeletonWarrior.i
+
+# target to preprocess a source file
+Source/Actors/SkeletonWarrior.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.i
+.PHONY : Source/Actors/SkeletonWarrior.cpp.i
+
+Source/Actors/SkeletonWarrior.s: Source/Actors/SkeletonWarrior.cpp.s
+.PHONY : Source/Actors/SkeletonWarrior.s
+
+# target to generate assembly for a file
+Source/Actors/SkeletonWarrior.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/gisei.dir/build.make CMakeFiles/gisei.dir/Source/Actors/SkeletonWarrior.cpp.s
+.PHONY : Source/Actors/SkeletonWarrior.cpp.s
 
 Source/Actors/Spawner.o: Source/Actors/Spawner.cpp.o
 .PHONY : Source/Actors/Spawner.o
@@ -1149,18 +1269,33 @@ help:
 	@echo "... Source/Actors/Actor.o"
 	@echo "... Source/Actors/Actor.i"
 	@echo "... Source/Actors/Actor.s"
+	@echo "... Source/Actors/Arrow.o"
+	@echo "... Source/Actors/Arrow.i"
+	@echo "... Source/Actors/Arrow.s"
 	@echo "... Source/Actors/Block.o"
 	@echo "... Source/Actors/Block.i"
 	@echo "... Source/Actors/Block.s"
 	@echo "... Source/Actors/Dart.o"
 	@echo "... Source/Actors/Dart.i"
 	@echo "... Source/Actors/Dart.s"
+	@echo "... Source/Actors/KarasuTengu.o"
+	@echo "... Source/Actors/KarasuTengu.i"
+	@echo "... Source/Actors/KarasuTengu.s"
 	@echo "... Source/Actors/Ninja.o"
 	@echo "... Source/Actors/Ninja.i"
 	@echo "... Source/Actors/Ninja.s"
 	@echo "... Source/Actors/ParallaxBackground.o"
 	@echo "... Source/Actors/ParallaxBackground.i"
 	@echo "... Source/Actors/ParallaxBackground.s"
+	@echo "... Source/Actors/SkeletonArcher.o"
+	@echo "... Source/Actors/SkeletonArcher.i"
+	@echo "... Source/Actors/SkeletonArcher.s"
+	@echo "... Source/Actors/SkeletonSpearman.o"
+	@echo "... Source/Actors/SkeletonSpearman.i"
+	@echo "... Source/Actors/SkeletonSpearman.s"
+	@echo "... Source/Actors/SkeletonWarrior.o"
+	@echo "... Source/Actors/SkeletonWarrior.i"
+	@echo "... Source/Actors/SkeletonWarrior.s"
 	@echo "... Source/Actors/Spawner.o"
 	@echo "... Source/Actors/Spawner.i"
 	@echo "... Source/Actors/Spawner.s"

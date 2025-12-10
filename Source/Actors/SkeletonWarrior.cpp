@@ -15,8 +15,10 @@ SkeletonWarrior::SkeletonWarrior(Game* game, float forwardSpeed)
     , mBaseSpeed(forwardSpeed)
     , mHealth(3)
     , mForwardSpeed(forwardSpeed)
+    , mAttackHitApplied(false) // Inicializa falso
 {
     mDrawComponent = new AnimatorComponent(this, 128, 128);
+    // Ataque com Loop = true, pois ele bate continuamento se o player ficar perto
     mDrawComponent->AddAnimation("walk", "../Assets/Sprites/Skeleton_Warrior/Walk.png", 7, 6.0f, true);
     mDrawComponent->AddAnimation("attack", "../Assets/Sprites/Skeleton_Warrior/Attack_1.png", 5, 10.0f, true);
     mDrawComponent->AddAnimation("dead", "../Assets/Sprites/Skeleton_Warrior/Dead.png", 4, 8.0f, false);
@@ -82,10 +84,31 @@ void SkeletonWarrior::OnUpdate(float deltaTime)
                 mForwardSpeed = mBaseSpeed;
             }
 
+            // --- LÓGICA DE ATAQUE ---
             if (mIsAggro && std::abs(dx) <= attackRange) {
-                mDrawComponent->SetAnimation("attack");
+                if (mDrawComponent->GetCurrentAnimation() != "attack") {
+                    mDrawComponent->SetAnimation("attack");
+                    mAttackHitApplied = false; // Reset ao começar
+                }
+                
+                // Verifica o frame exato do golpe (ex: frame 2)
+                int currentFrame = mDrawComponent->GetCurrentFrame();
+                
+                if (currentFrame == 2 && !mAttackHitApplied) {
+                    mAttackHitApplied = true;
+                    // Aplica dano passando a posição do esqueleto (origem)
+                    mGame->GetPlayer()->TakeDamage(mPosition);
+                }
+                
+                // Reseta a flag quando a animação reinicia (loop)
+                // A animação tem 5 frames (0 a 4)
+                if (currentFrame == 0) {
+                    mAttackHitApplied = false;
+                }
+
             } else if (mHurtTimer <= 0.0f) {
                 mDrawComponent->SetAnimation("walk");
+                mAttackHitApplied = false;
             }
         }
 
@@ -105,9 +128,9 @@ void SkeletonWarrior::OnHorizontalCollision(const float minOverlap, AABBCollider
     ColliderLayer otherLayer = other->GetLayer();
 
     if (otherLayer == ColliderLayer::Player) {
-        if (auto ninja = dynamic_cast<Ninja*>(other->GetOwner())) {
-            ninja->TakeDamage();
-        }
+        // --- REMOVIDO: TakeDamage() ---
+        // O jogador não toma mais dano ao encostar no corpo.
+        // O dano é gerenciado no OnUpdate durante o frame de ataque.
     } else if (otherLayer == ColliderLayer::Blocks || otherLayer == ColliderLayer::Enemy) {
         mForwardSpeed *= -1;
         mScale.x *= -1;
@@ -116,6 +139,7 @@ void SkeletonWarrior::OnHorizontalCollision(const float minOverlap, AABBCollider
 
 void SkeletonWarrior::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other)
 {
+    // Vazio propositalmente (sem dano por pulo ou contato)
 }
 
 void SkeletonWarrior::ApplyDamage(int amount)
