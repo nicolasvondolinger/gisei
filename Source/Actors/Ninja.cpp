@@ -415,6 +415,11 @@ void Ninja::Kill() {
 void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
 
+    if (other->GetLayer() == ColliderLayer::Mushroom) {
+        other->GetOwner()->SetState(ActorState::Destroy);
+        return;
+    }
+
     if(other->GetLayer() == ColliderLayer::Enemy) {
         if(mIsAttacking || mIsDashing) {
             other->GetOwner()->Kill();
@@ -447,22 +452,26 @@ void Ninja::OnHorizontalCollision(const float minOverlap, AABBColliderComponent*
 void Ninja::OnVerticalCollision(const float minOverlap, AABBColliderComponent* other) {
     if(mIsDead) return;
 
+    if(other->GetLayer() == ColliderLayer::Mushroom){
+        other->GetOwner()->SetState(ActorState::Destroy);
+        return;
+    }
+
     if(other->GetLayer() == ColliderLayer::Enemy){
         float velocityY = mRigidBodyComponent->GetVelocity().y;
-        
-        if(velocityY > 0.0f){
-            other->GetOwner()->Kill();
-            Vector2 vel = mRigidBodyComponent->GetVelocity();
-            vel.y = -350.0f;
-            mRigidBodyComponent->SetVelocity(vel);
-        } else {
-            bool isShielding = (mActionState == ActionState::ShieldStart || 
-                                mActionState == ActionState::ShieldHolding || 
-                                mActionState == ActionState::ShieldEnd);
+        bool isShielding = (mActionState == ActionState::ShieldStart || 
+                            mActionState == ActionState::ShieldHolding || 
+                            mActionState == ActionState::ShieldEnd);
 
-             if(!mIsInvincible && !isShielding) {
-                TakeDamage();
-             }
+        if(!mIsInvincible && !isShielding) {
+            TakeDamage();
+        }
+
+        // Pequeno ressalto para separar o jogador do inimigo
+        if (velocityY > 0.0f) {
+            Vector2 vel = mRigidBodyComponent->GetVelocity();
+            vel.y = -200.0f;
+            mRigidBodyComponent->SetVelocity(vel);
         }
     } else if(other->GetLayer() == ColliderLayer::Blocks){
         
